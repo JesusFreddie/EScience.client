@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/i18n',
     '@pinia/nuxt',
-    'nuxt-typed-router'
+    'nuxt-typed-router',
+    '@vee-validate/nuxt',
   ],
   fonts: {
     families: [

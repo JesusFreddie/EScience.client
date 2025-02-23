@@ -1,3 +1,11 @@
 {
-  "welcome": "Привет мир!"
+  "welcome": "Привет мир!",
+  "CONTINUE": "Продолжить",
+  "AUTH": {
+    "REGISTER": "Регистрация",
+    "LOGIN": "Логин",
+    "ERROR": {
+      "INVALID_EMAIL": "Невалидный Email"
+    }
+  }
 }

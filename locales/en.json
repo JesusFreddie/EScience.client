@@ -1,3 +1,11 @@
 {
-  "welcome": "Hello World!"
+  "welcome": "Hello World!",
+  "CONTINUE": "Continue",
+  "AUTH": {
+    "REGISTER": "Register",
+    "LOGIN": "Login",
+    "ERROR": {
+      "INVALID_EMAIL": "Invalid Email"
+    }
+  }
 }
