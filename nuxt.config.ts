@@ -46,5 +46,25 @@ export default defineNuxtConfig({
       cookieKey: 'i18n_redirected',
       redirectOn: 'root',
     },
+  },
+  vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'https://localhost:7099/',
+          changeOrigin: true,
+          secure: false,
+          rewrite: path => path.replace(/^\/api/, '')
+        }
+      }
+    }
+  },
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: 'https://localhost:7099/',
+        changeOrigin: true,
+      }
+    }
   }
 })

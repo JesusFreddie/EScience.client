@@ -7,5 +7,11 @@
     "ERROR": {
       "INVALID_EMAIL": "Invalid Email"
     }
+  },
+  "INPUT": {
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "REPEAT_PASSWORD": "Repeat password",
+    "NAME": "Name"
   }
 }

@@ -1,5 +1,6 @@
 import {z} from "zod";
 import {postAuthRegister, usePostAuthRegister} from "~/src/shared/api/generate/auth";
+import ROUTE from "~/src/shared/consts/ROUTE";
 
 export function useRegisterForm() {
     const { t } = useI18n();
@@ -15,13 +16,14 @@ export function useRegisterForm() {
         mutation: {
             mutationFn: postAuthRegister,
             onSuccess() {
-                navigateTo('/')
+                navigateTo(ROUTE.HOME)
             }
         }
     })
 
     return {
         schema,
-        loginMutation
+        loginMutation,
+        isPending: loginMutation.isPending,
     }
 }

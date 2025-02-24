@@ -1,9 +1,11 @@
 <script setup lang="ts">
 
+import ROUTE from "~/src/shared/consts/ROUTE";
+
 const links =  [
   {
     label: 'Home',
-    to: "/"
+    to: ROUTE.HOME
   },
   {
     label: 'About',

@@ -1,5 +1,6 @@
 import {z} from "zod";
 import {postAuthLogin, usePostAuthLogin} from "~/src/shared/api/generate/auth";
+import ROUTE from "~/src/shared/consts/ROUTE";
 
 export function useLoginForm() {
     const { t } = useI18n();
@@ -13,13 +14,14 @@ export function useLoginForm() {
         mutation: {
             mutationFn: postAuthLogin,
             onSuccess() {
-                navigateTo('/')
-            }
-        }
+                navigateTo(ROUTE.HOME)
+            },
+        },
     })
 
     return {
         schema,
-        loginMutation
+        loginMutation,
+        isPending: loginMutation.isPending,
     }
 }
