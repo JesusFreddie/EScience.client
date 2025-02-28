@@ -10,6 +10,6 @@ export default defineAppConfig({
         },
         notifications: {
             // position: 'end-0 bottom-[unset]'
-        }
+        },
     }
 })

@@ -24,7 +24,7 @@ const links =  [
       class="py-4 px-3 gap-0.5 bg-bg-100 h-full rounded-md sticky"
       :links="links" >
     <template #default="{ link }">
-        <span class="group-hover:text-primary relative h-10 flex items-center">
+        <span class="group-hover:text-gray-200 relative h-10 flex items-center">
           {{ link.label }}
         </span>
     </template>

@@ -3,6 +3,23 @@ info:
   title: EScience.Application
   version: '1.0'
 paths:
+  /account/session:
+    get:
+      tags:
+        - Account
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
   /account:
     get:
       tags:

@@ -15,7 +15,7 @@ export function useLoginForm() {
             mutationFn: postAuthLogin,
             onSuccess() {
                 navigateTo(ROUTE.HOME)
-            },
+            }
         },
     })
 

@@ -13,5 +13,22 @@
     "PASSWORD": "Password",
     "REPEAT_PASSWORD": "Repeat password",
     "NAME": "Name"
+  },
+  "ERROR": {
+    "": "Error",
+    "SERVER_ERROR": "Internal server error (500)"
+  },
+  "ARTICLE": {
+    "": "Article",
+    "CREATE": "Create"
+  },
+  "FORM": {
+    "UPDATE": "Update",
+    "CREATE": "Create",
+    "LABEL": {
+      "TITLE": "Title",
+      "DESCRIPTION": "Description",
+      "PRIVATE": "Private"
+    }
   }
 }

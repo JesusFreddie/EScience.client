@@ -15,6 +15,9 @@ export default defineNuxtConfig({
     'nuxt-typed-router',
     '@vee-validate/nuxt',
   ],
+  plugins: [
+      '~/plugins/error-handler.ts',
+  ],
   fonts: {
     families: [
       { name: "montserrat", provider: "google" }
@@ -59,12 +62,4 @@ export default defineNuxtConfig({
       }
     }
   },
-  nitro: {
-    devProxy: {
-      '/api': {
-        target: 'https://localhost:7099/',
-        changeOrigin: true,
-      }
-    }
-  }
 })

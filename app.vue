@@ -14,4 +14,9 @@
 
 </style>
 <script setup lang="ts">
+
+onErrorCaptured((error) => {
+
+})
+
 </script>

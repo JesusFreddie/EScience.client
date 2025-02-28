@@ -23,6 +23,83 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
+export const getAccountSession = (
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  return createInstance<AccountDto>(
+    { url: `/account/session`, method: "GET", signal },
+    options,
+  );
+};
+
+export const getGetAccountSessionQueryKey = () => {
+  return ["account", "session"] as const;
+};
+
+export const getGetAccountSessionQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAccountSession>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getAccountSession>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getGetAccountSessionQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAccountSession>>
+  > = ({ signal }) => getAccountSession(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAccountSession>>,
+    TError,
+    TData
+  >;
+};
+
+export type GetAccountSessionQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAccountSession>>
+>;
+export type GetAccountSessionQueryError = unknown;
+
+export function useGetAccountSession<
+  TData = Awaited<ReturnType<typeof getAccountSession>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getAccountSession>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAccountSessionQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
+
 export const getAccount = (
   params?: MaybeRef<GetAccountParams>,
   options?: SecondParameter<typeof createInstance>,
