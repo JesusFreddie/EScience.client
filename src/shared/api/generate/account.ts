@@ -12,9 +12,9 @@ import type {
   UseQueryOptions,
   UseQueryReturnType,
 } from "@tanstack/vue-query";
-import { unref } from "vue";
+import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
-import type { AccountDto, GetAccountParams } from "../model";
+import type { GetAccountAccountNameParams, ProfileDto } from "../model";
 import { createInstance } from "../api-instance";
 
 type AwaitedInput<T> = PromiseLike<T> | T;
@@ -27,7 +27,7 @@ export const getAccountSession = (
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
-  return createInstance<AccountDto>(
+  return createInstance<ProfileDto>(
     { url: `/account/session`, method: "GET", signal },
     options,
   );
@@ -100,70 +100,100 @@ export function useGetAccountSession<
   return query;
 }
 
-export const getAccount = (
-  params?: MaybeRef<GetAccountParams>,
+export const getAccountAccountName = (
+  accountName: MaybeRef<string>,
+  params?: MaybeRef<GetAccountAccountNameParams>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
+  accountName = unref(accountName);
   params = unref(params);
 
-  return createInstance<AccountDto>(
-    { url: `/account`, method: "GET", params: unref(params), signal },
+  return createInstance<ProfileDto>(
+    {
+      url: `/account/${accountName}`,
+      method: "GET",
+      params: unref(params),
+      signal,
+    },
     options,
   );
 };
 
-export const getGetAccountQueryKey = (params?: MaybeRef<GetAccountParams>) => {
-  return ["account", ...(params ? [params] : [])] as const;
+export const getGetAccountAccountNameQueryKey = (
+  accountName: MaybeRef<string>,
+  params?: MaybeRef<GetAccountAccountNameParams>,
+) => {
+  return ["account", accountName, ...(params ? [params] : [])] as const;
 };
 
-export const getGetAccountQueryOptions = <
-  TData = Awaited<ReturnType<typeof getAccount>>,
+export const getGetAccountAccountNameQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAccountAccountName>>,
   TError = unknown,
 >(
-  params?: MaybeRef<GetAccountParams>,
+  accountName: MaybeRef<string>,
+  params?: MaybeRef<GetAccountAccountNameParams>,
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getAccount>>, TError, TData>
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAccountAccountName>>,
+        TError,
+        TData
+      >
     >;
     request?: SecondParameter<typeof createInstance>;
   },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getGetAccountQueryKey(params);
+  const queryKey = getGetAccountAccountNameQueryKey(accountName, params);
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAccount>>> = ({
-    signal,
-  }) => getAccount(params, requestOptions, signal);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getAccountAccountName>>
+  > = ({ signal }) =>
+    getAccountAccountName(accountName, params, requestOptions, signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getAccount>>,
+  return {
+    queryKey,
+    queryFn,
+    enabled: computed(() => !!unref(accountName)),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAccountAccountName>>,
     TError,
     TData
   >;
 };
 
-export type GetAccountQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getAccount>>
+export type GetAccountAccountNameQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAccountAccountName>>
 >;
-export type GetAccountQueryError = unknown;
+export type GetAccountAccountNameQueryError = unknown;
 
-export function useGetAccount<
-  TData = Awaited<ReturnType<typeof getAccount>>,
+export function useGetAccountAccountName<
+  TData = Awaited<ReturnType<typeof getAccountAccountName>>,
   TError = unknown,
 >(
-  params?: MaybeRef<GetAccountParams>,
+  accountName: MaybeRef<string>,
+  params?: MaybeRef<GetAccountAccountNameParams>,
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getAccount>>, TError, TData>
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAccountAccountName>>,
+        TError,
+        TData
+      >
     >;
     request?: SecondParameter<typeof createInstance>;
   },
 ): UseQueryReturnType<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetAccountQueryOptions(params, options);
+  const queryOptions = getGetAccountAccountNameQueryOptions(
+    accountName,
+    params,
+    options,
+  );
 
   const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

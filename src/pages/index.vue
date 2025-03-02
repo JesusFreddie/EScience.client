@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const isOpen = ref(false);
-
 const toast = useToast()
 </script>
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import NavBar from "~/src/widget/nav-bar/nav-bar.vue";
 import Header from "~/src/widget/header/header.vue";
 </script>
@@ -9,7 +8,7 @@ import Header from "~/src/widget/header/header.vue";
     <Header class="mb-3" />
     <main class="grid grid-cols-[220px_1fr] h-[100%] max-h-screen overflow-hidden">
       <NavBar/>
-      <div class="px-2  ">
+      <div class="px-2">
         <slot></slot>
       </div>
     </main>

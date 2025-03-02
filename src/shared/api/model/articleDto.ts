@@ -12,6 +12,7 @@ export interface ArticleDto {
   /** @nullable */
   description?: string | null;
   isPrivate?: boolean;
+  accountId?: string;
   /** @nullable */
   typeArticleId?: string | null;
 }

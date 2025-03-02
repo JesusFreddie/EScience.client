@@ -13,36 +13,68 @@ paths:
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/ProfileDto'
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/ProfileDto'
             text/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
-  /account:
+                $ref: '#/components/schemas/ProfileDto'
+  '/account/{accountName}':
     get:
       tags:
         - Account
       parameters:
-        - name: id
+        - name: name
           in: query
           schema:
             type: string
-            format: uuid
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/ProfileDto'
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/ProfileDto'
             text/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: '#/components/schemas/ProfileDto'
+  '/account/{accountName}/article/{title}':
+    get:
+      tags:
+        - AccountArticle
+      parameters:
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: title
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ArticleDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ArticleDto'
   /articles/create:
     post:
       tags:
@@ -120,6 +152,61 @@ paths:
       responses:
         '200':
           description: OK
+  /branch/create:
+    post:
+      tags:
+        - ArticleBranch
+      parameters:
+        - name: articleTitle
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ArticleBranchDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleBranchDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ArticleBranchDto'
+  '/branch/{accountName}/{articleTitle}/{branchName}':
+    get:
+      tags:
+        - ArticleBranch
+      parameters:
+        - name: branchName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: articleTitle
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ArticleBranchDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleBranchDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ArticleBranchDto'
   /auth/register:
     post:
       tags:
@@ -165,20 +252,27 @@ paths:
           description: OK
 components:
   schemas:
-    AccountDto:
+    ArticleBranchDto:
       type: object
       properties:
         id:
           type: string
           format: uuid
-        userId:
-          type: string
-          format: uuid
-        role:
-          $ref: '#/components/schemas/Role'
         name:
           type: string
           nullable: true
+        articleId:
+          type: string
+          format: uuid
+        creatorId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
       additionalProperties: false
     ArticleDto:
       type: object
@@ -194,6 +288,9 @@ components:
           nullable: true
         isPrivate:
           type: boolean
+        accountId:
+          type: string
+          format: uuid
         typeArticleId:
           type: string
           format: uuid
@@ -232,6 +329,19 @@ components:
           type: string
           nullable: true
       additionalProperties: false
+    ProfileDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+      additionalProperties: false
     RegisterRequestDto:
       type: object
       properties:
@@ -241,16 +351,6 @@ components:
         password:
           type: string
           nullable: true
-        name:
-          type: string
-          nullable: true
-      additionalProperties: false
-    Role:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
         name:
           type: string
           nullable: true

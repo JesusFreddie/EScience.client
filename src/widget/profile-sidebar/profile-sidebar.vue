@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useGetAccountSession} from "~/src/shared/api/generate/account";
+
 const { isOpen } = defineProps<{
   isOpen: boolean;
 }>()
@@ -11,7 +12,7 @@ const { data, isPending } = useGetAccountSession()
 </script>
 
 <template>
-  <USlideover :model-value="isOpen" @update:model-value="(value) => emit('update:isOpen', value)">
+  <USlideover class="flex-1" :model-value="isOpen" @update:model-value="(value) => emit('update:isOpen', value)">
     <UCard
         class="flex flex-col flex-1"
         :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"

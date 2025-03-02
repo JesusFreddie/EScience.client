@@ -5,3 +5,7 @@
 body {
     background: #020617;
 }
+
+html {
+    padding-right: 0 !important;
+}
