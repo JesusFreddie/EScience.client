@@ -1,10 +1,20 @@
 <script setup lang="ts">
+import ArticlesList from "~/src/features/article/ui/articles-list.vue";
+
+const { t } = useI18n()
+
+useHead({
+  title: t('HOME')
+})
+
 const isOpen = ref(false);
 const toast = useToast()
 </script>
 
 <template>
-  <h1>{{ $t("welcome") }}</h1>
+  <h1 class="mb-3">{{ $t("ARTICLE") }}</h1>
+
+  <ArticlesList/>
 
   <UButton class="bg-primary" color="primary" @click="isOpen = true">Открыть</UButton>
 

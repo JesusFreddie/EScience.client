@@ -10,6 +10,7 @@ export interface CreateArticleRequest {
   title?: string | null;
   /** @nullable */
   description?: string | null;
+  isPrivate?: boolean;
   /** @nullable */
   articleTypeId?: string | null;
 }

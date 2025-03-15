@@ -7,14 +7,6 @@ const links =  [
     label: 'Home',
     to: ROUTE.HOME
   },
-  {
-    label: 'About',
-    to: "/about"
-  },
-  {
-    label: 'Contacts',
-    to: "/contacts"
-  },
 ]
 
 </script>

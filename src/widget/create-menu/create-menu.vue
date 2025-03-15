@@ -1,33 +1,21 @@
 <script setup lang="ts">
+import ROUTE from "~/src/shared/consts/ROUTE";
+
 const isOpen = ref(false)
 
 const router = useRouter()
 const route = useRoute()
 
-watch(
-    () => route.path,
-    (newPath) => {
-      if (newPath.startsWith('/contacts')) {
-        isOpen.value = true
-      } else {
-        isOpen.value = false
-      }
-    },
-    { immediate: true }
-)
-
 const items = [
   [{
-    label: 'Edit',
+    label: 'Create',
     icon: 'i-heroicons-pencil-square-20-solid',
-    shortcuts: ['E'],
     click: () => {
-      router.push('/contacts')
+      navigateTo(ROUTE.CREATE_ARTICLE)
     }
   }, {
     label: 'Duplicate',
     icon: 'i-heroicons-document-duplicate-20-solid',
-    shortcuts: ['D'],
     disabled: true
   }], [{
     label: 'Archive',
@@ -61,9 +49,9 @@ const items = [
         </div>
       </template>
 
-      <template #default>
-        <NuxtPage/>
-      </template>
+<!--      <template #default>-->
+<!--        <component :is="page" v-if="isOpen" />-->
+<!--      </template>-->
     </UCard>
   </USlideover>
 </template>

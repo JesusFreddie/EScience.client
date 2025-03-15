@@ -18,7 +18,7 @@ import type {
 import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
 import type {
-  ArticleDto,
+  Article,
   CreateArticleRequest,
   SetParticipantRequest,
 } from "../model";
@@ -37,7 +37,7 @@ export const postArticlesCreate = (
 ) => {
   createArticleRequest = unref(createArticleRequest);
 
-  return createInstance<ArticleDto>(
+  return createInstance<Article>(
     {
       url: `/articles/create`,
       method: "POST",
@@ -114,6 +114,75 @@ export const usePostArticlesCreate = <
 
   return useMutation(mutationOptions);
 };
+export const getArticles = (
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  return createInstance<Article[]>(
+    { url: `/articles`, method: "GET", signal },
+    options,
+  );
+};
+
+export const getGetArticlesQueryKey = () => {
+  return ["articles"] as const;
+};
+
+export const getGetArticlesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getArticles>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArticles>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getGetArticlesQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getArticles>>> = ({
+    signal,
+  }) => getArticles(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getArticles>>,
+    TError,
+    TData
+  >;
+};
+
+export type GetArticlesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getArticles>>
+>;
+export type GetArticlesQueryError = unknown;
+
+export function useGetArticles<
+  TData = Awaited<ReturnType<typeof getArticles>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArticles>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetArticlesQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
+
 export const getArticlesArticleId = (
   articleId: MaybeRef<string>,
   options?: SecondParameter<typeof createInstance>,
@@ -121,7 +190,7 @@ export const getArticlesArticleId = (
 ) => {
   articleId = unref(articleId);
 
-  return createInstance<ArticleDto>(
+  return createInstance<Article>(
     { url: `/articles/${articleId}`, method: "GET", signal },
     options,
   );

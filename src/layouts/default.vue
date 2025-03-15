@@ -6,9 +6,9 @@ import Header from "~/src/widget/header/header.vue";
 <template>
   <div class="pt-5 px-4">
     <Header class="mb-3" />
-    <main class="grid grid-cols-[220px_1fr] h-[100%] max-h-screen overflow-hidden">
+    <main class="main grid grid-cols-[220px_1fr] h-[90vh] max-h-screen overflow-hidden">
       <NavBar/>
-      <div class="px-2">
+      <div class="pl-10 pt-10">
         <slot></slot>
       </div>
     </main>
@@ -16,4 +16,17 @@ import Header from "~/src/widget/header/header.vue";
 </template>
 
 <style scoped>
+.main::after {
+  content: "";
+  display: block;
+  width: 442px;
+  height: 442px;
+  position: absolute;
+  background: rgba(246, 82, 82, 0.2);
+  bottom: 0;
+  right: 0;
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(250px);
+}
 </style>

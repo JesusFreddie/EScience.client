@@ -14,7 +14,7 @@ import type {
 } from "@tanstack/vue-query";
 import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
-import type { GetAccountAccountNameParams, ProfileDto } from "../model";
+import type { ProfileDto } from "../model";
 import { createInstance } from "../api-instance";
 
 type AwaitedInput<T> = PromiseLike<T> | T;
@@ -102,29 +102,21 @@ export function useGetAccountSession<
 
 export const getAccountAccountName = (
   accountName: MaybeRef<string>,
-  params?: MaybeRef<GetAccountAccountNameParams>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
   accountName = unref(accountName);
-  params = unref(params);
 
   return createInstance<ProfileDto>(
-    {
-      url: `/account/${accountName}`,
-      method: "GET",
-      params: unref(params),
-      signal,
-    },
+    { url: `/account/${accountName}`, method: "GET", signal },
     options,
   );
 };
 
 export const getGetAccountAccountNameQueryKey = (
   accountName: MaybeRef<string>,
-  params?: MaybeRef<GetAccountAccountNameParams>,
 ) => {
-  return ["account", accountName, ...(params ? [params] : [])] as const;
+  return ["account", accountName] as const;
 };
 
 export const getGetAccountAccountNameQueryOptions = <
@@ -132,7 +124,6 @@ export const getGetAccountAccountNameQueryOptions = <
   TError = unknown,
 >(
   accountName: MaybeRef<string>,
-  params?: MaybeRef<GetAccountAccountNameParams>,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -146,12 +137,12 @@ export const getGetAccountAccountNameQueryOptions = <
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getGetAccountAccountNameQueryKey(accountName, params);
+  const queryKey = getGetAccountAccountNameQueryKey(accountName);
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getAccountAccountName>>
   > = ({ signal }) =>
-    getAccountAccountName(accountName, params, requestOptions, signal);
+    getAccountAccountName(accountName, requestOptions, signal);
 
   return {
     queryKey,
@@ -175,7 +166,6 @@ export function useGetAccountAccountName<
   TError = unknown,
 >(
   accountName: MaybeRef<string>,
-  params?: MaybeRef<GetAccountAccountNameParams>,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -191,7 +181,6 @@ export function useGetAccountAccountName<
 } {
   const queryOptions = getGetAccountAccountNameQueryOptions(
     accountName,
-    params,
     options,
   );
 

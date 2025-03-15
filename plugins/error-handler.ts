@@ -10,11 +10,11 @@ export default defineNuxtPlugin(nuxtApp => {
         });
     }
     nuxtApp.hook("vue:error", (er) => {
-        const toast = useToast();
-        toast.add({
-            title: $t("ERROR.ERROR"),
-            description: $t('ERROR.SERVER_ERROR'),
-            color: 'red'
-        });
+        // const toast = useToast();
+        // toast.add({
+        //     title: $t("ERROR.ERROR"),
+        //     description: $t('ERROR.SERVER_ERROR'),
+        //     color: 'red'
+        // });
     })
 })
