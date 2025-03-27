@@ -16,14 +16,17 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
   ],
   plugins: [
-      '~/plugins/error-handler.ts',
+      '~/plugins/theme.client.ts',
   ],
   fonts: {
     families: [
       { name: "montserrat", provider: "google" }
     ]
   },
-  css: ['~/assets/css/tailwind.css'],
+  css: [
+      '~/assets/css/tailwind.css',
+      '~/assets/css/tiptap.css',
+  ],
   tailwindcss: {
     configPath: '~/tailwind.config.js',
   },

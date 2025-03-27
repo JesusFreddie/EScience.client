@@ -17,7 +17,7 @@ type Schema = z.output<typeof schema>
 
 function submit(e: FormSubmitEvent<Schema>) {
   const data = e.data;
-  loginMutation.mutate(data)
+  loginMutation.mutate({ data })
 }
 
 </script>

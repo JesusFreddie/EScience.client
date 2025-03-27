@@ -19,6 +19,7 @@ import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
 import type {
   Article,
+  ArticleParticipant,
   CreateArticleRequest,
   SetParticipantRequest,
 } from "../model";
@@ -285,7 +286,7 @@ export const postArticlesSetParticipantForArticleArticleId = (
   articleId = unref(articleId);
   setParticipantRequest = unref(setParticipantRequest);
 
-  return createInstance<void>(
+  return createInstance<ArticleParticipant>(
     {
       url: `/articles/set_participant_for_article/${articleId}`,
       method: "POST",

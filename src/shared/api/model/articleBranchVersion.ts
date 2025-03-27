@@ -13,8 +13,8 @@ export interface ArticleBranchVersion {
   updatedAt?: string;
   /** @nullable */
   text?: string | null;
-  creatorId?: string;
-  creator?: ArticleParticipant;
+  articleParticipantId?: string;
+  articleParticipant?: ArticleParticipant;
   articleBranchId?: string;
   articleBranch?: ArticleBranch;
 }

@@ -32,7 +32,6 @@ const items = [
   <UDropdown
       :items="items"
       :popper="{ placement: 'bottom-start' }"
-      :ui="{ background: 'bg-red-100' }"
   >
     <UButton color="white"  variant="ghost" trailing-icon="ri:add-fill" />
   </UDropdown>
@@ -42,12 +41,12 @@ const items = [
         class="flex flex-col flex-1"
         :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
     >
-      <template #header>
+      <!-- <template #header>
         <h4 v-if="data" >{{ data.name }}</h4>
         <div v-if="isPending">
           <USkeleton class="w-1/3 h-10" />
         </div>
-      </template>
+      </template> -->
 
 <!--      <template #default>-->
 <!--        <component :is="page" v-if="isOpen" />-->

@@ -2,15 +2,15 @@
 import {useGetArticles} from "~/src/shared/api/generate/article";
 import CardArticle from "~/src/shared/ui/card-article.vue";
 
-const { data: articles, isPending } = useGetArticles();
+const { data, isPending } = useGetArticles();
 
 </script>
 
 <template>
   <div class="flex gap-2 flex-wrap">
     <CardArticle
-        v-if="articles"
-        v-for="article in articles"
+        v-if="data"
+        v-for="article in data"
         :id="article.id"
         :article="article"
     />

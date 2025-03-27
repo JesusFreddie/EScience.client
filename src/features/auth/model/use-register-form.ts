@@ -1,5 +1,7 @@
+import { AxiosError } from "axios";
 import {z} from "zod";
-import {postAuthRegister, usePostAuthRegister} from "~/src/shared/api/generate/auth";
+import {usePostAuthRegister} from "~/src/shared/api/generate/auth";
+import { useErrorToast } from "~/src/shared/composable/useErrorToast";
 import ROUTE from "~/src/shared/consts/ROUTE";
 
 export function useRegisterForm() {
@@ -14,9 +16,16 @@ export function useRegisterForm() {
 
     const loginMutation = usePostAuthRegister({
         mutation: {
-            mutationFn: postAuthRegister,
             onSuccess() {
                 navigateTo(ROUTE.HOME)
+            },
+            onError(error) {
+                if (error instanceof AxiosError) {
+                    useErrorToast({
+                        message: error.response?.data,
+                        status: error.status!
+                    })
+                }
             }
         }
     })

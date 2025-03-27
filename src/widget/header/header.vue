@@ -8,7 +8,7 @@ const d = ref(false)
 </script>
 
 <template>
-  <header class="mb-2 py-3.5 px-6 bg-bg-100 flex items-center justify-between rounded-md">
+  <header class="mb-2 py-3.5 px-6 bg-bg-100 dark:bg-bg-dark-200 flex items-center justify-between rounded-md shadow">
     <div class="font-medium">
       <NuxtLink :to="ROUTE.HOME">EScience</NuxtLink>
     </div>

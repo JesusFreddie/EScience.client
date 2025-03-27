@@ -12,7 +12,5 @@ export interface User {
   updatedAt?: string;
   /** @nullable */
   readonly email?: string | null;
-  /** @nullable */
-  readonly hashedPassword?: string | null;
   account?: Account;
 }

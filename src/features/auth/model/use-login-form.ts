@@ -1,8 +1,13 @@
+import { Axios, AxiosError } from "axios";
 import {z} from "zod";
-import {postAuthLogin, usePostAuthLogin} from "~/src/shared/api/generate/auth";
+import errorMap from "zod/locales/en.js";
+import {type PostAuthLoginMutationError, usePostAuthLogin} from "~/src/shared/api/generate/auth";
+import { useErrorToast } from "~/src/shared/composable/useErrorToast";
 import ROUTE from "~/src/shared/consts/ROUTE";
 
 export function useLoginForm() {
+
+
     const { t } = useI18n();
 
     const schema = z.object({
@@ -12,9 +17,16 @@ export function useLoginForm() {
 
     const loginMutation = usePostAuthLogin({
         mutation: {
-            mutationFn: postAuthLogin,
             onSuccess() {
                 navigateTo(ROUTE.HOME)
+            },
+            onError(error) {
+                if (error instanceof AxiosError) {
+                    useErrorToast({
+                        message: error.response?.data,
+                        status: error.status!
+                    })
+                }
             }
         },
     })
@@ -23,5 +35,6 @@ export function useLoginForm() {
         schema,
         loginMutation,
         isPending: loginMutation.isPending,
+        error: loginMutation.error
     }
 }

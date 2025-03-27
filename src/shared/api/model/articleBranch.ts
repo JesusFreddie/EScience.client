@@ -16,7 +16,7 @@ export interface ArticleBranch {
   name?: string | null;
   articleId?: string;
   article?: Article;
-  creatorId?: string;
+  articleParticipantId?: string;
   creator?: ArticleParticipant;
   /** @nullable */
   articleBranchVersions?: ArticleBranchVersion[] | null;

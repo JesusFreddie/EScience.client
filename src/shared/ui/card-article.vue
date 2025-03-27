@@ -14,7 +14,7 @@ const linkTo = `/${article.account.name}/${article.title}`;
 
 <template>
   <NuxtLink :to="linkTo">
-    <div class="flex flex-col gap-2 rounded-md bg-bg-100 p-4 w-[427px] h-[151px] hover:bg-gray-900">
+    <div class="flex flex-col gap-2 rounded-md bg-bg-100 dark:bg-bg-dark-200 p-4 w-[427px] h-[151px] dark:hover:bg-bg-dark-150 shadow z-0">
       <h4 class="font-semibold">{{ article.title }}</h4>
       <p class="text-white-400">{{ article.description }}</p>
     </div>

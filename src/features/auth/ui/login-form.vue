@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import {useRegisterForm} from "~/src/features/auth/model/use-register-form";
 import type {FormSubmitEvent} from "#ui/types";
 import {z} from "zod";
 import AuthForm from "~/src/features/auth/ui/auth-form.vue";
 import {useLoginForm} from "~/src/features/auth/model/use-login-form";
 
-const { schema, loginMutation, isPending } = useLoginForm();
+const { schema, loginMutation, isPending, error } = useLoginForm();
 
 const formState = reactive({
   email: undefined,
@@ -16,7 +15,9 @@ type Schema = z.output<typeof schema>
 
 function submit(e: FormSubmitEvent<Schema>) {
   const data = e.data;
-  loginMutation.mutate(data)
+  loginMutation.mutate({
+    data
+  })
 }
 </script>
 
@@ -27,7 +28,7 @@ function submit(e: FormSubmitEvent<Schema>) {
       :schema="schema"
       :submit="submit"
       :is-pending="isPending">
-    <UFormGroup :label="$t('INPUT.EMAIL')" name="email">
+    <UFormGroup :label="$t('INPUT.EMAIL')" class="text-text-500" name="email">
       <UInput icon="i-heroicons-envelope" v-model="formState.email" id="email" name="email" color="gray" variant="outline" :placeholder="$t('INPUT.EMAIL')" type="text" />
     </UFormGroup>
     <UFormGroup :label="$t('INPUT.PASSWORD')" name="password">

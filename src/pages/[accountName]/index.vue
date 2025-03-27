@@ -1,28 +1,29 @@
 <script setup lang="ts">
-import type {Account} from "~/src/shared/api/model";
+import type {ProfileDto} from "~/src/shared/api/model";
 const route = useRoute()
 const accountName = route.params.accountName
 
-const { data, error } = await useFetch<Account>(`/api/account/${accountName}`, {
+const { data, error } = await useFetch<ProfileDto>(`/api/account/${accountName}`, {
   baseURL: process.server ? 'http://localhost:3000' : window.location.origin,
   headers: {
     'Content-Type': 'application/json'
   }
 })
 
-if (error.value) {
+if (error.value?.statusCode == 404) {
   throw createError({
     statusCode: 404,
     statusMessage: "Account not found"
   });
 }
+const account = data;
 
 </script>
 
 <template>
- <div v-if="data">
-   {{ data.name }}
-   {{ data.email }}
+ <div v-if="account">
+   {{ account.name }}
+   {{ account.email }}
  </div>
 </template>
 

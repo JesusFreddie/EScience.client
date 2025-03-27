@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 
 export const apiInstance = axios.create({
     baseURL: '/api',

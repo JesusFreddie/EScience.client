@@ -11,7 +11,20 @@
     "api:generate": "orval"
   },
   "dependencies": {
+    "@iconify/vue": "^4.3.0",
     "@tanstack/vue-query": "^5.66.9",
+    "@tiptap/extension-bullet-list": "^2.11.5",
+    "@tiptap/extension-color": "^2.11.5",
+    "@tiptap/extension-link": "^2.11.5",
+    "@tiptap/extension-list-item": "^2.11.5",
+    "@tiptap/extension-table": "^2.11.5",
+    "@tiptap/extension-table-cell": "^2.11.5",
+    "@tiptap/extension-table-header": "^2.11.5",
+    "@tiptap/extension-table-row": "^2.11.5",
+    "@tiptap/extension-text-style": "^2.11.5",
+    "@tiptap/extension-underline": "^2.11.5",
+    "@tiptap/starter-kit": "^2.11.5",
+    "@tiptap/vue-3": "^2.11.5",
     "axios": "^1.7.9",
     "nuxt": "^3.15.4",
     "pinia": "^3.0.1",
@@ -21,6 +34,8 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@iconify-json/ph": "^1.2.2",
+    "@iconify-json/prime": "^1.2.2",
     "@nuxt/fonts": "^0.10.3",
     "@nuxt/image": "^1.9.0",
     "@nuxt/ui": "^2.21.0",
@@ -30,6 +45,7 @@
     "@vueuse/nuxt": "^12.6.1",
     "nuxt-typed-router": "^3.7.3",
     "orval": "^7.5.0",
-    "prettier": "3.5.2"
+    "prettier": "3.5.2",
+    "sass-embedded": "^1.85.1"
   }
 }

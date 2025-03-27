@@ -1,16 +1,24 @@
 <script setup lang="ts">
-import type {Article as ArticleData} from "~/src/shared/api/model";
+import type {Article as ArticleDto} from "~/src/shared/api/model";
 import Article from '~/src/features/article/ui/article.vue'
 
 const route = useRoute()
-const accountName = route.params.accountName
-const articleName = route.params.articleName
+
+type Params = {
+  accountName: string;
+  articleName: string;
+}
+
+const params = route.params as Params;
+
+const accountName = params.accountName
+const articleName = params.articleName
 
 useHead({
-  title: articleName
+  title: articleName.toString()
 })
 
-const { data, error } = await useFetch<ArticleData>(`/api/account/${accountName}/article/${articleName}`, {
+const { data, error } = await useFetch<ArticleDto>(`/api/account/${accountName}/article/${articleName}`, {
   baseURL: process.server ? 'http://localhost:3000' : window.location.origin,
   headers: {
     'Content-Type': 'application/json'
@@ -19,15 +27,17 @@ const { data, error } = await useFetch<ArticleData>(`/api/account/${accountName}
 
 if (error.value) {
   throw createError({
-    statusCode: 404,
-    statusMessage: "Account not found"
+    statusCode: error.value.statusCode,
+    statusMessage: error.value.message,
+    data: error.value.data
   });
 }
+
 
 </script>
 
 <template>
-  <div class="flex justify-center h-full">
+  <div v-if="data" class="flex justify-center h-full">
     <Article :article="data" />
   </div>
 </template>

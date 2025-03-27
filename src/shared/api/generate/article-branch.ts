@@ -17,7 +17,11 @@ import type {
 } from "@tanstack/vue-query";
 import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
-import type { ArticleBranchDto, PostBranchCreateParams } from "../model";
+import type {
+  ArticleBranch,
+  ArticleBranchDto,
+  PostBranchCreateParams,
+} from "../model";
 import { createInstance } from "../api-instance";
 
 type AwaitedInput<T> = PromiseLike<T> | T;
@@ -115,7 +119,7 @@ export const getBranchAccountNameArticleTitleBranchName = (
   articleTitle = unref(articleTitle);
   branchName = unref(branchName);
 
-  return createInstance<ArticleBranchDto>(
+  return createInstance<ArticleBranch>(
     {
       url: `/branch/${accountName}/${articleTitle}/${branchName}`,
       method: "GET",

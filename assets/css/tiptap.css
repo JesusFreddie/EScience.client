@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ProseMirror {
+    outline: none !important;
+    caret-color: #1A3174;
+
+    padding: 5px 10px;
+
+    height: 100%;
+}
+
+.ProseMirror-focused {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 8px;
+    background: theme('colors.bg.150');
+}
+
+.dark .ProseMirror-focused {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 8px;
+    background: theme('colors.bg.dark.150');
+}
+
+.ProseMirror h1:focus,
+.ProseMirror h2:focus,
+.ProseMirror h3:focus {
+    outline: none;
+    border-left: 3px solid #1A3174;
+}

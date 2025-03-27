@@ -1,9 +1,14 @@
 <template>
-  <NuxtLayout>
-    <NuxtLoadingIndicator/>
-    <NuxtPage/>
-    <UNotifications/>
-  </NuxtLayout>
+  <div class="h-screen w-screen overflow-hidden">
+    <NuxtLayout>
+      <NuxtLoadingIndicator/>
+          <UButton @click="toggle">
+            Переключить тему
+          </UButton>
+      <NuxtPage/>
+      <UNotifications/>
+    </NuxtLayout>
+  </div>
 </template>
 
 <style scoped>
@@ -14,4 +19,22 @@
 
 </style>
 <script setup lang="ts">
+
+import {useTheme} from "~/src/shared/composable/useTheme";
+
+const { toggle, theme, setTheme } = useTheme()
+
+// useMounted(() => {
+//   if (!theme.value) {
+//     theme.value = 'light';
+//     document.documentElement.classList.remove('dark');
+//   }
+// })
+
+useHead({
+  htmlAttrs: {
+    class: setTheme(theme.value === 'dark' ? 'dark' : 'light')
+  }
+})
+
 </script>

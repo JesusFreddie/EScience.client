@@ -171,6 +171,16 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ArticleParticipant'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleParticipant'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ArticleParticipant'
   /branch/create:
     post:
       tags:
@@ -198,11 +208,6 @@ paths:
       tags:
         - ArticleBranch
       parameters:
-        - name: branchName
-          in: path
-          required: true
-          schema:
-            type: string
         - name: accountName
           in: path
           required: true
@@ -213,19 +218,24 @@ paths:
           required: true
           schema:
             type: string
+        - name: branchName
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
           content:
             text/plain:
               schema:
-                $ref: '#/components/schemas/ArticleBranchDto'
+                $ref: '#/components/schemas/ArticleBranch'
             application/json:
               schema:
-                $ref: '#/components/schemas/ArticleBranchDto'
+                $ref: '#/components/schemas/ArticleBranch'
             text/json:
               schema:
-                $ref: '#/components/schemas/ArticleBranchDto'
+                $ref: '#/components/schemas/ArticleBranch'
   /auth/register:
     post:
       tags:
@@ -364,7 +374,7 @@ components:
           format: uuid
         article:
           $ref: '#/components/schemas/Article'
-        creatorId:
+        articleParticipantId:
           type: string
           format: uuid
         creator:
@@ -412,10 +422,10 @@ components:
         text:
           type: string
           nullable: true
-        creatorId:
+        articleParticipantId:
           type: string
           format: uuid
-        creator:
+        articleParticipant:
           $ref: '#/components/schemas/ArticleParticipant'
         articleBranchId:
           type: string
@@ -569,10 +579,6 @@ components:
           type: string
           format: date-time
         email:
-          type: string
-          nullable: true
-          readOnly: true
-        hashedPassword:
           type: string
           nullable: true
           readOnly: true

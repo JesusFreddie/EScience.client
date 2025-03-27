@@ -1,5 +1,7 @@
+import { AxiosError } from "axios";
 import {z} from "zod";
 import {postArticlesCreate, usePostArticlesCreate} from "~/src/shared/api/generate/article";
+import { useErrorToast } from "~/src/shared/composable/useErrorToast";
 
 export function useArticleCreate() {
     const { t } = useI18n()
@@ -11,8 +13,15 @@ export function useArticleCreate() {
 
     const articleMutation = usePostArticlesCreate({
         mutation: {
-            mutationFn: postArticlesCreate,
-        }
+            onError(error) {
+                if (error instanceof AxiosError) {
+                    useErrorToast({
+                        message: error.response?.data,
+                        status: error.status!
+                    })
+                }
+            }
+        },
     })
 
     return {
