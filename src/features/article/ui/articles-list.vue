@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {useGetArticles} from "~/src/shared/api/generate/article";
+import { useArticleGetAll } from "~/src/shared/api/generate/article";
 import CardArticle from "~/src/shared/ui/card-article.vue";
 
-const { data, isPending } = useGetArticles();
+const { data, isPending } = useArticleGetAll();
 
 </script>
 

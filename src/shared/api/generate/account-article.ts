@@ -14,7 +14,7 @@ import type {
 } from "@tanstack/vue-query";
 import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
-import type { Article } from "../model";
+import type { AccountArticleGetParams, Article } from "../model";
 import { createInstance } from "../api-instance";
 
 type AwaitedInput<T> = PromiseLike<T> | T;
@@ -23,42 +23,53 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-export const getAccountAccountNameArticleArticleName = (
+export const accountArticleGet = (
   accountName: MaybeRef<string>,
   articleName: MaybeRef<string>,
+  params?: MaybeRef<AccountArticleGetParams>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
   accountName = unref(accountName);
   articleName = unref(articleName);
+  params = unref(params);
 
   return createInstance<Article>(
     {
       url: `/account/${accountName}/article/${articleName}`,
       method: "GET",
+      params: unref(params),
       signal,
     },
     options,
   );
 };
 
-export const getGetAccountAccountNameArticleArticleNameQueryKey = (
+export const getAccountArticleGetQueryKey = (
   accountName: MaybeRef<string>,
   articleName: MaybeRef<string>,
+  params?: MaybeRef<AccountArticleGetParams>,
 ) => {
-  return ["account", accountName, "article", articleName] as const;
+  return [
+    "account",
+    accountName,
+    "article",
+    articleName,
+    ...(params ? [params] : []),
+  ] as const;
 };
 
-export const getGetAccountAccountNameArticleArticleNameQueryOptions = <
-  TData = Awaited<ReturnType<typeof getAccountAccountNameArticleArticleName>>,
+export const getAccountArticleGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof accountArticleGet>>,
   TError = unknown,
 >(
   accountName: MaybeRef<string>,
   articleName: MaybeRef<string>,
+  params?: MaybeRef<AccountArticleGetParams>,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getAccountAccountNameArticleArticleName>>,
+        Awaited<ReturnType<typeof accountArticleGet>>,
         TError,
         TData
       >
@@ -68,20 +79,16 @@ export const getGetAccountAccountNameArticleArticleNameQueryOptions = <
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getGetAccountAccountNameArticleArticleNameQueryKey(
+  const queryKey = getAccountArticleGetQueryKey(
     accountName,
     articleName,
+    params,
   );
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getAccountAccountNameArticleArticleName>>
+    Awaited<ReturnType<typeof accountArticleGet>>
   > = ({ signal }) =>
-    getAccountAccountNameArticleArticleName(
-      accountName,
-      articleName,
-      requestOptions,
-      signal,
-    );
+    accountArticleGet(accountName, articleName, params, requestOptions, signal);
 
   return {
     queryKey,
@@ -89,27 +96,28 @@ export const getGetAccountAccountNameArticleArticleNameQueryOptions = <
     enabled: computed(() => !!(unref(accountName) && unref(articleName))),
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof getAccountAccountNameArticleArticleName>>,
+    Awaited<ReturnType<typeof accountArticleGet>>,
     TError,
     TData
   >;
 };
 
-export type GetAccountAccountNameArticleArticleNameQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getAccountAccountNameArticleArticleName>>
+export type AccountArticleGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountArticleGet>>
 >;
-export type GetAccountAccountNameArticleArticleNameQueryError = unknown;
+export type AccountArticleGetQueryError = unknown;
 
-export function useGetAccountAccountNameArticleArticleName<
-  TData = Awaited<ReturnType<typeof getAccountAccountNameArticleArticleName>>,
+export function useAccountArticleGet<
+  TData = Awaited<ReturnType<typeof accountArticleGet>>,
   TError = unknown,
 >(
   accountName: MaybeRef<string>,
   articleName: MaybeRef<string>,
+  params?: MaybeRef<AccountArticleGetParams>,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getAccountAccountNameArticleArticleName>>,
+        Awaited<ReturnType<typeof accountArticleGet>>,
         TError,
         TData
       >
@@ -119,9 +127,10 @@ export function useGetAccountAccountNameArticleArticleName<
 ): UseQueryReturnType<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetAccountAccountNameArticleArticleNameQueryOptions(
+  const queryOptions = getAccountArticleGetQueryOptions(
     accountName,
     articleName,
+    params,
     options,
   );
 

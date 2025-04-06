@@ -6,7 +6,7 @@ import Header from "~/src/widget/header/header.vue";
 <template>
   <div class="pt-5 px-4">
     <Header class="mb-3" />
-    <main class="main grid grid-cols-[220px_1fr] h-[90vh] max-h-screen overflow-hidden">
+    <main class="main grid grid-cols-[220px_1fr] h-[90vh]">
       <NavBar/>
       <div class="pl-10 pt-10">
         <slot></slot>

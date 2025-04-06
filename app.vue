@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-screen overflow-hidden">
+  <div class="">
     <NuxtLayout>
       <NuxtLoadingIndicator/>
           <UButton @click="toggle">

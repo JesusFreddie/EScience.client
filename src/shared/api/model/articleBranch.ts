@@ -6,7 +6,7 @@
  */
 import type { Article } from "./article";
 import type { ArticleParticipant } from "./articleParticipant";
-import type { ArticleBranchVersion } from "./articleBranchVersion";
+import type { ArticleVersion } from "./articleVersion";
 
 export interface ArticleBranch {
   id?: string;
@@ -16,8 +16,12 @@ export interface ArticleBranch {
   name?: string | null;
   articleId?: string;
   article?: Article;
-  articleParticipantId?: string;
+  creatorId?: string;
   creator?: ArticleParticipant;
   /** @nullable */
-  articleBranchVersions?: ArticleBranchVersion[] | null;
+  articleBranchVersions?: ArticleVersion[] | null;
+  parentBranch?: ArticleBranch;
+  /** @nullable */
+  parent_id?: string | null;
+  is_main?: boolean;
 }

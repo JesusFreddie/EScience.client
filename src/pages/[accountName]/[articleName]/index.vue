@@ -9,10 +9,16 @@ type Params = {
   articleName: string;
 }
 
+// некоректно работают статьи без веток
+
 const params = route.params as Params;
 
 const accountName = params.accountName
 const articleName = params.articleName
+
+const { branch } = route.query as {
+  branch?: string
+};
 
 useHead({
   title: articleName.toString()
@@ -38,7 +44,11 @@ if (error.value) {
 
 <template>
   <div v-if="data" class="flex justify-center h-full">
-    <Article :article="data" />
+    <Article 
+      :article="data" 
+      :branch="branch"
+      :key="`${accountName}-${articleName}`"
+      />
   </div>
 </template>
 

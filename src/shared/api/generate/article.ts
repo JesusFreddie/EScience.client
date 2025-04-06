@@ -31,7 +31,7 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-export const postArticlesCreate = (
+export const articleCreate = (
   createArticleRequest: MaybeRef<CreateArticleRequest>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
@@ -50,24 +50,24 @@ export const postArticlesCreate = (
   );
 };
 
-export const getPostArticlesCreateMutationOptions = <
+export const getArticleCreateMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postArticlesCreate>>,
+    Awaited<ReturnType<typeof articleCreate>>,
     TError,
     { data: CreateArticleRequest },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postArticlesCreate>>,
+  Awaited<ReturnType<typeof articleCreate>>,
   TError,
   { data: CreateArticleRequest },
   TContext
 > => {
-  const mutationKey = ["postArticlesCreate"];
+  const mutationKey = ["articleCreate"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -77,45 +77,45 @@ export const getPostArticlesCreateMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postArticlesCreate>>,
+    Awaited<ReturnType<typeof articleCreate>>,
     { data: CreateArticleRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postArticlesCreate(data, requestOptions);
+    return articleCreate(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostArticlesCreateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postArticlesCreate>>
+export type ArticleCreateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof articleCreate>>
 >;
-export type PostArticlesCreateMutationBody = CreateArticleRequest;
-export type PostArticlesCreateMutationError = unknown;
+export type ArticleCreateMutationBody = CreateArticleRequest;
+export type ArticleCreateMutationError = unknown;
 
-export const usePostArticlesCreate = <
+export const useArticleCreate = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postArticlesCreate>>,
+    Awaited<ReturnType<typeof articleCreate>>,
     TError,
     { data: CreateArticleRequest },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationReturnType<
-  Awaited<ReturnType<typeof postArticlesCreate>>,
+  Awaited<ReturnType<typeof articleCreate>>,
   TError,
   { data: CreateArticleRequest },
   TContext
 > => {
-  const mutationOptions = getPostArticlesCreateMutationOptions(options);
+  const mutationOptions = getArticleCreateMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
-export const getArticles = (
+export const articleGetAll = (
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
@@ -125,51 +125,51 @@ export const getArticles = (
   );
 };
 
-export const getGetArticlesQueryKey = () => {
+export const getArticleGetAllQueryKey = () => {
   return ["articles"] as const;
 };
 
-export const getGetArticlesQueryOptions = <
-  TData = Awaited<ReturnType<typeof getArticles>>,
+export const getArticleGetAllQueryOptions = <
+  TData = Awaited<ReturnType<typeof articleGetAll>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getArticles>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof articleGetAll>>, TError, TData>
   >;
   request?: SecondParameter<typeof createInstance>;
 }) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getGetArticlesQueryKey();
+  const queryKey = getArticleGetAllQueryKey();
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getArticles>>> = ({
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof articleGetAll>>> = ({
     signal,
-  }) => getArticles(requestOptions, signal);
+  }) => articleGetAll(requestOptions, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getArticles>>,
+    Awaited<ReturnType<typeof articleGetAll>>,
     TError,
     TData
   >;
 };
 
-export type GetArticlesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getArticles>>
+export type ArticleGetAllQueryResult = NonNullable<
+  Awaited<ReturnType<typeof articleGetAll>>
 >;
-export type GetArticlesQueryError = unknown;
+export type ArticleGetAllQueryError = unknown;
 
-export function useGetArticles<
-  TData = Awaited<ReturnType<typeof getArticles>>,
+export function useArticleGetAll<
+  TData = Awaited<ReturnType<typeof articleGetAll>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getArticles>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof articleGetAll>>, TError, TData>
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseQueryReturnType<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetArticlesQueryOptions(options);
+  const queryOptions = getArticleGetAllQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;
@@ -184,7 +184,7 @@ export function useGetArticles<
   return query;
 }
 
-export const getArticlesArticleId = (
+export const articleGet = (
   articleId: MaybeRef<string>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
@@ -197,72 +197,58 @@ export const getArticlesArticleId = (
   );
 };
 
-export const getGetArticlesArticleIdQueryKey = (
-  articleId: MaybeRef<string>,
-) => {
+export const getArticleGetQueryKey = (articleId: MaybeRef<string>) => {
   return ["articles", articleId] as const;
 };
 
-export const getGetArticlesArticleIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof getArticlesArticleId>>,
+export const getArticleGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof articleGet>>,
   TError = unknown,
 >(
   articleId: MaybeRef<string>,
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getArticlesArticleId>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof articleGet>>, TError, TData>
     >;
     request?: SecondParameter<typeof createInstance>;
   },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getGetArticlesArticleIdQueryKey(articleId);
+  const queryKey = getArticleGetQueryKey(articleId);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getArticlesArticleId>>
-  > = ({ signal }) => getArticlesArticleId(articleId, requestOptions, signal);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof articleGet>>> = ({
+    signal,
+  }) => articleGet(articleId, requestOptions, signal);
 
   return {
     queryKey,
     queryFn,
     enabled: computed(() => !!unref(articleId)),
     ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getArticlesArticleId>>,
-    TError,
-    TData
-  >;
+  } as UseQueryOptions<Awaited<ReturnType<typeof articleGet>>, TError, TData>;
 };
 
-export type GetArticlesArticleIdQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getArticlesArticleId>>
+export type ArticleGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof articleGet>>
 >;
-export type GetArticlesArticleIdQueryError = unknown;
+export type ArticleGetQueryError = unknown;
 
-export function useGetArticlesArticleId<
-  TData = Awaited<ReturnType<typeof getArticlesArticleId>>,
+export function useArticleGet<
+  TData = Awaited<ReturnType<typeof articleGet>>,
   TError = unknown,
 >(
   articleId: MaybeRef<string>,
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getArticlesArticleId>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof articleGet>>, TError, TData>
     >;
     request?: SecondParameter<typeof createInstance>;
   },
 ): UseQueryReturnType<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetArticlesArticleIdQueryOptions(articleId, options);
+  const queryOptions = getArticleGetQueryOptions(articleId, options);
 
   const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;
@@ -277,7 +263,7 @@ export function useGetArticlesArticleId<
   return query;
 }
 
-export const postArticlesSetParticipantForArticleArticleId = (
+export const articleSetParticipant = (
   articleId: MaybeRef<string>,
   setParticipantRequest: MaybeRef<SetParticipantRequest>,
   options?: SecondParameter<typeof createInstance>,
@@ -298,24 +284,24 @@ export const postArticlesSetParticipantForArticleArticleId = (
   );
 };
 
-export const getPostArticlesSetParticipantForArticleArticleIdMutationOptions = <
+export const getArticleSetParticipantMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postArticlesSetParticipantForArticleArticleId>>,
+    Awaited<ReturnType<typeof articleSetParticipant>>,
     TError,
     { articleId: string; data: SetParticipantRequest },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postArticlesSetParticipantForArticleArticleId>>,
+  Awaited<ReturnType<typeof articleSetParticipant>>,
   TError,
   { articleId: string; data: SetParticipantRequest },
   TContext
 > => {
-  const mutationKey = ["postArticlesSetParticipantForArticleArticleId"];
+  const mutationKey = ["articleSetParticipant"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -325,49 +311,41 @@ export const getPostArticlesSetParticipantForArticleArticleIdMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postArticlesSetParticipantForArticleArticleId>>,
+    Awaited<ReturnType<typeof articleSetParticipant>>,
     { articleId: string; data: SetParticipantRequest }
   > = (props) => {
     const { articleId, data } = props ?? {};
 
-    return postArticlesSetParticipantForArticleArticleId(
-      articleId,
-      data,
-      requestOptions,
-    );
+    return articleSetParticipant(articleId, data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostArticlesSetParticipantForArticleArticleIdMutationResult =
-  NonNullable<
-    Awaited<ReturnType<typeof postArticlesSetParticipantForArticleArticleId>>
-  >;
-export type PostArticlesSetParticipantForArticleArticleIdMutationBody =
-  SetParticipantRequest;
-export type PostArticlesSetParticipantForArticleArticleIdMutationError =
-  unknown;
+export type ArticleSetParticipantMutationResult = NonNullable<
+  Awaited<ReturnType<typeof articleSetParticipant>>
+>;
+export type ArticleSetParticipantMutationBody = SetParticipantRequest;
+export type ArticleSetParticipantMutationError = unknown;
 
-export const usePostArticlesSetParticipantForArticleArticleId = <
+export const useArticleSetParticipant = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postArticlesSetParticipantForArticleArticleId>>,
+    Awaited<ReturnType<typeof articleSetParticipant>>,
     TError,
     { articleId: string; data: SetParticipantRequest },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationReturnType<
-  Awaited<ReturnType<typeof postArticlesSetParticipantForArticleArticleId>>,
+  Awaited<ReturnType<typeof articleSetParticipant>>,
   TError,
   { articleId: string; data: SetParticipantRequest },
   TContext
 > => {
-  const mutationOptions =
-    getPostArticlesSetParticipantForArticleArticleIdMutationOptions(options);
+  const mutationOptions = getArticleSetParticipantMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

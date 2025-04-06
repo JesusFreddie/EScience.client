@@ -20,7 +20,7 @@ import type { MaybeRef } from "vue";
 import type {
   ArticleBranch,
   ArticleBranchDto,
-  PostBranchCreateParams,
+  CreateBranchDto,
 } from "../model";
 import { createInstance } from "../api-instance";
 
@@ -30,37 +30,45 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-export const postBranchCreate = (
-  params?: MaybeRef<PostBranchCreateParams>,
+export const branchCreate = (
+  articleId: MaybeRef<string>,
+  createBranchDto: MaybeRef<CreateBranchDto>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
-  params = unref(params);
+  articleId = unref(articleId);
+  createBranchDto = unref(createBranchDto);
 
   return createInstance<ArticleBranchDto>(
-    { url: `/branch/create`, method: "POST", params: unref(params), signal },
+    {
+      url: `/branch/${articleId}/create`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: createBranchDto,
+      signal,
+    },
     options,
   );
 };
 
-export const getPostBranchCreateMutationOptions = <
+export const getBranchCreateMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postBranchCreate>>,
+    Awaited<ReturnType<typeof branchCreate>>,
     TError,
-    { params?: PostBranchCreateParams },
+    { articleId: string; data: CreateBranchDto },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postBranchCreate>>,
+  Awaited<ReturnType<typeof branchCreate>>,
   TError,
-  { params?: PostBranchCreateParams },
+  { articleId: string; data: CreateBranchDto },
   TContext
 > => {
-  const mutationKey = ["postBranchCreate"];
+  const mutationKey = ["branchCreate"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -70,160 +78,195 @@ export const getPostBranchCreateMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postBranchCreate>>,
-    { params?: PostBranchCreateParams }
+    Awaited<ReturnType<typeof branchCreate>>,
+    { articleId: string; data: CreateBranchDto }
   > = (props) => {
-    const { params } = props ?? {};
+    const { articleId, data } = props ?? {};
 
-    return postBranchCreate(params, requestOptions);
+    return branchCreate(articleId, data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostBranchCreateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postBranchCreate>>
+export type BranchCreateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof branchCreate>>
 >;
+export type BranchCreateMutationBody = CreateBranchDto;
+export type BranchCreateMutationError = unknown;
 
-export type PostBranchCreateMutationError = unknown;
-
-export const usePostBranchCreate = <
+export const useBranchCreate = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postBranchCreate>>,
+    Awaited<ReturnType<typeof branchCreate>>,
     TError,
-    { params?: PostBranchCreateParams },
+    { articleId: string; data: CreateBranchDto },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationReturnType<
-  Awaited<ReturnType<typeof postBranchCreate>>,
+  Awaited<ReturnType<typeof branchCreate>>,
   TError,
-  { params?: PostBranchCreateParams },
+  { articleId: string; data: CreateBranchDto },
   TContext
 > => {
-  const mutationOptions = getPostBranchCreateMutationOptions(options);
+  const mutationOptions = getBranchCreateMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
-export const getBranchAccountNameArticleTitleBranchName = (
-  accountName: MaybeRef<string>,
-  articleTitle: MaybeRef<string>,
+export const branchGet = (
+  articleId: MaybeRef<string>,
   branchName: MaybeRef<string>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
-  accountName = unref(accountName);
-  articleTitle = unref(articleTitle);
+  articleId = unref(articleId);
   branchName = unref(branchName);
 
   return createInstance<ArticleBranch>(
-    {
-      url: `/branch/${accountName}/${articleTitle}/${branchName}`,
-      method: "GET",
-      signal,
-    },
+    { url: `/branch/${articleId}/${branchName}`, method: "GET", signal },
     options,
   );
 };
 
-export const getGetBranchAccountNameArticleTitleBranchNameQueryKey = (
-  accountName: MaybeRef<string>,
-  articleTitle: MaybeRef<string>,
+export const getBranchGetQueryKey = (
+  articleId: MaybeRef<string>,
   branchName: MaybeRef<string>,
 ) => {
-  return ["branch", accountName, articleTitle, branchName] as const;
+  return ["branch", articleId, branchName] as const;
 };
 
-export const getGetBranchAccountNameArticleTitleBranchNameQueryOptions = <
-  TData = Awaited<
-    ReturnType<typeof getBranchAccountNameArticleTitleBranchName>
-  >,
+export const getBranchGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof branchGet>>,
   TError = unknown,
 >(
-  accountName: MaybeRef<string>,
-  articleTitle: MaybeRef<string>,
+  articleId: MaybeRef<string>,
   branchName: MaybeRef<string>,
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getBranchAccountNameArticleTitleBranchName>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof branchGet>>, TError, TData>
     >;
     request?: SecondParameter<typeof createInstance>;
   },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getGetBranchAccountNameArticleTitleBranchNameQueryKey(
-    accountName,
-    articleTitle,
-    branchName,
-  );
+  const queryKey = getBranchGetQueryKey(articleId, branchName);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getBranchAccountNameArticleTitleBranchName>>
-  > = ({ signal }) =>
-    getBranchAccountNameArticleTitleBranchName(
-      accountName,
-      articleTitle,
-      branchName,
-      requestOptions,
-      signal,
-    );
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof branchGet>>> = ({
+    signal,
+  }) => branchGet(articleId, branchName, requestOptions, signal);
 
   return {
     queryKey,
     queryFn,
-    enabled: computed(
-      () => !!(unref(accountName) && unref(articleTitle) && unref(branchName)),
-    ),
+    enabled: computed(() => !!(unref(articleId) && unref(branchName))),
     ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getBranchAccountNameArticleTitleBranchName>>,
-    TError,
-    TData
-  >;
+  } as UseQueryOptions<Awaited<ReturnType<typeof branchGet>>, TError, TData>;
 };
 
-export type GetBranchAccountNameArticleTitleBranchNameQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getBranchAccountNameArticleTitleBranchName>>
+export type BranchGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof branchGet>>
 >;
-export type GetBranchAccountNameArticleTitleBranchNameQueryError = unknown;
+export type BranchGetQueryError = unknown;
 
-export function useGetBranchAccountNameArticleTitleBranchName<
-  TData = Awaited<
-    ReturnType<typeof getBranchAccountNameArticleTitleBranchName>
-  >,
+export function useBranchGet<
+  TData = Awaited<ReturnType<typeof branchGet>>,
   TError = unknown,
 >(
-  accountName: MaybeRef<string>,
-  articleTitle: MaybeRef<string>,
+  articleId: MaybeRef<string>,
   branchName: MaybeRef<string>,
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getBranchAccountNameArticleTitleBranchName>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof branchGet>>, TError, TData>
     >;
     request?: SecondParameter<typeof createInstance>;
   },
 ): UseQueryReturnType<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions =
-    getGetBranchAccountNameArticleTitleBranchNameQueryOptions(
-      accountName,
-      articleTitle,
-      branchName,
-      options,
-    );
+  const queryOptions = getBranchGetQueryOptions(articleId, branchName, options);
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
+
+export const branchGetAll = (
+  articleId: MaybeRef<string>,
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  articleId = unref(articleId);
+
+  return createInstance<ArticleBranch[]>(
+    { url: `/branch/${articleId}`, method: "GET", signal },
+    options,
+  );
+};
+
+export const getBranchGetAllQueryKey = (articleId: MaybeRef<string>) => {
+  return ["branch", articleId] as const;
+};
+
+export const getBranchGetAllQueryOptions = <
+  TData = Awaited<ReturnType<typeof branchGetAll>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof branchGetAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getBranchGetAllQueryKey(articleId);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof branchGetAll>>> = ({
+    signal,
+  }) => branchGetAll(articleId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: computed(() => !!unref(articleId)),
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof branchGetAll>>, TError, TData>;
+};
+
+export type BranchGetAllQueryResult = NonNullable<
+  Awaited<ReturnType<typeof branchGetAll>>
+>;
+export type BranchGetAllQueryError = unknown;
+
+export function useBranchGetAll<
+  TData = Awaited<ReturnType<typeof branchGetAll>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof branchGetAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getBranchGetAllQueryOptions(articleId, options);
 
   const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

@@ -9,7 +9,71 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { number } from 'zod';
+import { Color } from '@tiptap/extension-color'
+import ListItem from '@tiptap/extension-list-item'
+import TextStyle from '@tiptap/extension-text-style'
+import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import EditorToolbar from "~/src/shared/ui/editor/editor-toolbar.vue";
+import {Underline} from "@tiptap/extension-underline";
+
+const { debounceSave, debounceTime, modelValue } = defineProps<{
+  modelValue: string,
+  debounceSave: boolean,
+  debounceTime?: number
+}>();
+
+const emit = defineEmits(
+  ['update:modelValue', 'save']
+)
+
+const saveTimeout = ref<NodeJS.Timeout>()
+const editor = ref<Editor>()
+
+onMounted(() => {
+  editor.value = new Editor({
+      extensions: [
+        Color.configure({ types: [TextStyle.name, ListItem.name] }),
+        TextStyle.configure({ types: [ListItem.name] }),
+        StarterKit,
+        Underline
+      ],
+      content: modelValue,
+      onUpdate: ({ editor }) => { 
+        const html = editor.getHTML()
+
+        emit('update:modelValue', html)
+
+        if (debounceSave)
+          debouncedSave(html)
+      }
+    })
+})
+
+watch(() => modelValue, (newValue) => {
+  if (editor && newValue != editor.value?.getHTML()) {
+    console.log("ASDASDASDAS")
+    editor.value?.commands.setContent(newValue, false)
+  }
+})
+
+function debouncedSave(content: string) {
+  if (saveTimeout) clearTimeout(saveTimeout.value)
+  saveTimeout.value = setTimeout(() => {
+    emit('save', content)
+  }, debounceTime)
+}
+
+onBeforeUnmount(() => {
+  editor.value?.destroy()
+  if (saveTimeout) clearTimeout(saveTimeout.value)
+})
+
+</script>
+
+<!-- <script>
 import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
@@ -29,7 +93,15 @@ export default {
       editor: null,
     }
   },
-
+  props: {
+    content: {
+      type: String,
+      default: ''
+    },
+    saveArticle: {
+      type: Function,
+    }
+  },
   mounted() {
     this.editor = new Editor({
       extensions: [
@@ -38,36 +110,7 @@ export default {
         StarterKit,
         Underline
       ],
-      content: `
-        <h2>
-          Hi there,
-        </h2>
-        <p>
-          this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-        </p>
-        <ul>
-          <li>
-            That’s a bullet list with one …
-          </li>
-          <li>
-            … or two list items.
-          </li>
-        </ul>
-        <p>
-          Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-        </p>
-        <pre><code class="language-css">body {
-  display: none;
-}</code></pre>
-        <p>
-          I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-        </p>
-        <blockquote>
-          Wow, that’s amazing. Good work, boy! 👏
-          <br />
-          — Mom
-        </blockquote>
-      `,
+      content: this.content,
     })
   },
 
@@ -75,7 +118,7 @@ export default {
     this.editor.destroy()
   },
 }
-</script>
+</script> -->
 
 <style lang="scss">
 /* Basic editor styles */

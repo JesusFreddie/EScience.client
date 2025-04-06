@@ -8,7 +8,7 @@ import type { Account } from "./account";
 import type { Article } from "./article";
 import type { ArticlePermissionLevel } from "./articlePermissionLevel";
 import type { ArticleBranch } from "./articleBranch";
-import type { ArticleBranchVersion } from "./articleBranchVersion";
+import type { ArticleVersion } from "./articleVersion";
 
 export interface ArticleParticipant {
   id?: string;
@@ -23,5 +23,5 @@ export interface ArticleParticipant {
   /** @nullable */
   articleBranches?: ArticleBranch[] | null;
   /** @nullable */
-  articleBranchVersions?: ArticleBranchVersion[] | null;
+  articleBranchVersions?: ArticleVersion[] | null;
 }

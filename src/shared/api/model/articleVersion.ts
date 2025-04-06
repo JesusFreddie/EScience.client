@@ -7,7 +7,7 @@
 import type { ArticleParticipant } from "./articleParticipant";
 import type { ArticleBranch } from "./articleBranch";
 
-export interface ArticleBranchVersion {
+export interface ArticleVersion {
   id?: string;
   createdAt?: string;
   updatedAt?: string;

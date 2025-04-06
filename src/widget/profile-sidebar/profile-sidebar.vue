@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {useGetAccountSession} from "~/src/shared/api/generate/account";
+import { useAccountSession } from '~/src/shared/api/generate/account';
+
 
 const { isOpen } = defineProps<{
   isOpen: boolean;
@@ -7,7 +8,7 @@ const { isOpen } = defineProps<{
 
 const emit = defineEmits(['update:isOpen'])
 
-const { data, isPending } = useGetAccountSession()
+const { data, isPending } = useAccountSession()
 
 </script>
 

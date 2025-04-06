@@ -23,7 +23,7 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-export const getAccountSession = (
+export const accountSession = (
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
@@ -33,59 +33,51 @@ export const getAccountSession = (
   );
 };
 
-export const getGetAccountSessionQueryKey = () => {
+export const getAccountSessionQueryKey = () => {
   return ["account", "session"] as const;
 };
 
-export const getGetAccountSessionQueryOptions = <
-  TData = Awaited<ReturnType<typeof getAccountSession>>,
+export const getAccountSessionQueryOptions = <
+  TData = Awaited<ReturnType<typeof accountSession>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getAccountSession>>,
-      TError,
-      TData
-    >
+    UseQueryOptions<Awaited<ReturnType<typeof accountSession>>, TError, TData>
   >;
   request?: SecondParameter<typeof createInstance>;
 }) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getGetAccountSessionQueryKey();
+  const queryKey = getAccountSessionQueryKey();
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getAccountSession>>
-  > = ({ signal }) => getAccountSession(requestOptions, signal);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof accountSession>>> = ({
+    signal,
+  }) => accountSession(requestOptions, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getAccountSession>>,
+    Awaited<ReturnType<typeof accountSession>>,
     TError,
     TData
   >;
 };
 
-export type GetAccountSessionQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getAccountSession>>
+export type AccountSessionQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountSession>>
 >;
-export type GetAccountSessionQueryError = unknown;
+export type AccountSessionQueryError = unknown;
 
-export function useGetAccountSession<
-  TData = Awaited<ReturnType<typeof getAccountSession>>,
+export function useAccountSession<
+  TData = Awaited<ReturnType<typeof accountSession>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getAccountSession>>,
-      TError,
-      TData
-    >
+    UseQueryOptions<Awaited<ReturnType<typeof accountSession>>, TError, TData>
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseQueryReturnType<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetAccountSessionQueryOptions(options);
+  const queryOptions = getAccountSessionQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;
@@ -100,7 +92,7 @@ export function useGetAccountSession<
   return query;
 }
 
-export const getAccountAccountName = (
+export const accountGetProfile = (
   accountName: MaybeRef<string>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
@@ -113,21 +105,19 @@ export const getAccountAccountName = (
   );
 };
 
-export const getGetAccountAccountNameQueryKey = (
-  accountName: MaybeRef<string>,
-) => {
+export const getAccountGetProfileQueryKey = (accountName: MaybeRef<string>) => {
   return ["account", accountName] as const;
 };
 
-export const getGetAccountAccountNameQueryOptions = <
-  TData = Awaited<ReturnType<typeof getAccountAccountName>>,
+export const getAccountGetProfileQueryOptions = <
+  TData = Awaited<ReturnType<typeof accountGetProfile>>,
   TError = unknown,
 >(
   accountName: MaybeRef<string>,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getAccountAccountName>>,
+        Awaited<ReturnType<typeof accountGetProfile>>,
         TError,
         TData
       >
@@ -137,12 +127,11 @@ export const getGetAccountAccountNameQueryOptions = <
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getGetAccountAccountNameQueryKey(accountName);
+  const queryKey = getAccountGetProfileQueryKey(accountName);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getAccountAccountName>>
-  > = ({ signal }) =>
-    getAccountAccountName(accountName, requestOptions, signal);
+    Awaited<ReturnType<typeof accountGetProfile>>
+  > = ({ signal }) => accountGetProfile(accountName, requestOptions, signal);
 
   return {
     queryKey,
@@ -150,26 +139,26 @@ export const getGetAccountAccountNameQueryOptions = <
     enabled: computed(() => !!unref(accountName)),
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof getAccountAccountName>>,
+    Awaited<ReturnType<typeof accountGetProfile>>,
     TError,
     TData
   >;
 };
 
-export type GetAccountAccountNameQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getAccountAccountName>>
+export type AccountGetProfileQueryResult = NonNullable<
+  Awaited<ReturnType<typeof accountGetProfile>>
 >;
-export type GetAccountAccountNameQueryError = unknown;
+export type AccountGetProfileQueryError = unknown;
 
-export function useGetAccountAccountName<
-  TData = Awaited<ReturnType<typeof getAccountAccountName>>,
+export function useAccountGetProfile<
+  TData = Awaited<ReturnType<typeof accountGetProfile>>,
   TError = unknown,
 >(
   accountName: MaybeRef<string>,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getAccountAccountName>>,
+        Awaited<ReturnType<typeof accountGetProfile>>,
         TError,
         TData
       >
@@ -179,10 +168,7 @@ export function useGetAccountAccountName<
 ): UseQueryReturnType<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetAccountAccountNameQueryOptions(
-    accountName,
-    options,
-  );
+  const queryOptions = getAccountGetProfileQueryOptions(accountName, options);
 
   const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

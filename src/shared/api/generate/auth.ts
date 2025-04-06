@@ -21,7 +21,7 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-export const postAuthRegister = (
+export const authRegister = (
   registerRequestDto: MaybeRef<RegisterRequestDto>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
@@ -40,24 +40,24 @@ export const postAuthRegister = (
   );
 };
 
-export const getPostAuthRegisterMutationOptions = <
+export const getAuthRegisterMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAuthRegister>>,
+    Awaited<ReturnType<typeof authRegister>>,
     TError,
     { data: RegisterRequestDto },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postAuthRegister>>,
+  Awaited<ReturnType<typeof authRegister>>,
   TError,
   { data: RegisterRequestDto },
   TContext
 > => {
-  const mutationKey = ["postAuthRegister"];
+  const mutationKey = ["authRegister"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -67,45 +67,45 @@ export const getPostAuthRegisterMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postAuthRegister>>,
+    Awaited<ReturnType<typeof authRegister>>,
     { data: RegisterRequestDto }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postAuthRegister(data, requestOptions);
+    return authRegister(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostAuthRegisterMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postAuthRegister>>
+export type AuthRegisterMutationResult = NonNullable<
+  Awaited<ReturnType<typeof authRegister>>
 >;
-export type PostAuthRegisterMutationBody = RegisterRequestDto;
-export type PostAuthRegisterMutationError = unknown;
+export type AuthRegisterMutationBody = RegisterRequestDto;
+export type AuthRegisterMutationError = unknown;
 
-export const usePostAuthRegister = <
+export const useAuthRegister = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAuthRegister>>,
+    Awaited<ReturnType<typeof authRegister>>,
     TError,
     { data: RegisterRequestDto },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationReturnType<
-  Awaited<ReturnType<typeof postAuthRegister>>,
+  Awaited<ReturnType<typeof authRegister>>,
   TError,
   { data: RegisterRequestDto },
   TContext
 > => {
-  const mutationOptions = getPostAuthRegisterMutationOptions(options);
+  const mutationOptions = getAuthRegisterMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
-export const postAuthLogin = (
+export const authLogin = (
   loginRequestDto: MaybeRef<LoginRequestDto>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
@@ -124,24 +124,24 @@ export const postAuthLogin = (
   );
 };
 
-export const getPostAuthLoginMutationOptions = <
+export const getAuthLoginMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAuthLogin>>,
+    Awaited<ReturnType<typeof authLogin>>,
     TError,
     { data: LoginRequestDto },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postAuthLogin>>,
+  Awaited<ReturnType<typeof authLogin>>,
   TError,
   { data: LoginRequestDto },
   TContext
 > => {
-  const mutationKey = ["postAuthLogin"];
+  const mutationKey = ["authLogin"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -151,45 +151,42 @@ export const getPostAuthLoginMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postAuthLogin>>,
+    Awaited<ReturnType<typeof authLogin>>,
     { data: LoginRequestDto }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postAuthLogin(data, requestOptions);
+    return authLogin(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostAuthLoginMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postAuthLogin>>
+export type AuthLoginMutationResult = NonNullable<
+  Awaited<ReturnType<typeof authLogin>>
 >;
-export type PostAuthLoginMutationBody = LoginRequestDto;
-export type PostAuthLoginMutationError = unknown;
+export type AuthLoginMutationBody = LoginRequestDto;
+export type AuthLoginMutationError = unknown;
 
-export const usePostAuthLogin = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
+export const useAuthLogin = <TError = unknown, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAuthLogin>>,
+    Awaited<ReturnType<typeof authLogin>>,
     TError,
     { data: LoginRequestDto },
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationReturnType<
-  Awaited<ReturnType<typeof postAuthLogin>>,
+  Awaited<ReturnType<typeof authLogin>>,
   TError,
   { data: LoginRequestDto },
   TContext
 > => {
-  const mutationOptions = getPostAuthLoginMutationOptions(options);
+  const mutationOptions = getAuthLoginMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
-export const postAuthLogout = (
+export const authLogout = (
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
@@ -199,24 +196,24 @@ export const postAuthLogout = (
   );
 };
 
-export const getPostAuthLogoutMutationOptions = <
+export const getAuthLogoutMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAuthLogout>>,
+    Awaited<ReturnType<typeof authLogout>>,
     TError,
     void,
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postAuthLogout>>,
+  Awaited<ReturnType<typeof authLogout>>,
   TError,
   void,
   TContext
 > => {
-  const mutationKey = ["postAuthLogout"];
+  const mutationKey = ["authLogout"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -226,39 +223,36 @@ export const getPostAuthLogoutMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postAuthLogout>>,
+    Awaited<ReturnType<typeof authLogout>>,
     void
   > = () => {
-    return postAuthLogout(requestOptions);
+    return authLogout(requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostAuthLogoutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postAuthLogout>>
+export type AuthLogoutMutationResult = NonNullable<
+  Awaited<ReturnType<typeof authLogout>>
 >;
 
-export type PostAuthLogoutMutationError = unknown;
+export type AuthLogoutMutationError = unknown;
 
-export const usePostAuthLogout = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
+export const useAuthLogout = <TError = unknown, TContext = unknown>(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAuthLogout>>,
+    Awaited<ReturnType<typeof authLogout>>,
     TError,
     void,
     TContext
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseMutationReturnType<
-  Awaited<ReturnType<typeof postAuthLogout>>,
+  Awaited<ReturnType<typeof authLogout>>,
   TError,
   void,
   TContext
 > => {
-  const mutationOptions = getPostAuthLogoutMutationOptions(options);
+  const mutationOptions = getAuthLogoutMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
