@@ -2,9 +2,11 @@
 
 import ROUTE from "~/src/shared/consts/ROUTE";
 
+const { t } = useI18n()
+
 const links =  [
   {
-    label: 'Home',
+    label: t('PAGE.ARTICLES'),
     to: ROUTE.HOME
   },
 ]

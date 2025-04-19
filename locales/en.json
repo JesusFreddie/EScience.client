@@ -1,6 +1,9 @@
 {
   "welcome": "Hello World!",
   "CONTINUE": "Continue",
+  "PAGE": {
+    "ARTICLES": "Articles"
+  },
   "AUTH": {
     "REGISTER": "Register",
     "LOGIN": "Login",
@@ -15,12 +18,14 @@
     "NAME": "Name"
   },
   "ERROR": {
-    "": "Error",
+    "DEFAULT": "Error",
     "SERVER_ERROR": "Internal server error (500)"
   },
   "ARTICLE": {
-    "": "Article",
-    "CREATE": "Create"
+    "DEFAULT": "Article",
+    "CREATE": "Create",
+    "ARTICLES": "Articles",
+    "DESCRIPTION": "Description"
   },
   "FORM": {
     "UPDATE": "Update",

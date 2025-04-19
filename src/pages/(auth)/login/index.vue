@@ -3,7 +3,7 @@
 import LoginForm from "~/src/features/auth/ui/login-form.vue";
 
 definePageMeta({
-  layout: 'no-default',
+  layout: "no-layouts",
 })
 
 // h-screen flex flex-col items-center justify-center

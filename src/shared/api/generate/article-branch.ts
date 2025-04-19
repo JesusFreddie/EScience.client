@@ -280,3 +280,97 @@ export function useBranchGetAll<
 
   return query;
 }
+
+export const branchGetById = (
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  articleId = unref(articleId);
+  branchId = unref(branchId);
+
+  return createInstance<ArticleBranch>(
+    { url: `/branch/${articleId}/id/${branchId}`, method: "GET", signal },
+    options,
+  );
+};
+
+export const getBranchGetByIdQueryKey = (
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+) => {
+  return ["branch", articleId, "id", branchId] as const;
+};
+
+export const getBranchGetByIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof branchGetById>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof branchGetById>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getBranchGetByIdQueryKey(articleId, branchId);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof branchGetById>>> = ({
+    signal,
+  }) => branchGetById(articleId, branchId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: computed(() => !!(unref(articleId) && unref(branchId))),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof branchGetById>>,
+    TError,
+    TData
+  >;
+};
+
+export type BranchGetByIdQueryResult = NonNullable<
+  Awaited<ReturnType<typeof branchGetById>>
+>;
+export type BranchGetByIdQueryError = unknown;
+
+export function useBranchGetById<
+  TData = Awaited<ReturnType<typeof branchGetById>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof branchGetById>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getBranchGetByIdQueryOptions(
+    articleId,
+    branchId,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}

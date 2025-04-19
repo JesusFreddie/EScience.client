@@ -22,8 +22,8 @@ const account = data;
 
 <template>
  <div v-if="account">
-   {{ account.name }}
-   {{ account.email }}
+   {{ account.name }} 
+   {{ account.email }} 
  </div>
 </template>
 

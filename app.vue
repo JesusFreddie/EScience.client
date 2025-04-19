@@ -1,11 +1,8 @@
 <template>
-  <div class="">
+  <div class="h-full">
     <NuxtLayout>
       <NuxtLoadingIndicator/>
-          <UButton @click="toggle">
-            Переключить тему
-          </UButton>
-      <NuxtPage/>
+        <NuxtPage/>
       <UNotifications/>
     </NuxtLayout>
   </div>

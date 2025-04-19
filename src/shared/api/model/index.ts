@@ -6,6 +6,7 @@
  */
 
 export * from "./account";
+export * from "./accountArticleGetParams";
 export * from "./accountDto";
 export * from "./apiResponse";
 export * from "./article";
@@ -27,6 +28,7 @@ export * from "./getAccountAccountNameArticleArticleNameParams";
 export * from "./getAccountAccountNameParams";
 export * from "./getAccountParams";
 export * from "./loginRequestDto";
+export * from "./mergeRequest";
 export * from "./postBranchCreateParams";
 export * from "./profileDto";
 export * from "./profileDtoApiResponse";
@@ -34,5 +36,5 @@ export * from "./registerRequestDto";
 export * from "./role";
 export * from "./saveArticleTextRequest";
 export * from "./setParticipantRequest";
+export * from "./successResponse";
 export * from "./user";
-export * from "./accountArticleGetParams";

@@ -8,7 +8,7 @@ import Header from "~/src/widget/header/header.vue";
     <Header class="mb-3" />
     <main class="main grid grid-cols-[220px_1fr] h-[90vh]">
       <NavBar/>
-      <div class="pl-10 pt-10">
+      <div class="pl-10 pt-6">
         <slot></slot>
       </div>
     </main>

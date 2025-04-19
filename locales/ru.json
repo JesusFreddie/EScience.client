@@ -1,21 +1,39 @@
 {
-  "welcome": "Привет мир!",
+  "welcome": "Привет, мир!",
   "CONTINUE": "Продолжить",
+  "PAGE": {
+    "ARTICLES": "Статьи"
+  },
   "AUTH": {
     "REGISTER": "Регистрация",
-    "LOGIN": "Логин",
+    "LOGIN": "Войти",
     "ERROR": {
-      "INVALID_EMAIL": "Невалидный Email"
+      "INVALID_EMAIL": "Некорректный email"
     }
   },
   "INPUT": {
     "EMAIL": "Email",
     "PASSWORD": "Пароль",
-    "REPEAT_PASSWORD": "Повторный пароль",
+    "REPEAT_PASSWORD": "Повторите пароль",
     "NAME": "Имя"
   },
   "ERROR": {
-    "ERROR": "Ошибка",
-    "SERVER_ERROR": "Произошла внутренняя серверная ошибка (500)"
+    "DEFAULT": "Ошибка",
+    "SERVER_ERROR": "Внутренняя ошибка сервера (500)"
+  },
+  "ARTICLE": {
+    "DEFAULT": "Статья",
+    "CREATE": "Создать",
+    "ARTICLES": "Статьи",
+    "DESCRIPTION": "Описание"
+  },
+  "FORM": {
+    "UPDATE": "Обновить",
+    "CREATE": "Создать",
+    "LABEL": {
+      "TITLE": "Заголовок",
+      "DESCRIPTION": "Описание",
+      "PRIVATE": "Приватный"
+    }
   }
 }

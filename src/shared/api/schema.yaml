@@ -289,6 +289,36 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ArticleBranch'
+  '/branch/{articleId}/id/{branchId}':
+    get:
+      tags:
+        - ArticleBranch
+      operationId: BranchGetById
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ArticleBranch'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleBranch'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ArticleBranch'
   '/{articleId}/version/{branchId}/last':
     get:
       tags:
@@ -395,6 +425,48 @@ paths:
       responses:
         '200':
           description: OK
+  '/merge/{articleId}/version/{branchId}':
+    post:
+      tags:
+        - Merge
+      operationId: Merge
+      parameters:
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: branchId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MergeRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/MergeRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/MergeRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
 components:
   schemas:
     Account:
@@ -656,6 +728,13 @@ components:
           type: string
           nullable: true
       additionalProperties: false
+    MergeRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          nullable: true
+      additionalProperties: false
     ProfileDto:
       type: object
       properties:
@@ -710,6 +789,12 @@ components:
           format: uuid
         permissionLevel:
           $ref: '#/components/schemas/ArticlePermissionLevel'
+      additionalProperties: false
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
       additionalProperties: false
     User:
       type: object

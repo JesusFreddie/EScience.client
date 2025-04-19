@@ -1,44 +1,54 @@
 <script setup lang="ts">
-import type {Article as ArticleDto} from "~/src/shared/api/model";
-import Article from '~/src/features/article/ui/article.vue'
+import Article from "~/src/features/article/ui/article.vue";
+import type { Article as ArticleDto } from "~/src/shared/api/model";
 
 const route = useRoute()
+const router = useRouter()
 
-type Params = {
-  accountName: string;
-  articleName: string;
+const { accountName, articleName } = route.params as {
+  accountName: string
+  articleName: string
 }
-
-// некоректно работают статьи без веток
-
-const params = route.params as Params;
-
-const accountName = params.accountName
-const articleName = params.articleName
-
-const { branch } = route.query as {
-  branch?: string
-};
+const { branchName } = route.query as { branchName?: string }
+const currentBranch = ref(branchName || 'main')
 
 useHead({
   title: articleName.toString()
 })
 
-const { data, error } = await useFetch<ArticleDto>(`/api/account/${accountName}/article/${articleName}`, {
-  baseURL: process.server ? 'http://localhost:3000' : window.location.origin,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
+const { data, error, refresh } = await useFetch<ArticleDto>(
+  `/api/account/${accountName}/article/${articleName}?branchName=${currentBranch.value}`,
+  {
+    headers: { 'Content-Type': 'application/json' },
+    server: false
+  },
+)
 
 if (error.value) {
   throw createError({
     statusCode: error.value.statusCode,
     statusMessage: error.value.message,
-    data: error.value.data
-  });
+    fatal: true
+  })
 }
 
+function checkoutBranch(name: string) {
+  currentBranch.value = name
+  router.push({
+    query: {
+      ...route.query,
+      branchName: name
+    },
+  })
+  refresh()
+}
+
+watch(() => route.query.branchName, (newBranchName) => {
+  if (newBranchName && newBranchName !== currentBranch.value) {
+    currentBranch.value = newBranchName as string
+    refresh()
+  }
+})
 
 </script>
 
@@ -46,12 +56,9 @@ if (error.value) {
   <div v-if="data" class="flex justify-center h-full">
     <Article 
       :article="data" 
-      :branch="branch"
-      :key="`${accountName}-${articleName}`"
-      />
+      :branch="currentBranch"
+      @checkout-brach="checkoutBranch"
+      :key="`${accountName}-${articleName}-${currentBranch}`"
+    />
   </div>
 </template>
-
-<style scoped>
-
-</style>

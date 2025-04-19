@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAccountSession } from '~/src/shared/api/generate/account';
+import ROUTE from '~/src/shared/consts/ROUTE';
 
 
 const { isOpen } = defineProps<{
@@ -9,6 +10,7 @@ const { isOpen } = defineProps<{
 const emit = defineEmits(['update:isOpen'])
 
 const { data, isPending } = useAccountSession()
+
 
 </script>
 
@@ -26,6 +28,9 @@ const { data, isPending } = useAccountSession()
       </template>
 
       Body
+      <UButton>
+        Сменить тему
+      </UButton>
     </UCard>
   </USlideover>
 </template>

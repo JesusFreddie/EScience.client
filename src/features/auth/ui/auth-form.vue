@@ -11,17 +11,16 @@ const { formState, schema, submit } = defineProps<{
 </script>
 
 <template>
-  <UForm
-      :state="formState"
-      :schema="schema"
-      @submit="submit"
-      class="auth-form bg-bg-100 dark:bg-bg-dark-200 rounded-md pt-20 flex flex-col items-center w-max px-20 pb-28 min-w-[600px]">
-    <UDivider class="mb-12 font-normal" :ui="{ label: 'text-2xl font-normal' }" :label="dividerLabel" />
-    <div class="mb-12 w-full flex flex-col gap-4">
-      <slot></slot>
-    </div>
-    <UButton :loading="isPending" type="submit" block color="primary">{{ $t('CONTINUE') }}</UButton>
-  </UForm>
+  <div class="overflow-hidden">
+    <UForm :state="formState" :schema="schema" @submit="submit"
+      class="auth-form  bg-bg-100 dark:bg-bg-dark-200 rounded-md pt-20 flex flex-col items-center w-max px-20 pb-28 min-w-[600px]">
+      <UDivider class="mb-12 font-normal" :ui="{ label: 'text-2xl font-normal' }" :label="dividerLabel" />
+      <div class="mb-12 w-full flex flex-col gap-4">
+        <slot></slot>
+      </div>
+      <UButton :loading="isPending" type="submit" block color="primary">{{ $t('CONTINUE') }}</UButton>
+    </UForm>
+  </div>
 </template>
 
 <style scoped>

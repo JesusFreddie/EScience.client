@@ -12,6 +12,14 @@ const { editor } = defineProps<{
     <UButton variant="ghost" @click="editor.chain().focus().toggleItalic().run()" icon="i-ph-text-italic" />
     <UButton variant="ghost" @click="editor.chain().focus().toggleUnderline().run()" icon="i-ph-text-underline" />
 
+    <UPopover @update:open="true">
+      <UButton>Toggle Popover</UButton>
+      
+      <template #content>
+        <div class="p-4 bg-red lool">Popover Content</div>
+      </template>
+    </UPopover>
+
     <UButton icon="i-lucide-mail" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" label="W" />
     <UButton icon="i-lucide-mail" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" label="W" />
     <UButton icon="i-lucide-mail" @click="editor.chain().focus().toggleBulletList().run()" label="Список" />
