@@ -29,6 +29,7 @@ export * from "./getAccountAccountNameParams";
 export * from "./getAccountParams";
 export * from "./loginRequestDto";
 export * from "./mergeRequest";
+export * from "./participantInviteRequest";
 export * from "./postBranchCreateParams";
 export * from "./profileDto";
 export * from "./profileDtoApiResponse";

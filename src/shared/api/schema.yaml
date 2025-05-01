@@ -319,6 +319,63 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ArticleBranch'
+  '/participant/{articleId}':
+    get:
+      tags:
+        - ArticleParticipant
+      operationId: ParticipantGetAllByArticle
+      parameters:
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ArticleParticipant'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ArticleParticipant'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ArticleParticipant'
+  '/participant/{articleId}/invite':
+    post:
+      tags:
+        - ArticleParticipant
+      operationId: ParticipantInvite
+      parameters:
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantInviteRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantInviteRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ParticipantInviteRequest'
+      responses:
+        '200':
+          description: OK
   '/{articleId}/version/{branchId}/last':
     get:
       tags:
@@ -734,6 +791,15 @@ components:
         text:
           type: string
           nullable: true
+      additionalProperties: false
+    ParticipantInviteRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          nullable: true
+        permissionLevel:
+          $ref: '#/components/schemas/ArticlePermissionLevel'
       additionalProperties: false
     ProfileDto:
       type: object

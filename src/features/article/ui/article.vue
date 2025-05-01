@@ -8,8 +8,8 @@ import ArticleMerge from "./article-merge.vue";
 import type { BranchOptions } from "../entities/branch-options";
 import ArticleBranches from "./article-branches.vue";
 import ArticleCreateBranch from "./form/article-create-branch.vue";
-import { version } from "vue";
-import ArticleSettingsMenu from "./article-settings-menu.vue";
+import ArticleEditorAvatar from "./article-editor-avatar.vue";
+import ArticleMenu from "./article-menu-menu.vue";
 
 const { article, branch } = defineProps<{
   article: Article,
@@ -31,6 +31,8 @@ function openCraeteMergeModal() {
 }
 
 const saveTimeout = ref<NodeJS.Timeout>()
+
+const versionUpdateAgo = ref('')
 
 const editorContent = ref<string>("")
 const currentBranch = ref<BranchOptions>({
@@ -73,6 +75,14 @@ async function saveArticle() {
 watch(data, (newData) => {
   if (newData?.text) {
     editorContent.value = newData.text
+  }
+}, { immediate: true })
+
+watch(() => data.value?.updatedAt, (newValue) => {
+  console.log(newValue)
+  if (newValue) {
+    const { value } = useTimeAgo(newValue) // TODO: переписать на другую библиотеку, это не локализует и не учитывает таймзону
+    versionUpdateAgo.value = value
   }
 }, { immediate: true })
 
@@ -127,26 +137,32 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
       </div>
     </UModal>
     
-    <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md px-5 py-4 shadow flex">
+    <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md px-5 py-3 shadow flex items-center justify-between">
       <div>
         <h4>{{ article.title }}</h4>
       </div>
       <div>
-        <ArticleSettingsMenu/>
+        <ArticleMenu :article-id="article.id!" />
       </div>
     </div>
     <div class="grid grid-cols-[1fr_239px] gap-3 h-full">
       <div class="flex flex-col gap-3">
-        <div class="bg-bg-100 flex items-center dark:bg-bg-dark-200 rounded-md px-5 py-3 shadow">
-          <!-- <p>{{ data?.updatedAt }}</p> -->
-          <ArticleBranches
-            :branches="branchesOptions"
-            :current-branch="currentBranch"
-            @on-checkout-branch="onCheckoutBranch"
-            @on-open-select="onOpenSelectBranches"
-            @on-open-create-branch="openCreateBranchModal"
-            @on-open-create-merge="openCraeteMergeModal"
-          />
+        <div class="bg-bg-100 flex items-center dark:bg-bg-dark-200 rounded-md px-5 py-3 shadow flex justify-between">
+          <div>
+            <ArticleBranches
+              :branches="branchesOptions"
+              :current-branch="currentBranch"
+              @on-checkout-branch="onCheckoutBranch"
+              @on-open-select="onOpenSelectBranches"
+              @on-open-create-branch="openCreateBranchModal"
+              @on-open-create-merge="openCraeteMergeModal"
+            />
+          </div>
+          
+          <div>
+            <p>{{ versionUpdateAgo }}</p>
+          </div>
+          
         </div>
         
         <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md h-full px-5 py-3 shadow">
@@ -161,9 +177,16 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
         </div>
       </div>
       <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md h-full pt-5 px-4 shadow">
-        <div>
-          <p>{{ $t('ARTICLE.DESCRIPTION') }}</p>
-          <p>{{ article.description }}</p>
+        <div class="flex flex-col gap-2">
+          <div>
+            <p class="pb-2">{{ $t('PARTICIPANTS.MANY') }}</p>
+            <ArticleEditorAvatar :article-id="article.id!" />
+          </div>
+          <UDivider/>
+          <div>
+            <p>{{ $t('ARTICLE.DESCRIPTION') }}</p>
+            <p>{{ article.description }}</p>
+          </div>
         </div>
       </div>
     </div>
