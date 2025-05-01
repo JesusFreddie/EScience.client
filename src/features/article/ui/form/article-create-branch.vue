@@ -33,27 +33,6 @@ async function submit(e: FormSubmitEvent<z.output<typeof schema>>) {
   });
 }
 
-
-
-// const branchesOptions = [
-//   {
-//     label: "ASD",
-//     value: "ASD"
-//   },
-//   {
-//     label: "ASD",
-//     value: "ASD"
-//   },
-//   {
-//     label: "ASD",
-//     value: "ASD"
-//   },
-//   {
-//     label: "ASD",
-//     value: "ASD"
-//   },
-// ]
-
 </script>
 
 <template>
@@ -61,6 +40,7 @@ async function submit(e: FormSubmitEvent<z.output<typeof schema>>) {
     :state="formState"
     :schema="schema"
     @submit="submit"
+    class="flex flex-col gap-2"
   >
     <UFormGroup :label="$t('BRANCH.FORM.LABEL.NAME')" name="name">
       <UInput 

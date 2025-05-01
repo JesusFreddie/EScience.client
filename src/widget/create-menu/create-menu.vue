@@ -3,6 +3,8 @@ import ROUTE from "~/src/shared/consts/ROUTE";
 
 const isOpen = ref(false)
 
+const page = ref<any>(null)
+
 const router = useRouter()
 const route = useRoute()
 
@@ -11,7 +13,8 @@ const items = [
     label: 'Create',
     icon: 'i-heroicons-pencil-square-20-solid',
     click: () => {
-      navigateTo(ROUTE.CREATE_ARTICLE)
+      page.value = defineAsyncComponent(() => import('~/src/features/article/ui/form/article-create.vue'))
+      isOpen.value = true
     }
   }, {
     label: 'Duplicate',
@@ -30,28 +33,20 @@ const items = [
 
 <template>
   <UDropdown
-      :items="items"
-      :popper="{ placement: 'bottom-start' }"
+    :items="items"
+    :popper="{ placement: 'bottom-start' }"
   >
     <UButton color="white"  variant="ghost" trailing-icon="ri:add-fill" />
   </UDropdown>
 
-  <USlideover class="flex-1" v-model="isOpen">
-    <UCard
-        class="flex flex-col flex-1"
-        :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
+  <USlideover 
+    class="flex-1 pr-2 py-2" 
+    v-model="isOpen"
+    :ui="{
+      rounded: 'rounded'
+    }"
     >
-      <!-- <template #header>
-        <h4 v-if="data" >{{ data.name }}</h4>
-        <div v-if="isPending">
-          <USkeleton class="w-1/3 h-10" />
-        </div>
-      </template> -->
-
-<!--      <template #default>-->
-<!--        <component :is="page" v-if="isOpen" />-->
-<!--      </template>-->
-    </UCard>
+    <component :is="page" v-if="isOpen" />
   </USlideover>
 </template>
 

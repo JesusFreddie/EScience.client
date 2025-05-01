@@ -10,18 +10,20 @@ const { accountName, articleName } = route.params as {
   articleName: string
 }
 const { branchName } = route.query as { branchName?: string }
-const currentBranch = ref(branchName || 'main')
+const currentBranch = ref(route.query.branchName?.toString() || 'main')
 
 useHead({
   title: articleName.toString()
 })
 
 const { data, error, refresh } = await useFetch<ArticleDto>(
-  `/api/account/${accountName}/article/${articleName}?branchName=${currentBranch.value}`,
+  `/api/account/${accountName}/article/${articleName}`,
   {
     headers: { 'Content-Type': 'application/json' },
-    server: false
-  },
+    server: false,
+    params: computed(() => ({ branchName: currentBranch.value })),
+    watch: [currentBranch]
+  }
 )
 
 if (error.value) {
@@ -32,23 +34,23 @@ if (error.value) {
   })
 }
 
-function checkoutBranch(name: string) {
+async function checkoutBranch(name: string) {
   currentBranch.value = name
-  router.push({
+  
+  await router.push({
     query: {
       ...route.query,
       branchName: name
-    },
+    }
   })
-  refresh()
 }
 
 watch(() => route.query.branchName, (newBranchName) => {
-  if (newBranchName && newBranchName !== currentBranch.value) {
-    currentBranch.value = newBranchName as string
-    refresh()
+  const branch = newBranchName?.toString() || 'main'
+  if (branch !== currentBranch.value) {
+    currentBranch.value = branch
   }
-})
+}, { immediate: true })
 
 </script>
 

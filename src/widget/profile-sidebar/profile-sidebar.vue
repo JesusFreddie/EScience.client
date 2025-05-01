@@ -15,7 +15,14 @@ const { data, isPending } = useAccountSession()
 </script>
 
 <template>
-  <USlideover class="flex-1" :model-value="isOpen" @update:model-value="(value) => emit('update:isOpen', value)">
+  <USlideover 
+    :ui="{
+      rounded: 'rounded'
+    }"
+    class="flex-1 pr-2 py-2" 
+    :model-value="isOpen" 
+    @update:model-value="(value) => emit('update:isOpen', value)"
+    >
     <UCard
         class="flex flex-col flex-1"
         :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }"
