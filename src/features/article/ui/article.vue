@@ -9,7 +9,10 @@ import type { BranchOptions } from "../entities/branch-options";
 import ArticleBranches from "./article-branches.vue";
 import ArticleCreateBranch from "./form/article-create-branch.vue";
 import ArticleEditorAvatar from "./article-editor-avatar.vue";
-import ArticleMenu from "./article-menu-menu.vue";
+import ArticleMenu from "./article-menu.vue";
+
+
+
 
 const { article, branch } = defineProps<{
   article: Article,
@@ -120,11 +123,16 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
   <div class="flex flex-col gap-3 w-[1260px] h-full">
     <UModal v-model="isOpenCreateBranch">
       <div class="py-4 px-2">
-        <ArticleCreateBranch v-if="branches?.length" :article-id="article.id!" :branches="branches" />
+        <ArticleCreateBranch 
+          v-if="branches?.length" 
+          :article-id="article.id!" 
+          :branches="branches"
+          @success="fetchBranches"
+        />
       </div>
     </UModal>
     <UModal v-model="isOpenCreateMerge">
-      <div class="h-[90vh] w-[1200px]">
+      <div class="h-[90vh]">
         <ArticleMerge
           v-if="article.id && currentBranch.id"
           :article-id="article.id"
@@ -165,7 +173,7 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
           
         </div>
         
-        <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md h-full px-5 py-3 shadow">
+        <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md h-full px-3 py-3 shadow">
           <Editor
             v-if="data" 
             :debounce-time="5"                                                                                                                                                                                                    
@@ -185,7 +193,7 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
           <UDivider/>
           <div>
             <p>{{ $t('ARTICLE.DESCRIPTION') }}</p>
-            <p>{{ article.description }}</p>
+            <p class="break-words">{{ article.description }}</p>
           </div>
         </div>
       </div>

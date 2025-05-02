@@ -8,6 +8,7 @@ const { branches, currentBranch } = defineProps<{
     currentBranch: BranchOptions
 }>()
 
+
 const emit = defineEmits<{
   (e: 'onCheckoutBranch', name: string): void
   (e: 'onOpenSelect', isOpen: boolean): void

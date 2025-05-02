@@ -53,16 +53,23 @@ export default defineNuxtConfig({
       redirectOn: 'root',
     },
   },
-  vite: {
-    server: {
-      proxy: {
-        '/api': {
-          target: 'https://localhost:7099/',
-          changeOrigin: true,
-          secure: false,
-          rewrite: path => path.replace(/^\/api/, '')
-        }
+  nitro: {
+    devProxy: {
+      '/api' : {
+        target: 'https://localhost:7099/',
+        changeOrigin: true,
+        secure: false,
+      }
+    },
+    routeRules: {
+      '/api/**' : {
+        proxy: 'https://localhost:7099/**',
+        headers: {
+            'X-Forwarded-Proto': 'https',
+            'X-Forwarded-Host': 'localhost:3000'
+        },
+        
       }
     }
-  },
+  }
 })

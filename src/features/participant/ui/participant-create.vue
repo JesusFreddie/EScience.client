@@ -2,29 +2,31 @@
 import { useParticipantCreate } from '../model/use-participant-create';
 import type { FormSubmitEvent } from "#ui/types";
 import type { z } from 'zod';
+import { usePermissionLevels } from '../model/use-permission-levels';
+
+const { t } = useI18n()
 
 const { articleId } = defineProps<{
     articleId: string
 }>()
 
-const permission = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+const { permission } = usePermissionLevels()
 
 const { error, isPending, mutation, schema } = useParticipantCreate()
 
 type Schema = z.output<typeof schema>
 
 interface FormState {
-  email?: string;  // или string | undefined
-  permissionLevel: number;
+  email?: string
+  permissionLevel: number
 }
 
 const formState: FormState = reactive({
-    email: undefined,
-    permissionLevel: permission[0]
+    email: '',
+    permissionLevel: 1
 })
 
 function submit(e: FormSubmitEvent<Schema>) {
-    console.log(e)
     const data = e.data
     mutation({
         articleId: articleId,
@@ -40,13 +42,16 @@ function submit(e: FormSubmitEvent<Schema>) {
             <template #header>
                 Добавить дебила
             </template>
-
+            
             <div>
                 <UFormGroup>
-                    <UInput v-model="formState.email" name="email" />
+                    <UInput icon="i-heroicons-envelope" v-model="formState.email" id="email" name="email" color="gray" variant="outline" :placeholder="$t('INPUT.EMAIL')" type="text" />
                 </UFormGroup>
                 <UFormGroup>
-                    <USelectMenu name="permissionLevel" v-model="formState.permissionLevel" :options="permission" />
+                    <USelect
+                        v-model="formState.permissionLevel"
+                        :options="permission"
+                    />
                 </UFormGroup>
             </div>
 

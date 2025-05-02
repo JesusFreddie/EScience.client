@@ -10,17 +10,22 @@ const props = ref<any>(null)
 
 const { t } = useI18n()
 
+
+
 const items = [
     [{
         label: t('SETTINGS'),
-        icon: 'i-heroicons-pencil-square-20-solid',
+        icon: 'i-heroicons-cog-6-tooth-20-solid',
         click: () => {
-            modal.value = defineAsyncComponent(() => import('~/src/features/participant/ui/participant-create.vue'))
+            modal.value = defineAsyncComponent(() => import('~/src/features/article/ui/article-settings.vue'))
+            props.value = {
+                articleId
+            }
             isOpen.value = true
         }
     },{
         label: t('PARTICIPANTS.ADD'),
-        icon: 'i-heroicons-pencil-square-20-solid',
+        icon: 'i-heroicons-user-plus-20-solid',
         click: () => {
             modal.value = defineAsyncComponent(() => import('~/src/features/participant/ui/participant-create.vue'))
             props.value = {
@@ -30,7 +35,7 @@ const items = [
         }
     },{
         label: t('ARTICLE.ARCHIVE'),
-        icon: 'i-heroicons-pencil-square-20-solid',
+        icon: 'i-heroicons-archive-box-20-solid',
         click: () => {
             modal.value = defineAsyncComponent(() => import('~/src/features/article/ui/form/article-create.vue'))
             isOpen.value = true

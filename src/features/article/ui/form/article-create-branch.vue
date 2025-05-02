@@ -10,10 +10,19 @@ const { branches, articleId } = defineProps<{
   articleId: string;
   branches: ArticleBranch[];
 }>();
+const emit = defineEmits<{
+  success: []
+}>();
+
+watch(branchMutation, (mutation) => {
+  if (mutation.isSuccess) {
+    emit('success');
+  }
+});
 
 const formState = reactive({
   name: '',
-  parentId: null as string | null,
+  parentId: branches[0]?.id || null as string | null,
 });
 
 const branchesOptions = computed(() => {

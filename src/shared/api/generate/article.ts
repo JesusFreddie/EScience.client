@@ -22,6 +22,7 @@ import type {
   ArticleParticipant,
   CreateArticleRequest,
   SetParticipantRequest,
+  UpdateArticleRequest,
 } from "../model";
 import { createInstance } from "../api-instance";
 
@@ -112,6 +113,90 @@ export const useArticleCreate = <
   TContext
 > => {
   const mutationOptions = getArticleCreateMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const articleUpdate = (
+  articleId: MaybeRef<string>,
+  updateArticleRequest: MaybeRef<UpdateArticleRequest>,
+  options?: SecondParameter<typeof createInstance>,
+) => {
+  articleId = unref(articleId);
+  updateArticleRequest = unref(updateArticleRequest);
+
+  return createInstance<Article>(
+    {
+      url: `/articles/${articleId}/update`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: updateArticleRequest,
+    },
+    options,
+  );
+};
+
+export const getArticleUpdateMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof articleUpdate>>,
+    TError,
+    { articleId: string; data: UpdateArticleRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof articleUpdate>>,
+  TError,
+  { articleId: string; data: UpdateArticleRequest },
+  TContext
+> => {
+  const mutationKey = ["articleUpdate"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof articleUpdate>>,
+    { articleId: string; data: UpdateArticleRequest }
+  > = (props) => {
+    const { articleId, data } = props ?? {};
+
+    return articleUpdate(articleId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ArticleUpdateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof articleUpdate>>
+>;
+export type ArticleUpdateMutationBody = UpdateArticleRequest;
+export type ArticleUpdateMutationError = unknown;
+
+export const useArticleUpdate = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof articleUpdate>>,
+    TError,
+    { articleId: string; data: UpdateArticleRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}): UseMutationReturnType<
+  Awaited<ReturnType<typeof articleUpdate>>,
+  TError,
+  { articleId: string; data: UpdateArticleRequest },
+  TContext
+> => {
+  const mutationOptions = getArticleUpdateMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

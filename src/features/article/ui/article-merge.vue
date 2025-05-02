@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMerge } from '../model/use-merge';
 import Editor from '~/src/shared/ui/editor/editor.vue';
+import { onMounted } from 'vue';
 
 const props = defineProps<{
   targetContent: string
@@ -41,6 +42,10 @@ const showDiff = computed(() => {
   if (!mergeState.value.targetBranchId) return false;
   return mergeState.value.diff.added.length > 0 || 
          mergeState.value.diff.removed.length > 0;
+});
+
+onMounted(() => {
+  calculateDiff()
 });
 
 watch(formattedDiff, (newVal) => {

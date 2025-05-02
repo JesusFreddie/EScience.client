@@ -77,13 +77,13 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="editor" class="container h-full">
+  <div v-if="editor" class="container h-full flex flex-col">
     <div class="control-group">
       <div class="button-group">
         <EditorToolbar :editor="editor" />
       </div>
     </div>
-    <editor-content :editor="editor" class="h-full" />
+    <editor-content :editor="editor" class="flex-1" />
   </div>
 </template>
 
