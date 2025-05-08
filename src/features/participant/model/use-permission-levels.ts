@@ -7,7 +7,7 @@ export function usePermissionLevels() {
     const permission = computed(() => {
         return permissionLevelsLang.map((item) => {
             return {
-                value: item.value,
+                value: Number(item.value),
                 label: t(item.label)
             }
         })

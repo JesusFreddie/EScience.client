@@ -442,6 +442,36 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/ArticleVersion'
+  '/{articleId}/version/{branchId}/first':
+    get:
+      tags:
+        - ArticleVersion
+      operationId: VersionGetFist
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ArticleVersion'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleVersion'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ArticleVersion'
   '/{articleId}/version/{branchId}/save':
     post:
       tags:
@@ -560,6 +590,53 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
+  '/merge/{articleId}/version/{branchId}/merge-request':
+    post:
+      tags:
+        - Merge
+      operationId: GetMergeRequest
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMergeRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/GetMergeRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/GetMergeRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TextDiff'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TextDiff'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TextDiff'
 components:
   schemas:
     Account:
@@ -811,6 +888,13 @@ components:
           type: string
           nullable: true
       additionalProperties: false
+    GetMergeRequest:
+      type: object
+      properties:
+        originalBranchId:
+          type: string
+          format: uuid
+      additionalProperties: false
     LoginRequestDto:
       type: object
       properties:
@@ -897,6 +981,21 @@ components:
       properties:
         success:
           type: boolean
+      additionalProperties: false
+    TextDiff:
+      type: object
+      properties:
+        content:
+          type: string
+          nullable: true
+        isOriginal:
+          type: boolean
+        start:
+          type: integer
+          format: int32
+        end:
+          type: integer
+          format: int32
       additionalProperties: false
     UpdateArticleRequest:
       type: object

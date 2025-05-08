@@ -16,16 +16,6 @@ const items = [
       page.value = defineAsyncComponent(() => import('~/src/features/article/ui/form/article-create.vue'))
       isOpen.value = true
     }
-  }, {
-    label: 'Duplicate',
-    icon: 'i-heroicons-document-duplicate-20-solid',
-    disabled: true
-  }], [{
-    label: 'Archive',
-    icon: 'i-heroicons-archive-box-20-solid'
-  }, {
-    label: 'Move',
-    icon: 'i-heroicons-arrow-right-circle-20-solid'
   }]
 ]
 

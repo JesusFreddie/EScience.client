@@ -120,6 +120,100 @@ export function useVersionGetLast<
   return query;
 }
 
+export const versionGetFist = (
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  articleId = unref(articleId);
+  branchId = unref(branchId);
+
+  return createInstance<ArticleVersion>(
+    { url: `/${articleId}/version/${branchId}/first`, method: "GET", signal },
+    options,
+  );
+};
+
+export const getVersionGetFistQueryKey = (
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+) => {
+  return [articleId, "version", branchId, "first"] as const;
+};
+
+export const getVersionGetFistQueryOptions = <
+  TData = Awaited<ReturnType<typeof versionGetFist>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof versionGetFist>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getVersionGetFistQueryKey(articleId, branchId);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof versionGetFist>>> = ({
+    signal,
+  }) => versionGetFist(articleId, branchId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: computed(() => !!(unref(articleId) && unref(branchId))),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof versionGetFist>>,
+    TError,
+    TData
+  >;
+};
+
+export type VersionGetFistQueryResult = NonNullable<
+  Awaited<ReturnType<typeof versionGetFist>>
+>;
+export type VersionGetFistQueryError = unknown;
+
+export function useVersionGetFist<
+  TData = Awaited<ReturnType<typeof versionGetFist>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof versionGetFist>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getVersionGetFistQueryOptions(
+    articleId,
+    branchId,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
+
 export const versionSave = (
   articleId: MaybeRef<string>,
   branchId: MaybeRef<string>,

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type {Article} from "~/src/shared/api/model";
+import type { Article } from "~/src/shared/api/model";
 import Editor from "~/src/shared/ui/editor/editor.vue";
 import { useBranchGetAll } from "~/src/shared/api/generate/article-branch";
-import {useVersionGetLast} from "~/src/shared/api/generate/article-version";
+import { useVersionGetLast } from "~/src/shared/api/generate/article-version";
 import { useVersionSave } from "../model/use-version-save";
 import ArticleMerge from "./article-merge.vue";
 import type { BranchOptions } from "../entities/branch-options";
@@ -10,9 +10,6 @@ import ArticleBranches from "./article-branches.vue";
 import ArticleCreateBranch from "./form/article-create-branch.vue";
 import ArticleEditorAvatar from "./article-editor-avatar.vue";
 import ArticleMenu from "./article-menu.vue";
-
-
-
 
 const { article, branch } = defineProps<{
   article: Article,
@@ -95,7 +92,7 @@ watch(currentBranch, (value) => {
 
 function onOpenSelectBranches(isOpen: boolean) {
   if (isOpen && !branches.value) {
-    fetchBranches(); 
+    fetchBranches();
   }
 }
 
@@ -108,14 +105,14 @@ const branchesOptions = computed(() => {
   if (!branches.value)
     return [];
 
-    return branches.value.map<BranchOptions>(branch => ({
-      label: branch.name || "",
-      value: branch.name || "",
-      id: branch.id || ""
+  return branches.value.map<BranchOptions>(branch => ({
+    label: branch.name || "",
+    value: branch.name || "",
+    id: branch.id || ""
   }));
 });
 
-const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-4579-98b3-61664a8403d3');
+// const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-4579-98b3-61664a8403d3');
 
 </script>
 
@@ -127,24 +124,30 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
           v-if="branches?.length" 
           :article-id="article.id!" 
           :branches="branches"
-          @success="fetchBranches"
-        />
+          @success="fetchBranches" 
+          />
       </div>
     </UModal>
-    <UModal v-model="isOpenCreateMerge">
+    <UModal v-model="isOpenCreateMerge" fullscreen>
       <div class="h-[90vh]">
-        <ArticleMerge
-          v-if="article.id && currentBranch.id"
-          :article-id="article.id"
-          :base-branch-id="currentBranch.id"
-          target-branch-id="10a399a8-56cb-4579-98b3-61664a8403d3"
-          :base-content="editorContent"
-          :target-content="targetVersion?.text || 'lolik'"
-          :key="`merge-${article.title}-${currentBranch.label}-${'10a399a8-56cb-4579-98b3-61664a8403d3'}`"
-        />
+        <UButton 
+          color="gray" 
+          variant="ghost" 
+          icon="i-heroicons-x-mark-20-solid" 
+          class="-my-1"
+          @click="isOpenCreateMerge = false"
+          >
+          {{ $t('CLOSE') }}
+        </UButton>
+        <ArticleMerge 
+          v-if="branches?.length" 
+          :article-id="article.id!" 
+          :branches="branches"
+          :current-branch-id="currentBranch.id" 
+          />
       </div>
     </UModal>
-    
+
     <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md px-5 py-3 shadow flex items-center justify-between">
       <div>
         <h4>{{ article.title }}</h4>
@@ -157,30 +160,19 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
       <div class="flex flex-col gap-3">
         <div class="bg-bg-100 flex items-center dark:bg-bg-dark-200 rounded-md px-5 py-3 shadow flex justify-between">
           <div>
-            <ArticleBranches
-              :branches="branchesOptions"
-              :current-branch="currentBranch"
-              @on-checkout-branch="onCheckoutBranch"
-              @on-open-select="onOpenSelectBranches"
-              @on-open-create-branch="openCreateBranchModal"
-              @on-open-create-merge="openCraeteMergeModal"
-            />
+            <ArticleBranches :branches="branchesOptions" :current-branch="currentBranch"
+              @on-checkout-branch="onCheckoutBranch" @on-open-select="onOpenSelectBranches"
+              @on-open-create-branch="openCreateBranchModal" @on-open-create-merge="openCraeteMergeModal" />
           </div>
-          
+
           <div>
             <p>{{ versionUpdateAgo }}</p>
           </div>
-          
+
         </div>
-        
+
         <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md h-full px-3 py-3 shadow">
-          <Editor
-            v-if="data" 
-            :debounce-time="5"                                                                                                                                                                                                    
-            v-model="editorContent" 
-            :debounce-save="true" 
-            @save="debouncedSave"
-          />
+          <Editor v-if="data" :debounce-time="5" v-model="editorContent" :debounce-save="true" @save="debouncedSave" />
           <div v-if="isLoadingVer">Loading</div>
         </div>
       </div>
@@ -190,7 +182,7 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
             <p class="pb-2">{{ $t('PARTICIPANTS.MANY') }}</p>
             <ArticleEditorAvatar :article-id="article.id!" />
           </div>
-          <UDivider/>
+          <UDivider />
           <div>
             <p>{{ $t('ARTICLE.DESCRIPTION') }}</p>
             <p class="break-words">{{ article.description }}</p>
@@ -201,6 +193,4 @@ const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-45
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

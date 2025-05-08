@@ -8,7 +8,11 @@ export function useParticipantCreate() {
 
     const schema = z.object({
         email: z.string().email(t("AUTH.ERROR.INVALID_EMAIL")),
-        permissionLevel: z.nativeEnum(ArticlePermissionLevel)
+        permissionLevel: z.coerce.number()
+            .int()
+            .min(0)
+            .max(4)
+            .transform(val => val as ArticlePermissionLevel)
     })
 
     var mutation = useParticipantInvite()

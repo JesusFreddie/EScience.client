@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import ProfileIcon from "~/src/widget/profile-icon/profile-icon.vue";
-import ProfileSidebar from "~/src/widget/profile-sidebar/profile-sidebar.vue";
 import CreateMenu from "~/src/widget/create-menu/create-menu.vue";
 import ROUTE from "~/src/shared/consts/ROUTE";
-const d = ref(false)
+import ProfilePopover from "../profile-sidebar/profile-popover.vue";
 
 </script>
 
@@ -14,10 +12,10 @@ const d = ref(false)
     </div>
     <div class="flex items-center justify-between gap-3">
       <CreateMenu/>
-      <ProfileIcon/>
+      <!-- <ProfileIcon/> -->
+      <ProfilePopover/>
     </div>
   </header>
-  <ProfileSidebar v-model:isOpen="d" />
 </template>
 
 <style scoped>

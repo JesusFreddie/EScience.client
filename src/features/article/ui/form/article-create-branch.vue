@@ -45,27 +45,37 @@ async function submit(e: FormSubmitEvent<z.output<typeof schema>>) {
 </script>
 
 <template>
-  <UForm
-    :state="formState"
-    :schema="schema"
-    @submit="submit"
-    class="flex flex-col gap-2"
+<UForm
+  :state="formState"
+  :schema="schema"
+  @submit="submit"
+  class="flex flex-col gap-4 max-w-md mx-auto p-6 bg-white rounded-lg"
+>
+  <UFormGroup 
+    :label="$t('BRANCH.FORM.LABEL.NAME')" 
+    name="name"
+    class="w-full"
   >
-    <UFormGroup :label="$t('BRANCH.FORM.LABEL.NAME')" name="name">
-      <UInput 
-        v-model="formState.name" 
-        :placeholder="$t('BRANCH.FORM.LABEL.NAME')" 
-        :disabled="isPending"
-      />
-    </UFormGroup>
+    <UInput 
+      v-model="formState.name" 
+      :placeholder="$t('BRANCH.FORM.LABEL.NAME')" 
+      :disabled="isPending"
+      class="w-full focus:ring-2 focus:ring-primary-500"
+    />
+  </UFormGroup>
 
-    <UFormGroup :label="$t('BRANCH.FORM.LABEL.PARENT')" name="parentId">
-      <USelect
-        v-if="branchesOptions.length"
-        v-model="formState.parentId" 
-        :options="branchesOptions"
-      ></USelect>
-    </UFormGroup>
+  <UFormGroup 
+    :label="$t('BRANCH.FORM.LABEL.PARENT')" 
+    name="parentId"
+    class="w-full"
+  >
+    <USelect
+      v-if="branchesOptions.length"
+      v-model="formState.parentId" 
+      :options="branchesOptions"
+      class="w-full focus:ring-2 focus:ring-primary-500"
+    />
+  </UFormGroup>
 
     <UButton 
       type="submit" 

@@ -7,6 +7,7 @@ const { articleId } = defineProps<{
 const isOpen = ref(false)
 const modal = shallowRef<any>(null)
 const props = ref<any>(null)
+const ui = ref<any>()
 
 const { t } = useI18n()
 
@@ -21,6 +22,10 @@ const items = [
             props.value = {
                 articleId
             }
+            ui.value = {
+                width: 'min-w-[1000px]',
+                heigth: 'min-h-[600px]'
+            }
             isOpen.value = true
         }
     },{
@@ -31,6 +36,7 @@ const items = [
             props.value = {
                 articleId
             }
+            ui.value = {}
             isOpen.value = true
         }
     },{
@@ -39,6 +45,8 @@ const items = [
         click: () => {
             modal.value = defineAsyncComponent(() => import('~/src/features/article/ui/form/article-create.vue'))
             isOpen.value = true
+            ui.value = {}
+
         }
     },]
 ];
@@ -50,7 +58,10 @@ const items = [
         >
         <UButton color="white" variant="ghost" trailing-icon="qlementine-icons:menu-dots-16" />
     </UDropdown>
-    <UModal v-model="isOpen">
+    <UModal 
+        v-model="isOpen"
+        :ui="ui"
+        >
         <component :is="modal" v-bind="props"></component>
     </UModal>
 </template>

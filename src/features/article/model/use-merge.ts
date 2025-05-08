@@ -1,88 +1,30 @@
-import { useVersionGetLast } from "~/src/shared/api/generate/article-version";
-import { useMerge as useMergeVersion } from "~/src/shared/api/generate/merge";
+import { useGetMergeRequest } from "~/src/shared/api/generate/merge"
 
-interface MergeState {
-  baseBranchId: string;
-  targetBranchId: string;
-  baseContent: string;
-  targetContent: string;
-  mergedContent: string;
-  diff: {
-    added: string[];
-    removed: string[];
-    unchanged: string[];
-  };
+type UseMergeProps = {
+  articleId: string
 }
 
-type useMergeProps = {
-  articleId: string, 
-  targetBranchId: string, 
-  baseBranchId: string, 
-  baseContent: string, 
-  targetContent: string
-}
+export function useMerge({ articleId } : UseMergeProps) {
 
-export function useMerge({
-    articleId,
-    baseBranchId,
-    baseContent,
-    targetBranchId,
-    targetContent,
-  }: useMergeProps) {
+  const baseBranchId = ref<string>()
+  const currentBranchId = ref<string>()
 
-  const mergeState = ref<MergeState>({
-    baseBranchId: baseBranchId,
-    targetBranchId: targetBranchId,
-    baseContent: baseContent,
-    targetContent: targetContent,
-    mergedContent: '',
-    diff: {
-      added: [],
-      removed: [],
-      unchanged: []
-    }
-  });
+  const { data, mutate } = useGetMergeRequest()  
 
-
-  const calculateDiff = () => {
-    // TODO: заменить алогорити на другой
-    const base = mergeState.value.baseContent.split(' ');
-    const target = mergeState.value.targetContent.split(' ');
-    
-    mergeState.value.diff = {
-      added: target.filter(word => !base.includes(word)),
-      removed: base.filter(word => !target.includes(word)),
-      unchanged: base.filter(word => target.includes(word))
-    };
-  };
-
-  const updateEditedContent = (content: string) => {
-    mergeState.value.mergedContent = content;
-  };
-
-  const { mutate: saveMergedVersion, isPending: isSaving } = useMergeVersion()
+  function deleteItem(index: number) {
+    // if (!article.value)
+    //   return
   
-  const saveMerge = async () => {
-    try {
-      await saveMergedVersion({
-        articleId,
-        branchId: mergeState.value.baseBranchId,
-        data: {
-          text: mergeState.value.mergedContent,
-        }
-      });
-      return true;
-    } catch (error) {
-      console.error('Merge save failed:', error);
-      return false;
-    }
-  };
+    //   article.value.splice(index, 1)
+  }
+  
 
   return {
-    mergeState,
-    isSaving,
-    calculateDiff,
-    updateEditedContent,
-    saveMerge
+    data,
+    mutate,
+    baseBranchId,
+    deleteItem,
+    currentBranchId
   }
+
 }

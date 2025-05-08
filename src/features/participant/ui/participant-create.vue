@@ -3,6 +3,7 @@ import { useParticipantCreate } from '../model/use-participant-create';
 import type { FormSubmitEvent } from "#ui/types";
 import type { z } from 'zod';
 import { usePermissionLevels } from '../model/use-permission-levels';
+import { ArticlePermissionLevel } from '~/src/shared/api/model';
 
 const { t } = useI18n()
 
@@ -11,52 +12,63 @@ const { articleId } = defineProps<{
 }>()
 
 const { permission } = usePermissionLevels()
-
 const { error, isPending, mutation, schema } = useParticipantCreate()
 
 type Schema = z.output<typeof schema>
 
-interface FormState {
-  email?: string
-  permissionLevel: number
-}
-
-const formState: FormState = reactive({
+const formState = reactive({
     email: '',
-    permissionLevel: 1
+    permissionLevel: ArticlePermissionLevel.NUMBER_1
 })
 
 function submit(e: FormSubmitEvent<Schema>) {
-    const data = e.data
     mutation({
-        articleId: articleId,
-        data
+        articleId,
+        data: {
+            email: e.data.email,
+            permissionLevel: e.data.permissionLevel
+        }
     })
 }
-
 </script>
 
 <template>
-    <UForm :state="formState" :schema="schema" @submit="submit">
-        <UCard>
+    <UForm :state="formState" :schema="schema" @submit="submit" class="flex flex-col gap-4">
+        <UCard :ui="{ body: { base: 'flex-1 space-y-4' } }">
             <template #header>
-                Добавить дебила
+                <h3 class="text-base font-semibold">{{ $t('PARTICIPANT.INVITE') }}</h3>
             </template>
-            
-            <div>
-                <UFormGroup>
-                    <UInput icon="i-heroicons-envelope" v-model="formState.email" id="email" name="email" color="gray" variant="outline" :placeholder="$t('INPUT.EMAIL')" type="text" />
-                </UFormGroup>
-                <UFormGroup>
-                    <USelect
-                        v-model="formState.permissionLevel"
-                        :options="permission"
-                    />
-                </UFormGroup>
-            </div>
+
+            <UFormGroup :label="$t('INPUT.EMAIL')" name="email">
+                <UInput
+                    v-model="formState.email"
+                    icon="i-heroicons-envelope"
+                    name="email"
+                    color="gray"
+                    variant="outline"
+                    :placeholder="$t('INPUT.EMAIL')"
+                    type="text"
+                />
+            </UFormGroup>
+
+            <UFormGroup :label="$t('PARTICIPANT.PERMISSION_LEVEL')" name="permissionLevel">
+                <USelect
+                    v-model.number="formState.permissionLevel"
+                    :options="permission"
+                    :placeholder="$t('PARTICIPANT.SELECT_PERMISSION')"
+                />
+            </UFormGroup>
 
             <template #footer>
-                <UButton :loading="isPending" type="submit" block color="primary">{{ $t("CREATE") }}</UButton>
+                <UButton
+                    type="submit"
+                    :loading="isPending"
+                    :disabled="isPending"
+                    block
+                    color="primary"
+                >
+                    {{ $t("PARTICIPANT.INVITE") }}
+                </UButton>
             </template>
         </UCard>
     </UForm>
