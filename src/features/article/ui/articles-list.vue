@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { useArticleGetAll } from "~/src/shared/api/generate/article";
-import CardArticle from "~/src/shared/ui/card-article.vue";
+import type { Article } from '~/src/shared/api/model';
+import CardArticle from '~/src/shared/ui/card-article.vue';
 
-const { data, isPending } = useArticleGetAll();
+const { articles } = defineProps<{
+    articles: Article[]
+}>()
 
 </script>
 
 <template>
   <div class="flex gap-2 flex-wrap">
     <CardArticle
-        v-if="data"
-        v-for="article in data"
+        v-if="articles"
+        v-for="article in articles"
         :id="article.id"
         :article="article"
     />
-    <USkeleton v-if="isPending" v-for="item in 10" :key="item" class="w-[427px] h-[151px]" />
   </div>
 </template>
 

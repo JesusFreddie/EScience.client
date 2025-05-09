@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Account from "~/src/features/account/ui/account.vue";
 import type {ProfileDto} from "~/src/shared/api/model";
 const route = useRoute()
 const accountName = route.params.accountName
@@ -16,14 +17,12 @@ if (error.value?.statusCode == 404) {
     statusMessage: "Account not found"
   });
 }
-const account = data;
 
 </script>
 
 <template>
- <div v-if="account">
-   {{ account.name }} 
-   {{ account.email }} 
+ <div v-if="data" class="justify-center h-full flex" >
+   <Account :account="data" />
  </div>
 </template>
 

@@ -43,3 +43,5 @@ export * from "./successResponse";
 export * from "./textDiff";
 export * from "./updateArticleRequest";
 export * from "./user";
+export * from "./articleGetByAccountIdParams";
+export * from "./entityCount";

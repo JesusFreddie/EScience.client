@@ -6,10 +6,11 @@ const { account } = defineProps<{
     account: ProfileDto
 }>()
 
+
 </script>
 
 <template>
-    <div>
+    <div class="flex flex-col gap-2">
         <div>
             <AccountInfo :account="account" />
         </div>

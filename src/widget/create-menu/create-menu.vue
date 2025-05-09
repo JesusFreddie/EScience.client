@@ -26,7 +26,7 @@ const items = [
     :items="items"
     :popper="{ placement: 'bottom-start' }"
   >
-    <UButton color="white"  variant="ghost" trailing-icon="ri:add-fill" />
+    <UButton variant="ghost" icon="material-symbols:add" />
   </UDropdown>
 
   <USlideover 

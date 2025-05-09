@@ -4,4 +4,7 @@ export default {
     REGISTER: '/register',
     ARTICLE: '/article',
     CREATE_ARTICLE: '/article/create',
+    ACCOUNT: {
+        PROFILE: "account"
+    }
 }

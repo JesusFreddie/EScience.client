@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\entities",
+    "\\src\\entities\\branch",
+    "\\src\\features",
+    "\\src\\features\\account",
+    "\\src\\features\\account\\model",
+    "\\src\\features\\account\\ui",
+    "\\src\\features\\auth",
+    "\\src\\features\\auth\\model"
+  ],
+  "SelectedNode": "\\src\\features\\auth\\model\\use-login-form.ts",
+  "PreviewInSolutionExplorer": false
+}

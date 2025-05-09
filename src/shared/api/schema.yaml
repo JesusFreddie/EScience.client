@@ -167,6 +167,68 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Article'
+  '/articles/id/{accountId}':
+    get:
+      tags:
+        - Article
+      operationId: ArticleGetByAccountId
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+  '/articles/count/{accountId}':
+    get:
+      tags:
+        - Article
+      operationId: ArticleGetCountByAccountId
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EntityCount'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityCount'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/EntityCount'
   '/articles/{articleId}':
     get:
       tags:
@@ -887,6 +949,13 @@ components:
         name:
           type: string
           nullable: true
+      additionalProperties: false
+    EntityCount:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int32
       additionalProperties: false
     GetMergeRequest:
       type: object

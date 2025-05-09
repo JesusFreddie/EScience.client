@@ -19,8 +19,10 @@ import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
 import type {
   Article,
+  ArticleGetByAccountIdParams,
   ArticleParticipant,
   CreateArticleRequest,
+  EntityCount,
   SetParticipantRequest,
   UpdateArticleRequest,
 } from "../model";
@@ -255,6 +257,211 @@ export function useArticleGetAll<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getArticleGetAllQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
+
+export const articleGetByAccountId = (
+  accountId: MaybeRef<string>,
+  params?: MaybeRef<ArticleGetByAccountIdParams>,
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  accountId = unref(accountId);
+  params = unref(params);
+
+  return createInstance<Article[]>(
+    {
+      url: `/articles/id/${accountId}`,
+      method: "GET",
+      params: unref(params),
+      signal,
+    },
+    options,
+  );
+};
+
+export const getArticleGetByAccountIdQueryKey = (
+  accountId: MaybeRef<string>,
+  params?: MaybeRef<ArticleGetByAccountIdParams>,
+) => {
+  return ["articles", "id", accountId, ...(params ? [params] : [])] as const;
+};
+
+export const getArticleGetByAccountIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof articleGetByAccountId>>,
+  TError = unknown,
+>(
+  accountId: MaybeRef<string>,
+  params?: MaybeRef<ArticleGetByAccountIdParams>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof articleGetByAccountId>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getArticleGetByAccountIdQueryKey(accountId, params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof articleGetByAccountId>>
+  > = ({ signal }) =>
+    articleGetByAccountId(accountId, params, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: computed(() => !!unref(accountId)),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof articleGetByAccountId>>,
+    TError,
+    TData
+  >;
+};
+
+export type ArticleGetByAccountIdQueryResult = NonNullable<
+  Awaited<ReturnType<typeof articleGetByAccountId>>
+>;
+export type ArticleGetByAccountIdQueryError = unknown;
+
+export function useArticleGetByAccountId<
+  TData = Awaited<ReturnType<typeof articleGetByAccountId>>,
+  TError = unknown,
+>(
+  accountId: MaybeRef<string>,
+  params?: MaybeRef<ArticleGetByAccountIdParams>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof articleGetByAccountId>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getArticleGetByAccountIdQueryOptions(
+    accountId,
+    params,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
+
+export const articleGetCountByAccountId = (
+  accountId: MaybeRef<string>,
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  accountId = unref(accountId);
+
+  return createInstance<EntityCount>(
+    { url: `/articles/count/${accountId}`, method: "GET", signal },
+    options,
+  );
+};
+
+export const getArticleGetCountByAccountIdQueryKey = (
+  accountId: MaybeRef<string>,
+) => {
+  return ["articles", "count", accountId] as const;
+};
+
+export const getArticleGetCountByAccountIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof articleGetCountByAccountId>>,
+  TError = unknown,
+>(
+  accountId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof articleGetCountByAccountId>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getArticleGetCountByAccountIdQueryKey(accountId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof articleGetCountByAccountId>>
+  > = ({ signal }) =>
+    articleGetCountByAccountId(accountId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: computed(() => !!unref(accountId)),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof articleGetCountByAccountId>>,
+    TError,
+    TData
+  >;
+};
+
+export type ArticleGetCountByAccountIdQueryResult = NonNullable<
+  Awaited<ReturnType<typeof articleGetCountByAccountId>>
+>;
+export type ArticleGetCountByAccountIdQueryError = unknown;
+
+export function useArticleGetCountByAccountId<
+  TData = Awaited<ReturnType<typeof articleGetCountByAccountId>>,
+  TError = unknown,
+>(
+  accountId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof articleGetCountByAccountId>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getArticleGetCountByAccountIdQueryOptions(
+    accountId,
+    options,
+  );
 
   const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

@@ -2,6 +2,7 @@
 import CreateMenu from "~/src/widget/create-menu/create-menu.vue";
 import ROUTE from "~/src/shared/consts/ROUTE";
 import ProfilePopover from "../profile-sidebar/profile-popover.vue";
+import Notification from "../notification/notification.vue";
 
 </script>
 
@@ -12,7 +13,7 @@ import ProfilePopover from "../profile-sidebar/profile-popover.vue";
     </div>
     <div class="flex items-center justify-between gap-3">
       <CreateMenu/>
-      <!-- <ProfileIcon/> -->
+      <Notification/>
       <ProfilePopover/>
     </div>
   </header>

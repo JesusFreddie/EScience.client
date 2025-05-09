@@ -1,0 +1,73 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "J:\\developer\\test\\nuxt\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|J:\\developer\\test\\nuxt\\src\\features\\auth\\model\\use-login-form.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\features\\auth\\model\\use-login-form.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|J:\\developer\\test\\nuxt\\src\\features\\account\\ui\\account-card.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\features\\account\\ui\\account-card.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|J:\\developer\\test\\nuxt\\src\\features\\account\\model\\use-account.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\features\\account\\model\\use-account.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "use-login-form.ts",
+              "DocumentMoniker": "J:\\developer\\test\\nuxt\\src\\features\\auth\\model\\use-login-form.ts",
+              "RelativeDocumentMoniker": "src\\features\\auth\\model\\use-login-form.ts",
+              "ToolTip": "J:\\developer\\test\\nuxt\\src\\features\\auth\\model\\use-login-form.ts",
+              "RelativeToolTip": "src\\features\\auth\\model\\use-login-form.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-05-09T04:52:36.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "use-account.ts",
+              "DocumentMoniker": "J:\\developer\\test\\nuxt\\src\\features\\account\\model\\use-account.ts",
+              "RelativeDocumentMoniker": "src\\features\\account\\model\\use-account.ts",
+              "ToolTip": "J:\\developer\\test\\nuxt\\src\\features\\account\\model\\use-account.ts",
+              "RelativeToolTip": "src\\features\\account\\model\\use-account.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-05-09T04:52:29.806Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "account-card.vue",
+              "DocumentMoniker": "J:\\developer\\test\\nuxt\\src\\features\\account\\ui\\account-card.vue",
+              "RelativeDocumentMoniker": "src\\features\\account\\ui\\account-card.vue",
+              "ToolTip": "J:\\developer\\test\\nuxt\\src\\features\\account\\ui\\account-card.vue",
+              "RelativeToolTip": "src\\features\\account\\ui\\account-card.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-05-09T04:52:22.537Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

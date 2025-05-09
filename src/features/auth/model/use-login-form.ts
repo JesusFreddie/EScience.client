@@ -1,6 +1,5 @@
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { z } from "zod";
-import errorMap from "zod/locales/en.js";
 import { useAuthLogin } from "~/src/shared/api/generate/auth";
 import { useErrorToast } from "~/src/shared/composable/useErrorToast";
 import ROUTE from "~/src/shared/consts/ROUTE";

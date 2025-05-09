@@ -10,12 +10,12 @@ const { account } = defineProps<{
 
 <template>
     <div>
-        <div class="flex">
+        <div class="flex items-center">
             <div>
-                <UAvatar :src="account.id" :ui="{
+                <UAvatar :alt="account.name" :src="'https://avatars.githubusercontent.com/u/739984?v=4'" :ui="{
                     background: 'bg-gray-100 dark:bg-gray-800',
-                    placeholder: 'text-gray-500 dark:text-gray-400'
-                }" class="w-[32px] h-[32px]" size="md" />
+                    placeholder: 'text-gray-500 dark:text-gray-400',
+                }" class="w-[110px] h-[110px]" size="3xl" />
             </div>
             <div>
                 <p>{{ account.name }}</p>
@@ -23,6 +23,6 @@ const { account } = defineProps<{
                 <p>{{ account.email }}</p>
             </div>
         </div>
-        <UButton block>{{ $t('EDIT') }}</UButton>
+        <UButton class="mt-2" variant="outline" block>{{ $t('EDIT') }}</UButton>
     </div>
 </template>

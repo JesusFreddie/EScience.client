@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ArticlesList from "~/src/features/article/ui/articles-list.vue";
+import ArticlesList from "~/src/features/article/ui/articles.vue";
 const { t } = useI18n()
 
 useHead({

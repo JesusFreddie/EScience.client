@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAccountSession } from '~/src/shared/api/generate/account';
 import ProfileIcon from '../profile-icon/profile-icon.vue';
+import ROUTE from '~/src/shared/consts/ROUTE';
 
 const { t } = useI18n()
 
@@ -18,6 +19,9 @@ const items = [
     },
     {
       label: t('SETTINGS'),
+      click: () => {
+        navigateTo(ROUTE.ACCOUNT.PROFILE + `/${data.value!.name}`)
+      }
     },
     {
       label: t('AUTH.LOGOUT')
