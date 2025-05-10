@@ -1,10 +1,13 @@
+import https from 'https'
+
 export default defineNuxtConfig({
   dir: {
     pages: 'src/pages',
     layouts: 'src/layouts',
   },
-  compatibilityDate: '2024-11-01',
+
   devtools: { enabled: true },
+
   modules: [
     '@vueuse/nuxt',
     '@nuxt/ui',
@@ -15,21 +18,26 @@ export default defineNuxtConfig({
     'nuxt-typed-router',
     '@vee-validate/nuxt',
   ],
+
   plugins: [
-      '~/plugins/theme.client.ts',
+    '~/plugins/theme.client.ts',
   ],
+
   fonts: {
     families: [
       { name: "montserrat", provider: "google" }
     ]
   },
+
   css: [
-      '~/assets/css/tailwind.css',
-      '~/assets/css/tiptap.css',
+    '~/assets/css/tailwind.css',
+    '~/assets/css/tiptap.css',
   ],
+
   tailwindcss: {
     configPath: '~/tailwind.config.js',
   },
+
   i18n: {
     locales: [
       {
@@ -53,23 +61,43 @@ export default defineNuxtConfig({
       redirectOn: 'root',
     },
   },
+
   nitro: {
-    devProxy: {
-      '/api' : {
-        target: 'https://localhost:7099/',
-        changeOrigin: true,
-        secure: false,
+    routeRules: {
+      // Проксирование для production
+      '/api/**': {
+        proxy: {
+          to: process.env.API_BASE_URL || 'https://localhost:7099/**',
+          // Или если API требует полного пути:
+          // to: (process.env.API_BASE_URL || 'https://localhost:7099') + '/api/**',
+        },
+        // Добавляем CORS заголовки если нужно
+        cors: true,
+        headers: {
+          // Важные заголовки для ASP.NET Core
+          'X-Forwarded-Proto': 'https',
+          'X-Forwarded-Host': process.env.HOST_HEADER || 'localhost:3000'
+        },
       }
     },
-    routeRules: {
-      '/api/**' : {
-        proxy: 'https://localhost:7099/**',
-        headers: {
-            'X-Forwarded-Proto': 'https',
-            'X-Forwarded-Host': 'localhost:3000'
-        },
-        
+    // Настройки для разработки
+    devProxy: {
+      '/api': {
+        ws: true,
+        target: process.env.API_BASE_URL || 'https://localhost:7099',
+        changeOrigin: true,
+        secure: false,
+        // Для ASP.NET Core HTTPS
+        agent: new https.Agent({ rejectUnauthorized: false })
       }
     }
-  }
+  },
+
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api'
+    }
+  },
+
+  compatibilityDate: '2025-05-10'
 })

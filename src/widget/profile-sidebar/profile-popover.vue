@@ -2,6 +2,9 @@
 import { useAccountSession } from '~/src/shared/api/generate/account';
 import ProfileIcon from '../profile-icon/profile-icon.vue';
 import ROUTE from '~/src/shared/consts/ROUTE';
+import { useProfileStore } from '~/src/shared/store/auth.store';
+
+const authStore = useProfileStore()
 
 const { t } = useI18n()
 
@@ -9,19 +12,26 @@ const emit = defineEmits(['update:isOpen'])
 
 const { data, isPending } = useAccountSession()
 
+watch(data, (newValue) => {
+  if (newValue) {
+    authStore.setProfile(newValue)
+  }
+})
+
 const items = [
   [
     {
       label: t('PROFILE'),
       avatar: {
         src: 'https://avatars.githubusercontent.com/u/739984?v=4'
+      },
+      click: () => {
+        navigateTo(data.value!.name!)
       }
     },
     {
       label: t('SETTINGS'),
-      click: () => {
-        navigateTo(ROUTE.ACCOUNT.PROFILE + `/${data.value!.name}`)
-      }
+      
     },
     {
       label: t('AUTH.LOGOUT')

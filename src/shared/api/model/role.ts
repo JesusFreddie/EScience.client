@@ -7,6 +7,8 @@
 
 export interface Role {
   id?: number;
+  createdAt?: string;
+  updatedAt?: string;
   /** @nullable */
   name?: string | null;
 }

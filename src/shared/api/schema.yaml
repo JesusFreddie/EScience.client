@@ -699,6 +699,63 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TextDiff'
+  /notification:
+    get:
+      tags:
+        - Notification
+      operationId: NotificationGet
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+  '/notification/{id}/read':
+    put:
+      tags:
+        - Notification
+      operationId: NotificationMarkRead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+  /notification/count-unread:
+    get:
+      tags:
+        - Notification
+      operationId: NotificationCountUnread
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EntityCount'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityCount'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/EntityCount'
 components:
   schemas:
     Account:
@@ -981,6 +1038,39 @@ components:
           type: string
           nullable: true
       additionalProperties: false
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        account_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        type:
+          $ref: '#/components/schemas/NotificationType'
+        is_read:
+          type: boolean
+        readed_date:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+      additionalProperties: false
+    NotificationType:
+      enum:
+        - 1
+        - 2
+        - 3
+      type: integer
+      format: int32
     ParticipantInviteRequest:
       type: object
       properties:
@@ -1022,6 +1112,12 @@ components:
         id:
           type: integer
           format: int32
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
         name:
           type: string
           nullable: true

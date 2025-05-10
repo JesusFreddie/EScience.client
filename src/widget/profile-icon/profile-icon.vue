@@ -18,8 +18,7 @@ const isOpen = ref(false)
           background: 'bg-gray-100 dark:bg-gray-800',
           placeholder: 'text-gray-500 dark:text-gray-400'
         }"
-        class="w-[32px] h-[32px]"
-        size="md"
+        size="sm"
       />
     </div>
 
