@@ -102,7 +102,7 @@ export const notificationMarkRead = (
   id = unref(id);
 
   return createInstance<void>(
-    { url: `/notification/${id}/read`, method: "PUT" },
+    { url: `/notification/read/${id}`, method: "PUT" },
     options,
   );
 };
@@ -169,6 +169,78 @@ export const useNotificationMarkRead = <
   TContext
 > => {
   const mutationOptions = getNotificationMarkReadMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const notificationMarkReadAll = (
+  options?: SecondParameter<typeof createInstance>,
+) => {
+  return createInstance<void>(
+    { url: `/notification/read/all`, method: "PUT" },
+    options,
+  );
+};
+
+export const getNotificationMarkReadAllMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof notificationMarkReadAll>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof notificationMarkReadAll>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["notificationMarkReadAll"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof notificationMarkReadAll>>,
+    void
+  > = () => {
+    return notificationMarkReadAll(requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type NotificationMarkReadAllMutationResult = NonNullable<
+  Awaited<ReturnType<typeof notificationMarkReadAll>>
+>;
+
+export type NotificationMarkReadAllMutationError = unknown;
+
+export const useNotificationMarkReadAll = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof notificationMarkReadAll>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}): UseMutationReturnType<
+  Awaited<ReturnType<typeof notificationMarkReadAll>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationOptions = getNotificationMarkReadAllMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

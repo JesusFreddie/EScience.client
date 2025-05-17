@@ -723,7 +723,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Notification'
-  '/notification/{id}/read':
+  '/notification/read/{id}':
     put:
       tags:
         - Notification
@@ -735,6 +735,14 @@ paths:
           schema:
             type: integer
             format: int32
+      responses:
+        '200':
+          description: OK
+  /notification/read/all:
+    put:
+      tags:
+        - Notification
+      operationId: NotificationMarkReadAll
       responses:
         '200':
           description: OK

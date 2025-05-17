@@ -3,34 +3,64 @@ import NotificationCard from '~/src/shared/ui/notification/notification-card.vue
 import { useNotificationConnection } from './model/use-norification-connection';
 import { useNotification } from './model/use-notification';
 import NotificationIcon from './notification-icon.vue';
+import { useNotificationMarkRead } from '~/src/shared/api/generate/notification';
 
 const { isOpen, toggleNotification } = useNotificationConnection()
-const { countResult, notificationResult, isNotificationsPending } = useNotification()
+const { countResult, notificationResult, isNotificationsPending, mutateMarkReadAll, mutateMarkRead } = useNotification()
+
+const markNotificationAsRead = (id: number) => {
+  mutateMarkRead({ id: id })
+}
+
+const markAllAsRead = () => {
+  mutateMarkReadAll()
+}
 
 </script>
 
 <template>
-    <UChip v-if="countResult" :text="countResult.count" size="2xl">
+    <UChip v-if="countResult && countResult.count > 0" :text="countResult.count" size="2xl" color="primary">
         <NotificationIcon @click="toggleNotification" />
     </UChip>
     <NotificationIcon v-else @click="toggleNotification" />
     <USlideover class="flex-1 pr-2 py-2" v-model="isOpen" :ui="{
         rounded: 'rounded'
     }">
-        <div>
-            <div class="flex justify-between items-center gap-2">
+        <div class="h-full flex flex-col">
+            <div class="flex justify-between items-center gap-2 p-4 border-b border-gray-200">
                 <div>
-                    <p>{{ $t('NOTIFICATIONS') }}</p>
+                    <h2 class="text-xl font-semibold text-gray-800">{{ $t('NOTIFICATIONS') }}</h2>
                 </div>
                 <div>
-                    <UButton>+</UButton>
+                    <UButton 
+                      v-if="notificationResult && notificationResult.length > 0"
+                      color="gray" 
+                      variant="ghost" 
+                      @click="markAllAsRead"
+                      :disabled="notificationResult.every(n => n.is_read)"
+                    >
+                      {{ $t('MARK_ALL_AS_READ') }}
+                    </UButton>
                 </div>
             </div>
-            <div class="flex flex-col gap-2">
-                <NotificationCard v-if="notificationResult" v-for="notification in notificationResult"
-                    :notification="notification" />
-                <div v-if="isNotificationsPending">Loading notifications</div>
-                <div v-if="!isNotificationsPending && !notificationResult?.length">Not found</div>
+            <div class="flex-1 overflow-y-auto p-4">
+                <div class="flex flex-col gap-3">
+                    <NotificationCard 
+                      v-if="notificationResult" 
+                      v-for="notification in notificationResult"
+                      :key="notification.id"
+                      :notification="notification" 
+                      @mark-as-read="markNotificationAsRead"
+                    />
+                    <div v-if="isNotificationsPending" class="p-4 text-center text-gray-500">
+                      <UIcon name="i-heroicons-arrow-path" class="animate-spin mr-2" />
+                      {{ $t('LOADING') }}
+                    </div>
+                    <div v-if="!isNotificationsPending && !notificationResult?.length" class="p-4 text-center text-gray-500">
+                      <UIcon name="i-heroicons-bell-slash" class="mb-2 h-8 w-8" />
+                      <p>{{ $t('NO_NOTIFICATIONS') }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </USlideover>

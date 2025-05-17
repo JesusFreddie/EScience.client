@@ -12,6 +12,9 @@ const emit = defineEmits(['update:isOpen'])
 
 const { data, isPending } = useAccountSession()
 
+const isSettingsOpen = ref(false)
+const settingsComponent = ref<any>(null)
+
 watch(data, (newValue) => {
   if (newValue) {
     authStore.setProfile(newValue)
@@ -26,12 +29,15 @@ const items = [
         src: 'https://avatars.githubusercontent.com/u/739984?v=4'
       },
       click: () => {
-        navigateTo(data.value!.name!)
+        navigateTo('/' + data.value!.name!)
       }
     },
     {
       label: t('SETTINGS'),
-      
+      click: () => {
+        settingsComponent.value = defineAsyncComponent(() => import('./settings-component.vue'))
+        isSettingsOpen.value = true
+      }
     },
     {
       label: t('AUTH.LOGOUT')
@@ -45,6 +51,16 @@ const items = [
   <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
     <ProfileIcon url="https://avatars.githubusercontent.com/u/739984?v=4"/>
   </UDropdown>
+
+  <USlideover 
+    class="flex-1 pr-2 py-2" 
+    v-model="isSettingsOpen"
+    :ui="{
+      rounded: 'rounded'
+    }"
+  >
+    <component :is="settingsComponent" v-if="isSettingsOpen" />
+  </USlideover>
 </template>
 
 <style scoped>

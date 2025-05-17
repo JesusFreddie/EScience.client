@@ -2,13 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base editor styles */
 .ProseMirror {
     outline: none !important;
     caret-color: #1A3174;
-
     padding: 5px 10px;
-
     height: 100%;
+    font-family: inherit;
+    line-height: 1.5;
+    color: inherit;
 }
 
 .ProseMirror-focused {
@@ -25,9 +27,193 @@
     background: theme('colors.bg.dark.150');
 }
 
+/* Heading styles */
+.ProseMirror h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+}
+
+.ProseMirror h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+}
+
+.ProseMirror h3 {
+    font-size: 1.17em;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.ProseMirror h4 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+}
+
+.ProseMirror h5 {
+    font-size: 0.83em;
+    font-weight: bold;
+    margin-top: 1.67em;
+    margin-bottom: 1.67em;
+}
+
+.ProseMirror h6 {
+    font-size: 0.67em;
+    font-weight: bold;
+    margin-top: 2.33em;
+    margin-bottom: 2.33em;
+}
+
+/* Focus styles */
 .ProseMirror h1:focus,
 .ProseMirror h2:focus,
 .ProseMirror h3:focus {
     outline: none;
     border-left: 3px solid #1A3174;
+}
+
+/* List styles */
+.ProseMirror ul {
+    list-style-type: disc;
+    padding-left: 1.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.ProseMirror ol {
+    list-style-type: decimal;
+    padding-left: 1.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.ProseMirror li {
+    margin-bottom: 0.5em;
+}
+
+/* Text formatting */
+.ProseMirror strong {
+    font-weight: bold;
+}
+
+.ProseMirror em {
+    font-style: italic;
+}
+
+.ProseMirror u {
+    text-decoration: underline;
+}
+
+.ProseMirror s {
+    text-decoration: line-through;
+}
+
+.ProseMirror blockquote {
+    border-left: 3px solid #ccc;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    font-style: italic;
+}
+
+.ProseMirror code {
+    background-color: rgba(#616161, 0.1);
+    color: #616161;
+    font-family: monospace;
+    padding: 0.25em;
+    border-radius: 0.25em;
+}
+
+.ProseMirror pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: monospace;
+    padding: 0.75em 1em;
+    border-radius: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* Paragraph spacing and size */
+.ProseMirror p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 1rem; /* Explicitly set a reasonable font size */
+}
+
+/* Table styles */
+.ProseMirror table {
+    border-collapse: collapse;
+    margin: 1em 0;
+    overflow: hidden;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.ProseMirror table td,
+.ProseMirror table th {
+    border: 2px solid #ced4da;
+    box-sizing: border-box;
+    min-width: 1em;
+    padding: 0.5em;
+    position: relative;
+    vertical-align: top;
+}
+
+.ProseMirror table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    text-align: left;
+}
+
+.ProseMirror table .selectedCell:after {
+    background: rgba(200, 200, 255, 0.4);
+    content: "";
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 2;
+}
+
+/* Image styles */
+.ProseMirror img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+    border-radius: 4px;
+}
+
+/* YouTube video styles */
+.ProseMirror iframe {
+    max-width: 100%;
+    display: block;
+    margin: 1em auto;
+    border-radius: 4px;
+}
+
+/* Math formula styles */
+.ProseMirror .math-formula {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 0.2em 0.4em;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    display: inline-block;
+    margin: 0 0.2em;
+}
+
+/* Link styles */
+.ProseMirror a {
+    color: #1A3174;
+    text-decoration: underline;
+    cursor: pointer;
 }

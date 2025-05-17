@@ -1,4 +1,8 @@
-import { useNotificationCountUnread, useNotificationGet } from "~/src/shared/api/generate/notification"
+import {
+    useNotificationCountUnread,
+    useNotificationGet,
+    useNotificationMarkRead, useNotificationMarkReadAll
+} from "~/src/shared/api/generate/notification"
 
 export function useNotification() {
 
@@ -6,9 +10,14 @@ export function useNotification() {
 
     const { data: notificationResult } = useNotificationGet()
 
+    const { mutate: mutateMarkRead } = useNotificationMarkRead()
+    const { mutate: mutateMarkReadAll } = useNotificationMarkReadAll()
+
     return {
         countResult,
         notificationResult,
-        isNotificationsPending
+        isNotificationsPending,
+        mutateMarkRead,
+        mutateMarkReadAll,
     }
 }

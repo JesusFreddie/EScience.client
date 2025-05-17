@@ -17,7 +17,7 @@ const { article, branch } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'checkoutBrach', name: string): void
+  (e: 'checkoutBranch', name: string): void
 }>()
 
 const isOpenCreateBranch = ref(false)
@@ -26,7 +26,7 @@ function openCreateBranchModal() {
 }
 
 const isOpenCreateMerge = ref(false)
-function openCraeteMergeModal() {
+function openCreateMergeModal() {
   isOpenCreateMerge.value = true
 }
 
@@ -45,7 +45,7 @@ if (!article.articleBranches || !article.articleBranches[0].id) {
   console.error('CUSTOM ERROR: No branches available');
 }
 
-const { data, isPending: isLoadingVer, refetch: fetchBranch } = useVersionGetLast(article.id!, article.articleBranches![0].id!)
+const { data, isPending: isLoadingVer, refetch: fetchBranch } = useVersionGetLast(article.id!, currentBranch.value.id)
 const { data: branches, isPending: branchLoading, refetch: fetchBranches } = useBranchGetAll(article.id!, {
   query: {
     enabled: false
@@ -90,6 +90,26 @@ watch(currentBranch, (value) => {
   console.log(value)
 })
 
+watch(() => branch, async (newBranch) => {
+  if (newBranch) {
+    if (!branches.value) {
+      await fetchBranches()
+    }
+
+    if (branches.value) {
+      const foundBranch = branches.value.find(b => b.name === newBranch)
+      if (foundBranch) {
+        currentBranch.value = {
+          label: foundBranch.name || "",
+          value: foundBranch.name || "",
+          id: foundBranch.id || ""
+        }
+        fetchBranch()
+      }
+    }
+  }
+}, { immediate: true })
+
 function onOpenSelectBranches(isOpen: boolean) {
   if (isOpen && !branches.value) {
     fetchBranches();
@@ -97,7 +117,7 @@ function onOpenSelectBranches(isOpen: boolean) {
 }
 
 function onCheckoutBranch(name: string) {
-  emit("checkoutBrach", name)
+  emit("checkoutBranch", name)
   fetchBranch()
 }
 
@@ -130,6 +150,7 @@ const branchesOptions = computed(() => {
     </UModal>
     <UModal v-model="isOpenCreateMerge" fullscreen>
       <div class="h-[90vh]">
+
         <UButton 
           color="gray" 
           variant="ghost" 
@@ -162,7 +183,7 @@ const branchesOptions = computed(() => {
           <div>
             <ArticleBranches :branches="branchesOptions" :current-branch="currentBranch"
               @on-checkout-branch="onCheckoutBranch" @on-open-select="onOpenSelectBranches"
-              @on-open-create-branch="openCreateBranchModal" @on-open-create-merge="openCraeteMergeModal" />
+              @on-open-create-branch="openCreateBranchModal" @on-open-create-merge="openCreateMergeModal" />
           </div>
 
           <div>

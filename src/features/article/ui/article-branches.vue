@@ -28,7 +28,7 @@ function onOpenCreateBranch() {
   emit('onOpenCreateBranch')
 }
 
-function onOpenCreaetMerge() {
+function onOpenCreateMerge() {
   emit('onOpenCreateMerge')
 }
 
@@ -59,12 +59,12 @@ function onOpenCreaetMerge() {
               {{ $t('FORM.BRANCHES.CREATE') }}
             </UButton>
             <UButton 
-              @click="onOpenCreaetMerge"
+              @click="onOpenCreateMerge"
               variant="ghost"
               >
               {{ $t('FORM.MERGE.CREATE') }}
             </UButton>
-            
+
           </div>
 
           <UDivider />

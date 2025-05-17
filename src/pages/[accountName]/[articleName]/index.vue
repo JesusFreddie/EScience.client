@@ -36,7 +36,7 @@ if (error.value) {
 
 async function checkoutBranch(name: string) {
   currentBranch.value = name
-  
+
   await router.push({
     query: {
       ...route.query,
@@ -52,14 +52,18 @@ watch(() => route.query.branchName, (newBranchName) => {
   }
 }, { immediate: true })
 
+function lol() {
+  console.log("ASDASDASD")
+}
+
 </script>
 
 <template>
-  <div v-if="data" class="flex justify-center h-full">
-    <Article 
+  <div @scroll="lol" v-if="data" class="flex justify-center h-full">
+    <Article
       :article="data" 
       :branch="currentBranch"
-      @checkout-brach="checkoutBranch"
+      @checkout-branch="checkoutBranch"
       :key="`${accountName}-${articleName}-${currentBranch}`"
     />
   </div>
