@@ -764,6 +764,75 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/EntityCount'
+  /profile/avatar:
+    post:
+      tags:
+        - Profile
+      operationId: ProfileUploadAvatar
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+            encoding:
+              file:
+                style: form
+      responses:
+        '200':
+          description: OK
+  '/profile/avatars/{userId}':
+    get:
+      tags:
+        - Profile
+      operationId: ProfileGetAvatars
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: binary
+            application/json:
+              schema:
+                type: string
+                format: binary
+            text/json:
+              schema:
+                type: string
+                format: binary
+  /profile/avatars/session:
+    get:
+      tags:
+        - Profile
+      operationId: ProfileGetAvatarSession
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: binary
+            application/json:
+              schema:
+                type: string
+                format: binary
+            text/json:
+              schema:
+                type: string
+                format: binary
 components:
   schemas:
     Account:
@@ -1169,6 +1238,12 @@ components:
         end:
           type: integer
           format: int32
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/TextDiff'
+          nullable: true
+          readOnly: true
       additionalProperties: false
     UpdateArticleRequest:
       type: object

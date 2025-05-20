@@ -11,4 +11,6 @@ export interface TextDiff {
   isOriginal?: boolean;
   start?: number;
   end?: number;
+  /** @nullable */
+  readonly children?: readonly TextDiff[] | null;
 }

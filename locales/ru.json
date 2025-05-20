@@ -9,7 +9,8 @@
     "LOGIN": "Войти",
     "ERROR": {
       "INVALID_EMAIL": "Некорректный email"
-    }
+    },
+    "LOGOUT": "Выйти"
   },
   "INPUT": {
     "EMAIL": "Email",
@@ -25,7 +26,8 @@
     "DEFAULT": "Статья",
     "CREATE": "Создать",
     "ARTICLES": "Статьи",
-    "DESCRIPTION": "Описание"
+    "DESCRIPTION": "Описание",
+    "EDIT": "Редактировать статью"
   },
   "FORM": {
     "UPDATE": "Обновить",
@@ -36,4 +38,54 @@
       "PRIVATE": "Приватный"
     }
   },
+  "NOTIFICATIONS": "Уведомления",
+  "MARK_ALL_AS_READ": "Отметить все как прочитанные",
+  "LOADING": "Загрузка...",
+  "NO_NOTIFICATIONS": "Нет уведомлений",
+  "PROFILE": "Профиль",
+  "SETTINGS": "Настройки",
+  "THEME": "Тема",
+  "LANGUAGE": "Язык",
+  "PARTICIPANTS": {
+    "MANY": "Участники"
+  },
+  "PARTICIPANT": {
+    "INVITE": "Пригласить участника",
+    "PERMISSION_LEVEL": "Уровень доступа",
+    "SELECT_PERMISSION": "Выберите уровень доступа"
+  },
+  "EDIT": "Редактировать",
+  "EDIT_PROFILE": "Редактировать профиль",
+  "EMAIL": "Email",
+  "CANCEL": "Отмена",
+  "SAVE": "Сохранить",
+  "NAME": "Имя",
+  "AVATAR": "Аватар",
+  "CHANGE_AVATAR": "Изменить аватар",
+  "UPLOAD_AVATAR": "Загрузить аватар",
+  "CHOOSE_FILE": "Выбрать файл",
+  "PERMISSION": {
+    "VIEWER": "Просмотр",
+    "EDITOR_BRANCHES": "Редактор веток",
+    "EDITOR": "Редактор",
+    "AUTHOR": "Автор"
+  },
+  "CONFIRM": "Подтвердить",
+  "DECLINE": "Отклонить",
+  "TIME_AGO": {
+    "JUST_NOW": "только что",
+    "SECONDS_AGO": "{n} секунд назад",
+    "MINUTE_AGO": "минуту назад",
+    "MINUTES_AGO": "{n} минут назад",
+    "HOUR_AGO": "час назад",
+    "HOURS_AGO": "{n} часов назад",
+    "DAY_AGO": "день назад",
+    "DAYS_AGO": "{n} дней назад",
+    "WEEK_AGO": "неделю назад",
+    "WEEKS_AGO": "{n} недель назад",
+    "MONTH_AGO": "месяц назад",
+    "MONTHS_AGO": "{n} месяцев назад",
+    "YEAR_AGO": "год назад",
+    "YEARS_AGO": "{n} лет назад"
+  }
 }

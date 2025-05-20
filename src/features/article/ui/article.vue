@@ -10,6 +10,7 @@ import ArticleBranches from "./article-branches.vue";
 import ArticleCreateBranch from "./form/article-create-branch.vue";
 import ArticleEditorAvatar from "./article-editor-avatar.vue";
 import ArticleMenu from "./article-menu.vue";
+import { useTimeAgoMessage } from "~/src/shared/composable/useTimeAgoMessage";
 
 const { article, branch } = defineProps<{
   article: Article,
@@ -31,8 +32,6 @@ function openCreateMergeModal() {
 }
 
 const saveTimeout = ref<NodeJS.Timeout>()
-
-const versionUpdateAgo = ref('')
 
 const editorContent = ref<string>("")
 const currentBranch = ref<BranchOptions>({
@@ -78,11 +77,13 @@ watch(data, (newData) => {
   }
 }, { immediate: true })
 
+const versionUpdateAgo = ref('')
+const { setTimeAgoMessage } = useTimeAgoMessage()
+
 watch(() => data.value?.updatedAt, (newValue) => {
-  console.log(newValue)
   if (newValue) {
-    const { value } = useTimeAgo(newValue) // TODO: переписать на другую библиотеку, это не локализует и не учитывает таймзону
-    versionUpdateAgo.value = value
+    var date = setTimeAgoMessage(newValue)
+    versionUpdateAgo.value = date.value
   }
 }, { immediate: true })
 
@@ -131,8 +132,6 @@ const branchesOptions = computed(() => {
     id: branch.id || ""
   }));
 });
-
-// const { data: targetVersion } = useVersionGetLast(article.id!, '10a399a8-56cb-4579-98b3-61664a8403d3');
 
 </script>
 

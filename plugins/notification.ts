@@ -9,7 +9,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const connection = new HubConnectionBuilder()
     .withUrl("https://localhost:7099/hubs/notification", {
       withCredentials: true, // Обязательно!
-      skipNegotiation: true, // Пропускаем negotiate
+      // Removed skipNegotiation: true as it causes issues with WebSockets
       transport: HttpTransportType.WebSockets,
     })
     .configureLogging(LogLevel.Debug)

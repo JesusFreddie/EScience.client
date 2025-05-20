@@ -9,7 +9,8 @@
     "LOGIN": "Login",
     "ERROR": {
       "INVALID_EMAIL": "Invalid Email"
-    }
+    },
+    "LOGOUT": "Logout"
   },
   "INPUT": {
     "EMAIL": "Email",
@@ -25,7 +26,8 @@
     "DEFAULT": "Article",
     "CREATE": "Create",
     "ARTICLES": "Articles",
-    "DESCRIPTION": "Description"
+    "DESCRIPTION": "Description",
+    "EDIT": "Edit Article"
   },
   "FORM": {
     "UPDATE": "Update",
@@ -35,5 +37,55 @@
       "DESCRIPTION": "Description",
       "PRIVATE": "Private"
     }
+  },
+  "NOTIFICATIONS": "Notifications",
+  "MARK_ALL_AS_READ": "Mark all as read",
+  "LOADING": "Loading...",
+  "NO_NOTIFICATIONS": "No notifications",
+  "PROFILE": "Profile",
+  "SETTINGS": "Settings",
+  "THEME": "Theme",
+  "LANGUAGE": "Language",
+  "PARTICIPANTS": {
+    "MANY": "Participants"
+  },
+  "PARTICIPANT": {
+    "INVITE": "Invite Participant",
+    "PERMISSION_LEVEL": "Permission Level",
+    "SELECT_PERMISSION": "Select Permission"
+  },
+  "EDIT": "Edit",
+  "EDIT_PROFILE": "Edit Profile",
+  "EMAIL": "Email",
+  "CANCEL": "Cancel",
+  "SAVE": "Save",
+  "NAME": "Name",
+  "AVATAR": "Avatar",
+  "CHANGE_AVATAR": "Change Avatar",
+  "UPLOAD_AVATAR": "Upload Avatar",
+  "CHOOSE_FILE": "Choose File",
+  "PERMISSION": {
+    "VIEWER": "Viewer",
+    "EDITOR_BRANCHES": "Branch Editor",
+    "EDITOR": "Editor",
+    "AUTHOR": "Author"
+  },
+  "CONFIRM": "Confirm",
+  "DECLINE": "Decline",
+  "TIME_AGO": {
+    "JUST_NOW": "just now",
+    "SECONDS_AGO": "{n} seconds ago",
+    "MINUTE_AGO": "a minute ago",
+    "MINUTES_AGO": "{n} minutes ago",
+    "HOUR_AGO": "an hour ago",
+    "HOURS_AGO": "{n} hours ago",
+    "DAY_AGO": "a day ago",
+    "DAYS_AGO": "{n} days ago",
+    "WEEK_AGO": "a week ago",
+    "WEEKS_AGO": "{n} weeks ago",
+    "MONTH_AGO": "a month ago",
+    "MONTHS_AGO": "{n} months ago",
+    "YEAR_AGO": "a year ago",
+    "YEARS_AGO": "{n} years ago"
   }
 }

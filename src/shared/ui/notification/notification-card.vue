@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Notification } from '../../api/model';
+import { NotificationType } from '../../api/model/notificationType';
 
 const { notification } = defineProps<{
     notification: Notification
@@ -7,13 +8,34 @@ const { notification } = defineProps<{
 
 const emit = defineEmits<{
     (e: 'markAsRead', id: number): void
+    (e: 'confirmInvite', id: number): void
+    (e: 'declineInvite', id: number): void
 }>()
 
 const handleClick = () => {
+    if (notification.is_read)
+      return
+
     if (notification.id) {
         emit('markAsRead', notification.id)
     }
 }
+
+const confirmInvite = (event: Event) => {
+    event.stopPropagation()
+    if (notification.id) {
+        emit('confirmInvite', notification.id)
+    }
+}
+
+const declineInvite = (event: Event) => {
+    event.stopPropagation()
+    if (notification.id) {
+        emit('declineInvite', notification.id)
+    }
+}
+
+const isInvite = notification.type === NotificationType.NUMBER_3
 
 </script>
 
@@ -30,6 +52,10 @@ const handleClick = () => {
         </div>
         <div class="mt-2 text-xs text-gray-400">
             {{ new Date(notification.created_at || '').toLocaleString() }}
+        </div>
+        <div v-if="isInvite" class="mt-3 flex gap-2">
+            <UButton size="sm" color="green" @click="confirmInvite">{{ $t('CONFIRM') }}</UButton>
+            <UButton size="sm" color="red" @click="declineInvite">{{ $t('DECLINE') }}</UButton>
         </div>
     </div>
 </template>
