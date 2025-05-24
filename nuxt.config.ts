@@ -21,6 +21,7 @@ export default defineNuxtConfig({
 
   plugins: [
     '~/plugins/theme.client.ts',
+    '~/plugins/vue-query.ts',
   ],
 
   fonts: {

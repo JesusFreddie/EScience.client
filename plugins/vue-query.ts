@@ -1,4 +1,4 @@
-import {VueQueryPlugin, VueQueryPluginOptions} from "@tanstack/vue-query";
+import {VueQueryPlugin, type VueQueryPluginOptions} from "@tanstack/vue-query";
 import ROUTE from "~/src/shared/consts/ROUTE";
 
 export default defineNuxtPlugin(( nuxtApp ) => {
@@ -15,7 +15,7 @@ export default defineNuxtPlugin(( nuxtApp ) => {
                         ErrorHandler(error);
                     }
                 },
-            }
+            },
         }
     }
 
@@ -39,12 +39,26 @@ export default defineNuxtPlugin(( nuxtApp ) => {
             const response = (error as any).response;
             return response?.status === 500;
         }
+        if (error && typeof error === 'object' && 'response' in error) {
+            const response = (error as any).response;
+            return response?.status === 500;
+        }
+        if (error && typeof error === 'object' && 'status' in error) {
+            return (error as any).status === 500;
+        }
         return false;
     }
     const i400Error = (error: unknown, code: number = 400): boolean => {
-        if ('response' in error) {
+        if (error instanceof Error && 'response' in error) {
             const response = (error as any).response;
             return response?.status === code;
+        }
+        if (error && typeof error === 'object' && 'response' in error) {
+            const response = (error as any).response;
+            return response?.status === code;
+        }
+        if (error && typeof error === 'object' && 'status' in error) {
+            return (error as any).status === code;
         }
         return false;
     }

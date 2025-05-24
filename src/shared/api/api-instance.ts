@@ -14,5 +14,9 @@ export const createInstance = <T>(
     return apiInstance({
         ...config,
         ...options
-    }).then(d => d.data);
+    }).then(d => d.data)
+    .catch(error => {
+        // Ensure error is properly propagated to Vue Query
+        throw error;
+    });
 }

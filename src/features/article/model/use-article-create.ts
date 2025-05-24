@@ -12,18 +12,7 @@ export function useArticleCreate() {
     isPrivate: z.boolean(),
   });
 
-  const articleMutation = MutArticleCreate({
-    mutation: {
-      onError(error) {
-        if (error instanceof AxiosError) {
-          useErrorToast({
-            message: error.response?.data,
-            status: error.status!,
-          });
-        }
-      },
-    },
-  });
+  const articleMutation = MutArticleCreate();
 
   return {
     schema,
