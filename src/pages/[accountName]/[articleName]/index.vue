@@ -5,6 +5,10 @@ import type { Article as ArticleDto } from "~/src/shared/api/model";
 const route = useRoute()
 const router = useRouter()
 
+definePageMeta({
+  middleware: 'session-middleware'
+})
+
 const { accountName, articleName } = route.params as {
   accountName: string
   articleName: string
@@ -52,14 +56,10 @@ watch(() => route.query.branchName, (newBranchName) => {
   }
 }, { immediate: true })
 
-function lol() {
-  console.log("ASDASDASD")
-}
-
 </script>
 
 <template>
-  <div @scroll="lol" v-if="data" class="flex justify-center h-full">
+  <div v-if="data" class="flex justify-center h-full">
     <Article
       :article="data" 
       :branch="currentBranch"

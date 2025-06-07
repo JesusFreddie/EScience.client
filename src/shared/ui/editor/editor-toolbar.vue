@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type {Editor} from "@tiptap/vue-3";
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 const { editor } = defineProps<{
   editor: Editor
 }>()
@@ -80,28 +83,28 @@ function insertMathFormula() {
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().toggleBold().run()" icon="i-ph-text-b-bold" />
         <template #panel>
-          <div class="p-1">Bold</div>
+          <div class="p-1">{{ t('EDITOR.BOLD') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().toggleItalic().run()" icon="i-ph-text-italic" />
         <template #panel>
-          <div class="p-1">Italic</div>
+          <div class="p-1">{{ t('EDITOR.ITALIC') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().toggleUnderline().run()" icon="i-ph-text-underline" />
         <template #panel>
-          <div class="p-1">Underline</div>
+          <div class="p-1">{{ t('EDITOR.UNDERLINE') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().toggleStrike().run()" icon="i-ph-text-strikethrough" />
         <template #panel>
-          <div class="p-1">Strikethrough</div>
+          <div class="p-1">{{ t('EDITOR.STRIKETHROUGH') }}</div>
         </template>
       </UPopover>
     </div>
@@ -126,21 +129,21 @@ function insertMathFormula() {
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().toggleBulletList().run()" icon="i-ph-list-bullets" />
         <template #panel>
-          <div class="p-1">Bullet List</div>
+          <div class="p-1">{{ t('EDITOR.BULLET_LIST') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().toggleOrderedList().run()" icon="i-ph-list-numbers" />
         <template #panel>
-          <div class="p-1">Numbered List</div>
+          <div class="p-1">{{ t('EDITOR.NUMBERED_LIST') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().setParagraph().run()" icon="i-ph-paragraph" />
         <template #panel>
-          <div class="p-1">Paragraph</div>
+          <div class="p-1">{{ t('EDITOR.PARAGRAPH') }}</div>
         </template>
       </UPopover>
     </div>
@@ -150,28 +153,28 @@ function insertMathFormula() {
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().setTextAlign('left').run()" icon="i-ph-text-align-left" />
         <template #panel>
-          <div class="p-1">Align Left</div>
+          <div class="p-1">{{ t('EDITOR.ALIGN_LEFT') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().setTextAlign('center').run()" icon="i-ph-text-align-center" />
         <template #panel>
-          <div class="p-1">Align Center</div>
+          <div class="p-1">{{ t('EDITOR.ALIGN_CENTER') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().setTextAlign('right').run()" icon="i-ph-text-align-right" />
         <template #panel>
-          <div class="p-1">Align Right</div>
+          <div class="p-1">{{ t('EDITOR.ALIGN_RIGHT') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().setTextAlign('justify').run()" icon="i-ph-text-align-justify" />
         <template #panel>
-          <div class="p-1">Justify</div>
+          <div class="p-1">{{ t('EDITOR.JUSTIFY') }}</div>
         </template>
       </UPopover>
     </div>
@@ -181,42 +184,120 @@ function insertMathFormula() {
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="setLink" icon="i-ph-link" />
         <template #panel>
-          <div class="p-1">Insert Link</div>
+          <div class="p-1">{{ t('EDITOR.INSERT_LINK') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="insertImage" icon="i-ph-image" />
         <template #panel>
-          <div class="p-1">Insert Image</div>
+          <div class="p-1">{{ t('EDITOR.INSERT_IMAGE') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="insertTable" icon="i-ph-table" />
         <template #panel>
-          <div class="p-1">Insert Table</div>
+          <div class="p-1">{{ t('EDITOR.INSERT_TABLE') }}</div>
+        </template>
+      </UPopover>
+
+      <!-- Table Operations -->
+      <UPopover>
+        <UButton variant="ghost" icon="i-ph-table-simple" trailing-icon="i-heroicons-chevron-down-20-solid" />
+        <template #panel>
+          <div class="p-1 flex flex-col gap-1">
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().toggleHeaderCell().run()" icon="i-ph-table-header" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.TABLE_HEADER') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().addColumnBefore().run()" icon="i-ph-table-column-insert-left" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.INSERT_COLUMN_BEFORE') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().addColumnAfter().run()" icon="i-ph-table-column-insert-right" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.INSERT_COLUMN_AFTER') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().deleteColumn().run()" icon="i-ph-table-column-delete" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.DELETE_COLUMN') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().addRowBefore().run()" icon="i-ph-table-row-insert-top" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.INSERT_ROW_BEFORE') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().addRowAfter().run()" icon="i-ph-table-row-insert-bottom" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.INSERT_ROW_AFTER') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().deleteRow().run()" icon="i-ph-table-row-delete" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.DELETE_ROW') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().deleteTable().run()" icon="i-ph-trash" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.DELETE_TABLE') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().mergeCells().run()" icon="i-ph-table-merge-cells" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.MERGE_CELLS') }}</div>
+              </template>
+            </UPopover>
+
+            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
+              <UButton variant="ghost" @click="editor.chain().focus().splitCell().run()" icon="i-ph-table-split-cells" />
+              <template #panel>
+                <div class="p-1">{{ t('EDITOR.SPLIT_CELLS') }}</div>
+              </template>
+            </UPopover>
+          </div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="insertYoutubeVideo" icon="i-ph-youtube-logo" />
         <template #panel>
-          <div class="p-1">Insert YouTube Video</div>
+          <div class="p-1">{{ t('EDITOR.INSERT_YOUTUBE') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="insertMathFormula" icon="i-ph-function" />
         <template #panel>
-          <div class="p-1">Insert Math Formula</div>
+          <div class="p-1">{{ t('EDITOR.INSERT_MATH') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().toggleCodeBlock().run()" icon="i-ph-code-block" />
         <template #panel>
-          <div class="p-1">Code Block</div>
+          <div class="p-1">{{ t('EDITOR.CODE_BLOCK') }}</div>
         </template>
       </UPopover>
     </div>
@@ -226,14 +307,14 @@ function insertMathFormula() {
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().undo().run()" icon="i-ph-arrow-counter-clockwise"/>
         <template #panel>
-          <div class="p-1">Undo</div>
+          <div class="p-1">{{ t('EDITOR.UNDO') }}</div>
         </template>
       </UPopover>
 
       <UPopover :popper="{ placement: 'top' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
         <UButton variant="ghost" @click="editor.chain().focus().redo().run()" icon="i-ph-arrow-clockwise"/>
         <template #panel>
-          <div class="p-1">Redo</div>
+          <div class="p-1">{{ t('EDITOR.REDO') }}</div>
         </template>
       </UPopover>
     </div>

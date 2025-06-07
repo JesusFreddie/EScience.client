@@ -20,7 +20,8 @@
   },
   "ERROR": {
     "DEFAULT": "Ошибка",
-    "SERVER_ERROR": "Внутренняя ошибка сервера (500)"
+    "SERVER_ERROR": "Внутренняя ошибка сервера (500)",
+    "LOADING_VERSION": "Ошибка загрузки версии"
   },
   "ARTICLE": {
     "DEFAULT": "Статья",
@@ -87,5 +88,41 @@
     "MONTHS_AGO": "{n} месяцев назад",
     "YEAR_AGO": "год назад",
     "YEARS_AGO": "{n} лет назад"
-  }
+  },
+  "VERSION_VIEW": "Просмотр версии",
+  "NO_CONTENT": "Нет содержимого",
+  "EDITOR": {
+    "BOLD": "Жирный",
+    "ITALIC": "Курсив",
+    "UNDERLINE": "Подчеркнутый",
+    "STRIKETHROUGH": "Зачеркнутый",
+    "HEADING": "Заголовок",
+    "BULLET_LIST": "Маркированный список",
+    "NUMBERED_LIST": "Нумерованный список",
+    "PARAGRAPH": "Параграф",
+    "ALIGN_LEFT": "По левому краю",
+    "ALIGN_CENTER": "По центру",
+    "ALIGN_RIGHT": "По правому краю",
+    "JUSTIFY": "По ширине",
+    "INSERT_LINK": "Вставить ссылку",
+    "INSERT_IMAGE": "Вставить изображение",
+    "INSERT_TABLE": "Вставить таблицу",
+    "TABLE_OPERATIONS": "Операции с таблицей",
+    "TABLE_HEADER": "Переключить заголовок",
+    "INSERT_COLUMN_BEFORE": "Вставить столбец слева",
+    "INSERT_COLUMN_AFTER": "Вставить столбец справа",
+    "DELETE_COLUMN": "Удалить столбец",
+    "INSERT_ROW_BEFORE": "Вставить строку сверху",
+    "INSERT_ROW_AFTER": "Вставить строку снизу",
+    "DELETE_ROW": "Удалить строку",
+    "DELETE_TABLE": "Удалить таблицу",
+    "MERGE_CELLS": "Объединить ячейки",
+    "SPLIT_CELLS": "Разделить ячейки",
+    "INSERT_YOUTUBE": "Вставить видео YouTube",
+    "INSERT_MATH": "Вставить формулу",
+    "CODE_BLOCK": "Блок кода",
+    "UNDO": "Отменить",
+    "REDO": "Повторить"
+  },
+  "INVALID_EMAIL": "Некорректный email"
 }

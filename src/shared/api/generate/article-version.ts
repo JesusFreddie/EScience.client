@@ -17,7 +17,11 @@ import type {
 } from "@tanstack/vue-query";
 import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
-import type { ArticleVersion, SaveArticleTextRequest } from "../model";
+import type {
+  ArticleVersion,
+  SaveArticleTextRequest,
+  VersionInfo,
+} from "../model";
 import { createInstance } from "../api-instance";
 
 type AwaitedInput<T> = PromiseLike<T> | T;
@@ -25,6 +29,112 @@ type AwaitedInput<T> = PromiseLike<T> | T;
 type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
+
+export const versionGetById = (
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  versionId: MaybeRef<string>,
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  articleId = unref(articleId);
+  branchId = unref(branchId);
+  versionId = unref(versionId);
+
+  return createInstance<ArticleVersion>(
+    {
+      url: `/${articleId}/version/${branchId}/${versionId}`,
+      method: "GET",
+      signal,
+    },
+    options,
+  );
+};
+
+export const getVersionGetByIdQueryKey = (
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  versionId: MaybeRef<string>,
+) => {
+  return [articleId, "version", branchId, versionId] as const;
+};
+
+export const getVersionGetByIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof versionGetById>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  versionId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof versionGetById>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getVersionGetByIdQueryKey(articleId, branchId, versionId);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof versionGetById>>> = ({
+    signal,
+  }) => versionGetById(articleId, branchId, versionId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: computed(
+      () => !!(unref(articleId) && unref(branchId) && unref(versionId)),
+    ),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof versionGetById>>,
+    TError,
+    TData
+  >;
+};
+
+export type VersionGetByIdQueryResult = NonNullable<
+  Awaited<ReturnType<typeof versionGetById>>
+>;
+export type VersionGetByIdQueryError = unknown;
+
+export function useVersionGetById<
+  TData = Awaited<ReturnType<typeof versionGetById>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  versionId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof versionGetById>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getVersionGetByIdQueryOptions(
+    articleId,
+    branchId,
+    versionId,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
 
 export const versionGetLast = (
   articleId: MaybeRef<string>,
@@ -299,3 +409,105 @@ export const useVersionSave = <TError = unknown, TContext = unknown>(options?: {
 
   return useMutation(mutationOptions);
 };
+export const versionGetAllInfo = (
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  articleId = unref(articleId);
+  branchId = unref(branchId);
+
+  return createInstance<VersionInfo[]>(
+    { url: `/${articleId}/version/${branchId}/get-all`, method: "GET", signal },
+    options,
+  );
+};
+
+export const getVersionGetAllInfoQueryKey = (
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+) => {
+  return [articleId, "version", branchId, "get-all"] as const;
+};
+
+export const getVersionGetAllInfoQueryOptions = <
+  TData = Awaited<ReturnType<typeof versionGetAllInfo>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof versionGetAllInfo>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getVersionGetAllInfoQueryKey(articleId, branchId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof versionGetAllInfo>>
+  > = ({ signal }) =>
+    versionGetAllInfo(articleId, branchId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: computed(() => !!(unref(articleId) && unref(branchId))),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof versionGetAllInfo>>,
+    TError,
+    TData
+  >;
+};
+
+export type VersionGetAllInfoQueryResult = NonNullable<
+  Awaited<ReturnType<typeof versionGetAllInfo>>
+>;
+export type VersionGetAllInfoQueryError = unknown;
+
+export function useVersionGetAllInfo<
+  TData = Awaited<ReturnType<typeof versionGetAllInfo>>,
+  TError = unknown,
+>(
+  articleId: MaybeRef<string>,
+  branchId: MaybeRef<string>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof versionGetAllInfo>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getVersionGetAllInfoQueryOptions(
+    articleId,
+    branchId,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}

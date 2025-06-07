@@ -11,6 +11,7 @@ import ArticleCreateBranch from "./form/article-create-branch.vue";
 import ArticleEditorAvatar from "./article-editor-avatar.vue";
 import ArticleMenu from "./article-menu.vue";
 import { useTimeAgoMessage } from "~/src/shared/composable/useTimeAgoMessage";
+import ArticleVersionHistory from "./article-version-history.vue";
 
 const { article, branch } = defineProps<{
   article: Article,
@@ -77,39 +78,29 @@ watch(data, (newData) => {
   }
 }, { immediate: true })
 
-const versionUpdateAgo = ref('')
-const { setTimeAgoMessage } = useTimeAgoMessage()
-
-watch(() => data.value?.updatedAt, (newValue) => {
-  if (newValue) {
-    var date = setTimeAgoMessage(newValue)
-    versionUpdateAgo.value = date.value
-  }
-}, { immediate: true })
-
 watch(currentBranch, (value) => {
   console.log(value)
 })
 
-watch(() => branch, async (newBranch) => {
-  if (newBranch) {
-    if (!branches.value) {
-      await fetchBranches()
-    }
+// watch(() => branch, async (newBranch) => {
+//   if (newBranch) {
+//     if (!branches.value) {
+//       await fetchBranches()
+//     }
 
-    if (branches.value) {
-      const foundBranch = branches.value.find(b => b.name === newBranch)
-      if (foundBranch) {
-        currentBranch.value = {
-          label: foundBranch.name || "",
-          value: foundBranch.name || "",
-          id: foundBranch.id || ""
-        }
-        fetchBranch()
-      }
-    }
-  }
-}, { immediate: true })
+//     if (branches.value) {
+//       const foundBranch = branches.value.find(b => b.name === newBranch)
+//       if (foundBranch) {
+//         currentBranch.value = {
+//           label: foundBranch.name || "",
+//           value: foundBranch.name || "",
+//           id: foundBranch.id || ""
+//         }
+//         fetchBranch()
+//       }
+//     }
+//   }
+// }, { immediate: true })
 
 function onOpenSelectBranches(isOpen: boolean) {
   if (isOpen && !branches.value) {
@@ -119,7 +110,7 @@ function onOpenSelectBranches(isOpen: boolean) {
 
 function onCheckoutBranch(name: string) {
   emit("checkoutBranch", name)
-  fetchBranch()
+  // fetchBranch()
 }
 
 const branchesOptions = computed(() => {
@@ -186,7 +177,11 @@ const branchesOptions = computed(() => {
           </div>
 
           <div>
-            <p>{{ versionUpdateAgo }}</p>
+            <ArticleVersionHistory 
+              :article-id="article.id!"
+              :branch-id="currentBranch.id"
+              :last-update-time="data?.updatedAt"
+            />
           </div>
 
         </div>

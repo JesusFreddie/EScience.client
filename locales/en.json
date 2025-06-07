@@ -20,7 +20,8 @@
   },
   "ERROR": {
     "DEFAULT": "Error",
-    "SERVER_ERROR": "Internal server error (500)"
+    "SERVER_ERROR": "Internal server error (500)",
+    "LOADING_VERSION": "Error loading version"
   },
   "ARTICLE": {
     "DEFAULT": "Article",
@@ -87,5 +88,41 @@
     "MONTHS_AGO": "{n} months ago",
     "YEAR_AGO": "a year ago",
     "YEARS_AGO": "{n} years ago"
-  }
+  },
+  "VERSION_VIEW": "Version View",
+  "NO_CONTENT": "No content available",
+  "EDITOR": {
+    "BOLD": "Bold",
+    "ITALIC": "Italic",
+    "UNDERLINE": "Underline",
+    "STRIKETHROUGH": "Strikethrough",
+    "HEADING": "Heading",
+    "BULLET_LIST": "Bullet List",
+    "NUMBERED_LIST": "Numbered List",
+    "PARAGRAPH": "Paragraph",
+    "ALIGN_LEFT": "Align Left",
+    "ALIGN_CENTER": "Align Center",
+    "ALIGN_RIGHT": "Align Right",
+    "JUSTIFY": "Justify",
+    "INSERT_LINK": "Insert Link",
+    "INSERT_IMAGE": "Insert Image",
+    "INSERT_TABLE": "Insert Table",
+    "TABLE_OPERATIONS": "Table Operations",
+    "TABLE_HEADER": "Toggle Header",
+    "INSERT_COLUMN_BEFORE": "Insert Column Before",
+    "INSERT_COLUMN_AFTER": "Insert Column After",
+    "DELETE_COLUMN": "Delete Column",
+    "INSERT_ROW_BEFORE": "Insert Row Before",
+    "INSERT_ROW_AFTER": "Insert Row After",
+    "DELETE_ROW": "Delete Row",
+    "DELETE_TABLE": "Delete Table",
+    "MERGE_CELLS": "Merge Cells",
+    "SPLIT_CELLS": "Split Cells",
+    "INSERT_YOUTUBE": "Insert YouTube Video",
+    "INSERT_MATH": "Insert Math Formula",
+    "CODE_BLOCK": "Code Block",
+    "UNDO": "Undo",
+    "REDO": "Redo"
+  },
+  "INVALID_EMAIL": "Invalid Email"
 }

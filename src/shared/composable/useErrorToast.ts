@@ -8,7 +8,6 @@ type Error = {
 
 export const useErrorToast = (error: Error) => {
     const toast = useToast();
-
     return toast.add({
         description: error.description ?? `Status code: ${error.status}`,
         title: error.message,

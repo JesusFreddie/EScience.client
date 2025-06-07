@@ -3,7 +3,9 @@ import { useAccountSession } from '~/src/shared/api/generate/account';
 import ProfileIcon from '../profile-icon/profile-icon.vue';
 import ROUTE from '~/src/shared/consts/ROUTE';
 import { useProfileStore } from '~/src/shared/store/auth.store';
+import { useAuthLogout } from '~/src/shared/api/generate/auth';
 
+const { mutate: logout } = useAuthLogout()
 const authStore = useProfileStore()
 
 const { t } = useI18n()
@@ -40,7 +42,12 @@ const items = [
       }
     },
     {
-      label: t('AUTH.LOGOUT')
+      label: t('AUTH.LOGOUT'),
+      click: () => {
+        logout()
+        emit('update:isOpen', false)
+        navigateTo(ROUTE.LOGIN)
+      }
     }
   ]
 ]

@@ -474,6 +474,41 @@ paths:
       responses:
         '200':
           description: OK
+  '/{articleId}/version/{branchId}/{versionId}':
+    get:
+      tags:
+        - ArticleVersion
+      operationId: VersionGetById
+      parameters:
+        - name: versionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: branchId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ArticleVersion'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleVersion'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ArticleVersion'
   '/{articleId}/version/{branchId}/last':
     get:
       tags:
@@ -540,12 +575,13 @@ paths:
         - ArticleVersion
       operationId: VersionSave
       parameters:
-        - name: articleId
+        - name: branchId
           in: path
           required: true
           schema:
             type: string
-        - name: branchId
+            format: uuid
+        - name: articleId
           in: path
           required: true
           schema:
@@ -564,6 +600,42 @@ paths:
       responses:
         '200':
           description: OK
+  '/{articleId}/version/{branchId}/get-all':
+    get:
+      tags:
+        - ArticleVersion
+      operationId: VersionGetAllInfo
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VersionInfo'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VersionInfo'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VersionInfo'
   /auth/register:
     post:
       tags:
@@ -1202,9 +1274,6 @@ components:
     SaveArticleTextRequest:
       type: object
       properties:
-        branchId:
-          type: string
-          format: uuid
         text:
           type: string
           nullable: true
@@ -1276,4 +1345,23 @@ components:
           readOnly: true
         account:
           $ref: '#/components/schemas/Account'
+      additionalProperties: false
+    VersionInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        articleBranchId:
+          type: string
+          format: uuid
+        creatorId:
+          type: string
+          format: uuid
       additionalProperties: false

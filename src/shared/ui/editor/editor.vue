@@ -19,10 +19,11 @@ import Image from '@tiptap/extension-image'
 import '~/assets/css/tiptap.css'
 
 
-const { debounceSave, debounceTime, modelValue } = defineProps<{
+const { debounceSave, debounceTime, modelValue, isEditable = true } = defineProps<{
   modelValue: string;
   debounceSave: boolean;
   debounceTime?: number;
+  isEditable?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -35,6 +36,7 @@ const editor = ref<Editor>();
 
 onMounted(() => {
   editor.value = new Editor({
+    editable: isEditable,
     extensions: [
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       TextStyle.configure({ types: [ListItem.name] }),
@@ -131,7 +133,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div v-if="editor" class="h-full flex flex-col tiptap-editor-container">
-    <div class="control-group">
+    <div class="control-group" v-if="isEditable">
       <div class="button-group">
         <EditorToolbar :editor="editor" />
       </div>

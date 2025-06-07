@@ -4,6 +4,10 @@ import type {ProfileDto} from "~/src/shared/api/model";
 const route = useRoute()
 const accountName = route.params.accountName
 
+definePageMeta({
+  middleware: 'session-middleware'
+})
+
 const { data, error } = await useFetch<ProfileDto>(`/api/account/${accountName}`, {
   baseURL: process.server ? 'http://localhost:3000' : window.location.origin,
   headers: {

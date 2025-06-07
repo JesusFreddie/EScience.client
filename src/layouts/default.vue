@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NavBar from "~/src/widget/nav-bar/nav-bar.vue";
 import Header from "~/src/widget/header/header.vue";
+
 </script>
 
 <template>

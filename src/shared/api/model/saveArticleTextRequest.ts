@@ -6,7 +6,6 @@
  */
 
 export interface SaveArticleTextRequest {
-  branchId?: string;
   /** @nullable */
   text?: string | null;
 }
