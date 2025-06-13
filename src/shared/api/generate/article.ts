@@ -19,6 +19,8 @@ import { computed, unref } from "vue";
 import type { MaybeRef } from "vue";
 import type {
   Article,
+  ArticleGetAllFavoriteParams,
+  ArticleGetAllParams,
   ArticleGetByAccountIdParams,
   ArticleParticipant,
   CreateArticleRequest,
@@ -203,35 +205,43 @@ export const useArticleUpdate = <
   return useMutation(mutationOptions);
 };
 export const articleGetAll = (
+  params?: MaybeRef<ArticleGetAllParams>,
   options?: SecondParameter<typeof createInstance>,
   signal?: AbortSignal,
 ) => {
-  return createInstance<Article[]>(
-    { url: `/articles`, method: "GET", signal },
+  params = unref(params);
+
+  return createInstance<void>(
+    { url: `/articles`, method: "GET", params: unref(params), signal },
     options,
   );
 };
 
-export const getArticleGetAllQueryKey = () => {
-  return ["articles"] as const;
+export const getArticleGetAllQueryKey = (
+  params?: MaybeRef<ArticleGetAllParams>,
+) => {
+  return ["articles", ...(params ? [params] : [])] as const;
 };
 
 export const getArticleGetAllQueryOptions = <
   TData = Awaited<ReturnType<typeof articleGetAll>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof articleGetAll>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof createInstance>;
-}) => {
+>(
+  params?: MaybeRef<ArticleGetAllParams>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof articleGetAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = getArticleGetAllQueryKey();
+  const queryKey = getArticleGetAllQueryKey(params);
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof articleGetAll>>> = ({
     signal,
-  }) => articleGetAll(requestOptions, signal);
+  }) => articleGetAll(params, requestOptions, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof articleGetAll>>,
@@ -248,15 +258,183 @@ export type ArticleGetAllQueryError = unknown;
 export function useArticleGetAll<
   TData = Awaited<ReturnType<typeof articleGetAll>>,
   TError = unknown,
+>(
+  params?: MaybeRef<ArticleGetAllParams>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof articleGetAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getArticleGetAllQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
+
+export const articleGetAllByCreated = (
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  return createInstance<Article[]>(
+    { url: `/articles/created`, method: "GET", signal },
+    options,
+  );
+};
+
+export const getArticleGetAllByCreatedQueryKey = () => {
+  return ["articles", "created"] as const;
+};
+
+export const getArticleGetAllByCreatedQueryOptions = <
+  TData = Awaited<ReturnType<typeof articleGetAllByCreated>>,
+  TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof articleGetAll>>, TError, TData>
+    UseQueryOptions<
+      Awaited<ReturnType<typeof articleGetAllByCreated>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof createInstance>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getArticleGetAllByCreatedQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof articleGetAllByCreated>>
+  > = ({ signal }) => articleGetAllByCreated(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof articleGetAllByCreated>>,
+    TError,
+    TData
+  >;
+};
+
+export type ArticleGetAllByCreatedQueryResult = NonNullable<
+  Awaited<ReturnType<typeof articleGetAllByCreated>>
+>;
+export type ArticleGetAllByCreatedQueryError = unknown;
+
+export function useArticleGetAllByCreated<
+  TData = Awaited<ReturnType<typeof articleGetAllByCreated>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof articleGetAllByCreated>>,
+      TError,
+      TData
+    >
   >;
   request?: SecondParameter<typeof createInstance>;
 }): UseQueryReturnType<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getArticleGetAllQueryOptions(options);
+  const queryOptions = getArticleGetAllByCreatedQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = unref(queryOptions).queryKey as DataTag<
+    QueryKey,
+    TData,
+    TError
+  >;
+
+  return query;
+}
+
+export const articleGetAllFavorite = (
+  params?: MaybeRef<ArticleGetAllFavoriteParams>,
+  options?: SecondParameter<typeof createInstance>,
+  signal?: AbortSignal,
+) => {
+  params = unref(params);
+
+  return createInstance<void>(
+    { url: `/articles/favorite`, method: "GET", params: unref(params), signal },
+    options,
+  );
+};
+
+export const getArticleGetAllFavoriteQueryKey = (
+  params?: MaybeRef<ArticleGetAllFavoriteParams>,
+) => {
+  return ["articles", "favorite", ...(params ? [params] : [])] as const;
+};
+
+export const getArticleGetAllFavoriteQueryOptions = <
+  TData = Awaited<ReturnType<typeof articleGetAllFavorite>>,
+  TError = unknown,
+>(
+  params?: MaybeRef<ArticleGetAllFavoriteParams>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof articleGetAllFavorite>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = getArticleGetAllFavoriteQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof articleGetAllFavorite>>
+  > = ({ signal }) => articleGetAllFavorite(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof articleGetAllFavorite>>,
+    TError,
+    TData
+  >;
+};
+
+export type ArticleGetAllFavoriteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof articleGetAllFavorite>>
+>;
+export type ArticleGetAllFavoriteQueryError = unknown;
+
+export function useArticleGetAllFavorite<
+  TData = Awaited<ReturnType<typeof articleGetAllFavorite>>,
+  TError = unknown,
+>(
+  params?: MaybeRef<ArticleGetAllFavoriteParams>,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof articleGetAllFavorite>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof createInstance>;
+  },
+): UseQueryReturnType<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getArticleGetAllFavoriteQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryReturnType<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

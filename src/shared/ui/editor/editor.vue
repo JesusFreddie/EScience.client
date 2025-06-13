@@ -29,10 +29,17 @@ const { debounceSave, debounceTime, modelValue, isEditable = true } = defineProp
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
   (e: "save", content: string): void;
+  (e: "onSetEditorInstance", editor: Editor): void
 }>();
 
 const saveTimeout = ref<NodeJS.Timeout>();
 const editor = ref<Editor>();
+
+watch(editor, () => {
+  if (editor) {
+    emit('onSetEditorInstance', editor.value)
+  }
+}, {immediate: false})
 
 onMounted(() => {
   editor.value = new Editor({

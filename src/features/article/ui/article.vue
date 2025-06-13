@@ -1,26 +1,52 @@
 <script setup lang="ts">
-import type { Article } from "~/src/shared/api/model";
+import { ArticlePermissionLevel, type Article } from "~/src/shared/api/model";
 import Editor from "~/src/shared/ui/editor/editor.vue";
 import { useBranchGetAll } from "~/src/shared/api/generate/article-branch";
-import { useVersionGetLast } from "~/src/shared/api/generate/article-version";
-import { useVersionSave } from "../model/use-version-save";
 import ArticleMerge from "./article-merge.vue";
 import type { BranchOptions } from "../entities/branch-options";
 import ArticleBranches from "./article-branches.vue";
 import ArticleCreateBranch from "./form/article-create-branch.vue";
 import ArticleEditorAvatar from "./article-editor-avatar.vue";
 import ArticleMenu from "./article-menu.vue";
-import { useTimeAgoMessage } from "~/src/shared/composable/useTimeAgoMessage";
 import ArticleVersionHistory from "./article-version-history.vue";
+import type { Editor as EditorType } from '@tiptap/vue-3'
 
-const { article, branch } = defineProps<{
+const props = defineProps<{
   article: Article,
   branch?: string,
+  currentBranchData: BranchOptions,
+  branches: BranchOptions[],
+  versionData: any,
+  isLoadingVersion: boolean,
+  editorContent: string,
+  permisionLevel: number
 }>()
+
+const canView = computed(() => {
+    if (props.permisionLevel >= ArticlePermissionLevel.NUMBER_3)
+        return true
+    return false
+})
+
+const canEdit = computed(() => {
+  if (props.permisionLevel <= ArticlePermissionLevel.NUMBER_1)
+    return false
+  return true;
+})
 
 const emit = defineEmits<{
   (e: 'checkoutBranch', name: string): void
+  (e: 'update:editorContent', content: string): void
+  (e: 'save'): void
+  (e: 'fetchBranches'): void
+  (e: 'fetchBranch'): void
 }>()
+
+const editorInstance = ref<EditorType>();
+
+function setEditorInstance(editor: EditorType) {
+  editorInstance.value = editor;
+}
 
 const isOpenCreateBranch = ref(false)
 function openCreateBranchModal() {
@@ -32,75 +58,25 @@ function openCreateMergeModal() {
   isOpenCreateMerge.value = true
 }
 
-const saveTimeout = ref<NodeJS.Timeout>()
-
-const editorContent = ref<string>("")
 const currentBranch = ref<BranchOptions>({
-  label: article.articleBranches![0]?.name || "main",
-  value: article.articleBranches![0]?.name || "main",
-  id: article.articleBranches![0].id!
+  label: props.article.articleBranches![0]?.name || "main",
+  value: props.article.articleBranches![0]?.name || "main",
+  id: props.article.articleBranches![0].id!
 });
 
-if (!article.articleBranches || !article.articleBranches[0].id) {
+if (!props.article.articleBranches || !props.article.articleBranches[0].id) {
   console.error('CUSTOM ERROR: No branches available');
 }
 
-const { data, isPending: isLoadingVer, refetch: fetchBranch } = useVersionGetLast(article.id!, currentBranch.value.id)
-const { data: branches, isPending: branchLoading, refetch: fetchBranches } = useBranchGetAll(article.id!, {
+const { data: branches, isPending: branchLoading, refetch: fetchBranches } = useBranchGetAll(props.article.id!, {
   query: {
     enabled: false
   }
 })
 
-const useSave = useVersionSave()
-
-function debouncedSave() {
-  clearTimeout(saveTimeout.value)
-  saveTimeout.value = setTimeout(() => {
-    saveArticle()
-  }, 1500)
-}
-
-async function saveArticle() {
-  useSave.mutation({
-    articleId: article.id!,
-    branchId: currentBranch.value.id,
-    data: {
-      branchId: currentBranch.value.id,
-      text: editorContent.value
-    }
-  })
-}
-
-watch(data, (newData) => {
-  if (newData?.text) {
-    editorContent.value = newData.text
-  }
-}, { immediate: true })
-
 watch(currentBranch, (value) => {
   console.log(value)
 })
-
-// watch(() => branch, async (newBranch) => {
-//   if (newBranch) {
-//     if (!branches.value) {
-//       await fetchBranches()
-//     }
-
-//     if (branches.value) {
-//       const foundBranch = branches.value.find(b => b.name === newBranch)
-//       if (foundBranch) {
-//         currentBranch.value = {
-//           label: foundBranch.name || "",
-//           value: foundBranch.name || "",
-//           id: foundBranch.id || ""
-//         }
-//         fetchBranch()
-//       }
-//     }
-//   }
-// }, { immediate: true })
 
 function onOpenSelectBranches(isOpen: boolean) {
   if (isOpen && !branches.value) {
@@ -110,7 +86,14 @@ function onOpenSelectBranches(isOpen: boolean) {
 
 function onCheckoutBranch(name: string) {
   emit("checkoutBranch", name)
-  // fetchBranch()
+}
+
+function onEditorContentChange(content: string) {
+  emit('update:editorContent', content)
+}
+
+function onEditorSave() {
+  emit('save')
 }
 
 const branchesOptions = computed(() => {
@@ -154,7 +137,7 @@ const branchesOptions = computed(() => {
           v-if="branches?.length" 
           :article-id="article.id!" 
           :branches="branches"
-          :current-branch-id="currentBranch.id" 
+          :current-branch-id="currentBranchData.id" 
           />
       </div>
     </UModal>
@@ -164,14 +147,17 @@ const branchesOptions = computed(() => {
         <h4>{{ article.title }}</h4>
       </div>
       <div>
-        <ArticleMenu :article-id="article.id!" />
+        <ArticleMenu v-if="canView" :article-id="article.id!" :editor="editorInstance" :permision-level="props.permisionLevel" />
       </div>
     </div>
     <div class="grid grid-cols-[1fr_239px] gap-3 h-full">
       <div class="flex flex-col gap-3">
         <div class="bg-bg-100 flex items-center dark:bg-bg-dark-200 rounded-md px-5 py-3 shadow flex justify-between">
           <div>
-            <ArticleBranches :branches="branchesOptions" :current-branch="currentBranch"
+            <ArticleBranches 
+              :branches="branchesOptions" 
+              :current-branch="currentBranchData"
+              :permision-level="props.permisionLevel"
               @on-checkout-branch="onCheckoutBranch" @on-open-select="onOpenSelectBranches"
               @on-open-create-branch="openCreateBranchModal" @on-open-create-merge="openCreateMergeModal" />
           </div>
@@ -179,16 +165,25 @@ const branchesOptions = computed(() => {
           <div>
             <ArticleVersionHistory 
               :article-id="article.id!"
-              :branch-id="currentBranch.id"
-              :last-update-time="data?.updatedAt"
+              :branch-id="currentBranchData.id"
+              :last-update-time="versionData?.updatedAt"
             />
           </div>
 
         </div>
 
         <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md h-full px-3 py-3 shadow">
-          <Editor v-if="data" :debounce-time="5" v-model="editorContent" :debounce-save="true" @save="debouncedSave" />
-          <div v-if="isLoadingVer">Loading</div>
+          <Editor 
+            v-if="versionData" 
+            :debounce-time="5" 
+            :model-value="props.editorContent" 
+            :debounce-save="true"
+            :is-editable="canEdit"
+            @update:model-value="onEditorContentChange"
+            @save="onEditorSave" 
+            @on-set-editor-instance="setEditorInstance"
+          />
+          <div v-if="isLoadingVersion">Loading</div>
         </div>
       </div>
       <div class="bg-bg-100 dark:bg-bg-dark-200 rounded-md h-full pt-5 px-4 shadow">

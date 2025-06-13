@@ -48,7 +48,7 @@ function handleUpdate(updatedAccount: ExtendedProfileDto) {
                 <p class="text-gray-600 dark:text-gray-400">{{ localAccount.email }}</p>
             </div>
         </div>
-        <UButton class="mt-4" variant="outline" block @click="openEditModal">{{ $t('EDIT') }}</UButton>
+        <!-- <UButton class="mt-4" variant="outline" block @click="openEditModal">{{ $t('EDIT') }}</UButton> -->
 
         <UModal v-model="isEditModalOpen">
             <AccountEdit 

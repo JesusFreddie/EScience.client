@@ -75,7 +75,7 @@ const t = (key: string) => key;
             {{ t('ERROR.LOADING_VERSIONS') }}
           </div>
 
-          <div v-else-if="versions?.length" class="space-y-2">
+          <div v-else-if="versions?.length" class="space-y-2 max-h-[400px] overflow-y-auto">
             <div
               v-for="version in versions"
               :key="version.id"

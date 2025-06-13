@@ -13,8 +13,4 @@ export const permissionLevelsLang = [
         value: ArticlePermissionLevel.NUMBER_3,
         label: "PERMISSION.EDITOR"
     },
-    {
-        value: ArticlePermissionLevel.NUMBER_4,
-        label: "PERMISSION.AUTHOR"
-    },
 ]

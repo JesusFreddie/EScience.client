@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ProfileDto } from '~/src/shared/api/model';
 import AccountInfo from './account-info.vue';
+import AccountFields from './account-fields.vue';
 
 const { account } = defineProps<{
     account: ProfileDto
@@ -16,7 +17,7 @@ const { account } = defineProps<{
         </div>
         <UDivider/>
         <div>
-            <p>Info</p>
+            <AccountFields/>
         </div>
     </div>
 </template>

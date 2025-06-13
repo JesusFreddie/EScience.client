@@ -12,6 +12,6 @@ useHead({
 </script>
 
 <template>
-  <h1 class="mb-3">{{ $t("ARTICLE.ARTICLES") }}</h1>
+  
   <ArticlesList/>
 </template>

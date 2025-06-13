@@ -35,7 +35,7 @@ const { data: countArticles } = useArticleGetCountByAccountId(account.id!)
                     <ArticlesList :articles="articles" />
                     <USkeleton v-if="isArticlePending" v-for="item in 10" :key="item" class="w-[427px] h-[151px]" />
                 </div>
-                <UPagination class="float-right" v-if="countArticles && countArticles.count! > articles.length" v-model="page" :page-count="5" :total="countArticles.count" />
+                <UPagination class="float-right" v-if="countArticles && countArticles.count! > articles.length" v-model="page"  :total="countArticles.count" />
             </div>
         </div>
     </div>

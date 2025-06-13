@@ -78,6 +78,89 @@ paths:
             text/json:
               schema:
                 $ref: '#/components/schemas/Article'
+  /account-info/get-all:
+    get:
+      tags:
+        - AccountInfo
+      operationId: AccountInfoGetAll
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountInfo'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountInfo'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountInfo'
+  /account-info:
+    post:
+      tags:
+        - AccountInfo
+      operationId: AccountInfoCreate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInfoCreateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AccountInfoCreateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AccountInfoCreateRequest'
+      responses:
+        '200':
+          description: OK
+  '/account-info/{id}':
+    put:
+      tags:
+        - AccountInfo
+      operationId: AccountInfoUpdate
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInfoCreateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AccountInfoCreateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AccountInfoCreateRequest'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - AccountInfo
+      operationId: AccountInfoDelete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
   /articles/create:
     post:
       tags:
@@ -148,6 +231,25 @@ paths:
       tags:
         - Article
       operationId: ArticleGetAll
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+  /articles/created:
+    get:
+      tags:
+        - Article
+      operationId: ArticleGetAllByCreated
       responses:
         '200':
           description: OK
@@ -167,6 +269,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Article'
+  /articles/favorite:
+    get:
+      tags:
+        - Article
+      operationId: ArticleGetAllFavorite
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
   '/articles/id/{accountId}':
     get:
       tags:
@@ -474,6 +595,31 @@ paths:
       responses:
         '200':
           description: OK
+  '/permision/article/{articleId}':
+    get:
+      tags:
+        - ArticlePermision
+      operationId: PermisionGet
+      parameters:
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ArticlePermissionLevel'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticlePermissionLevel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ArticlePermissionLevel'
   '/{articleId}/version/{branchId}/{versionId}':
     get:
       tags:
@@ -679,6 +825,36 @@ paths:
       tags:
         - Auth
       operationId: AuthLogout
+      responses:
+        '200':
+          description: OK
+  '/favorite/{articleId}/set':
+    post:
+      tags:
+        - Favorite
+      operationId: SetFavorite
+      parameters:
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+  '/favorite/{articleId}/remove':
+    post:
+      tags:
+        - Favorite
+      operationId: RemoveFavorite
+      parameters:
+        - name: articleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: OK
@@ -936,6 +1112,38 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ArticleParticipant'
+          nullable: true
+      additionalProperties: false
+    AccountInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        field:
+          type: string
+          nullable: true
+        value:
+          type: string
+          nullable: true
+        accountId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    AccountInfoCreateRequest:
+      type: object
+      properties:
+        field:
+          type: string
+          nullable: true
+        value:
+          type: string
           nullable: true
       additionalProperties: false
     Article:

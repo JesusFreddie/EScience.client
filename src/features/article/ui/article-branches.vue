@@ -1,13 +1,21 @@
 <script setup lang="ts">
+import { ArticlePermissionLevel } from '~/src/shared/api/model';
 import type { BranchOptions } from '../entities/branch-options';
 
 const route = useRoute()
 
-const { branches, currentBranch } = defineProps<{
+const { branches, currentBranch, permisionLevel } = defineProps<{
     branches: BranchOptions[],
-    currentBranch: BranchOptions
+    currentBranch: BranchOptions,
+    permisionLevel: number
 }>()
 
+const canEdit = computed(() => {
+  if (permisionLevel <= ArticlePermissionLevel.NUMBER_2)
+    return false
+
+  return true
+})
 
 const emit = defineEmits<{
   (e: 'onCheckoutBranch', name: string): void
@@ -35,13 +43,6 @@ function onOpenCreateMerge() {
 </script>
 
 <template>
-  <!-- <USelect
-      :options="branches" 
-      class="w-48"
-      @click="onOpenSelect(true)"
-      @change="onCheckoutBranch"
-  /> -->
-
   <div>
     <UPopover
       @update:open="onOpenSelect(true)"
@@ -51,23 +52,16 @@ function onOpenCreateMerge() {
 
       <template #panel>
         <div class="flex flex-col w-[320px] p-2 gap-2">
-          <div class="flex flex-col">
+          <div class="flex flex-col" v-if="canEdit">
             <UButton 
               @click="onOpenCreateBranch"
               variant="ghost"
               >
               {{ $t('FORM.BRANCHES.CREATE') }}
             </UButton>
-            <UButton 
-              @click="onOpenCreateMerge"
-              variant="ghost"
-              >
-              {{ $t('FORM.MERGE.CREATE') }}
-            </UButton>
-
           </div>
 
-          <UDivider />
+          <UDivider v-if="canEdit" />
           <div class="flex flex-col">
             <p class="text-xs">{{ $t('BRANCHES') }}</p>
             <div class="flex flex-col">

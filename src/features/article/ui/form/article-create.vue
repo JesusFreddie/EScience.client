@@ -2,8 +2,14 @@
 import {useArticleCreate} from "~/src/features/article/model/use-article-create";
 import {z} from "zod";
 import type {FormSubmitEvent} from "#ui/types";
+import { useQueryClient } from '@tanstack/vue-query';
 
+const queryClient = useQueryClient();
 const { isPending, articleMutation, schema } = useArticleCreate()
+
+const emit = defineEmits<{
+  success: []
+}>()
 
 const formState = reactive({
   title: undefined,
@@ -12,6 +18,13 @@ const formState = reactive({
 })
 
 type Schema = z.output<typeof schema>
+
+watch(articleMutation, (mutation) => {
+  if (mutation.isSuccess) {
+    queryClient.invalidateQueries({ queryKey: ['articles'] });
+    emit('success')
+  }
+})
 
 function submit(e: FormSubmitEvent<Schema>) {
   const data = e.data

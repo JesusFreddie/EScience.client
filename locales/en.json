@@ -28,7 +28,8 @@
     "CREATE": "Create",
     "ARTICLES": "Articles",
     "DESCRIPTION": "Description",
-    "EDIT": "Edit Article"
+    "EDIT": "Edit Article",
+    "ARCHIVE": "Archive"
   },
   "FORM": {
     "UPDATE": "Update",
@@ -48,7 +49,8 @@
   "THEME": "Theme",
   "LANGUAGE": "Language",
   "PARTICIPANTS": {
-    "MANY": "Participants"
+    "MANY": "Participants",
+    "ADD": "Add Participant"
   },
   "PARTICIPANT": {
     "INVITE": "Invite Participant",
@@ -124,5 +126,6 @@
     "UNDO": "Undo",
     "REDO": "Redo"
   },
-  "INVALID_EMAIL": "Invalid Email"
+  "INVALID_EMAIL": "Invalid Email",
+  "EXPORT_TO_WORD": "Export to Word"
 }

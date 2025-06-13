@@ -8,6 +8,8 @@
 export * from "./account";
 export * from "./accountArticleGetParams";
 export * from "./accountDto";
+export * from "./accountInfo";
+export * from "./accountInfoCreateRequest";
 export * from "./apiResponse";
 export * from "./article";
 export * from "./articleApiResponse";
@@ -17,6 +19,8 @@ export * from "./articleBranchDto";
 export * from "./articleBranchDtoApiResponse";
 export * from "./articleBranchVersion";
 export * from "./articleDto";
+export * from "./articleGetAllFavoriteParams";
+export * from "./articleGetAllParams";
 export * from "./articleGetByAccountIdParams";
 export * from "./articleIEnumerableApiResponse";
 export * from "./articleParticipant";

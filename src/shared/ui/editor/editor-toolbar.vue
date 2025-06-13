@@ -207,75 +207,16 @@ function insertMathFormula() {
         <UButton variant="ghost" icon="i-ph-table-simple" trailing-icon="i-heroicons-chevron-down-20-solid" />
         <template #panel>
           <div class="p-1 flex flex-col gap-1">
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().toggleHeaderCell().run()" icon="i-ph-table-header" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.TABLE_HEADER') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().addColumnBefore().run()" icon="i-ph-table-column-insert-left" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.INSERT_COLUMN_BEFORE') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().addColumnAfter().run()" icon="i-ph-table-column-insert-right" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.INSERT_COLUMN_AFTER') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().deleteColumn().run()" icon="i-ph-table-column-delete" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.DELETE_COLUMN') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().addRowBefore().run()" icon="i-ph-table-row-insert-top" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.INSERT_ROW_BEFORE') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().addRowAfter().run()" icon="i-ph-table-row-insert-bottom" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.INSERT_ROW_AFTER') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().deleteRow().run()" icon="i-ph-table-row-delete" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.DELETE_ROW') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().deleteTable().run()" icon="i-ph-trash" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.DELETE_TABLE') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().mergeCells().run()" icon="i-ph-table-merge-cells" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.MERGE_CELLS') }}</div>
-              </template>
-            </UPopover>
-
-            <UPopover :popper="{ placement: 'right' }" mode="hover" :ui="{ wrapper: 'inline-block' }">
-              <UButton variant="ghost" @click="editor.chain().focus().splitCell().run()" icon="i-ph-table-split-cells" />
-              <template #panel>
-                <div class="p-1">{{ t('EDITOR.SPLIT_CELLS') }}</div>
-              </template>
-            </UPopover>
+            <UButton variant="ghost" @click="editor.chain().focus().toggleHeaderCell().run()" icon="i-ph-table-header" />
+            <UButton variant="ghost" @click="editor.chain().focus().addColumnBefore().run()" icon="i-ph-table-column-insert-left" />
+            <UButton variant="ghost" @click="editor.chain().focus().addColumnAfter().run()" icon="i-ph-table-column-insert-right" />
+            <UButton variant="ghost" @click="editor.chain().focus().deleteColumn().run()" icon="i-ph-table-column-delete" />
+            <UButton variant="ghost" @click="editor.chain().focus().addRowBefore().run()" icon="i-ph-table-row-insert-top" />
+            <UButton variant="ghost" @click="editor.chain().focus().addRowAfter().run()" icon="i-ph-table-row-insert-bottom" />
+            <UButton variant="ghost" @click="editor.chain().focus().deleteRow().run()" icon="i-ph-table-row-delete" />
+            <UButton variant="ghost" @click="editor.chain().focus().deleteTable().run()" icon="i-ph-trash" />
+            <UButton variant="ghost" @click="editor.chain().focus().mergeCells().run()" icon="i-ph-table-merge-cells" />
+            <UButton variant="ghost" @click="editor.chain().focus().splitCell().run()" icon="i-ph-table-split-cells" />
           </div>
         </template>
       </UPopover>

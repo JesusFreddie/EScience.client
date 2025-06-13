@@ -14,7 +14,7 @@ export function useLoginForm() {
 
   const loginMutation = useAuthLogin({
     mutation: {
-      onSuccess() {
+      onSuccess(data) {
         navigateTo(ROUTE.HOME);
       },
       onError(error) {

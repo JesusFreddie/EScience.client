@@ -6,6 +6,19 @@ const { articles } = defineProps<{
     articles: Article[]
 }>()
 
+const emit = defineEmits<{
+  (e: "setFavorite", id: string): void
+  (e: "removeFavorite", id: string): void
+}>()
+
+function setFavorite(id: string) {
+  emit("setFavorite", id)
+}
+
+function removeFavorite(id: string) {
+  emit("removeFavorite", id)
+}
+
 </script>
 
 <template>
@@ -15,6 +28,8 @@ const { articles } = defineProps<{
         v-for="article in articles"
         :id="article.id"
         :article="article"
+        @removeFavorite="removeFavorite"
+        @setFavorite="setFavorite"
     />
   </div>
 </template>
